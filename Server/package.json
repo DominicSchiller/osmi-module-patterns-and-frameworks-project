@@ -1,0 +1,28 @@
+{
+  "name": "scrabblefactory-server",
+  "version": "1.0.0",
+  "description": "The server part based on NodeJS required by the associated game client, created within the scope of the course module \"Patterns & Frameworks\" at Technical University of Applied Sciences Brandenburg (Germany)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dominicSchiller/ScrabbleFactory-Server.git"
+  },
+  "keywords": [
+    "scrabblefactory",
+    "scrabblefactory-server"
+  ],
+  "author": "Dominic Schiller",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dominicSchiller/ScrabbleFactory-Server/issues"
+  },
+  "homepage": "https://github.com/dominicSchiller/ScrabbleFactory-Server#readme",
+  "dependencies": {
+    "express": "^4.15.4",
+    "socket.io": "^2.0.3",
+    "sqlite3": "^3.1.11"
+  }
+}
