@@ -31,7 +31,7 @@ public abstract class GameComponent implements IComponent {
      * @param id The game component's unique id
      * @param type The game component's type
      */
-    void GameComponent(int id, ComponentType type) {
+    public GameComponent(int id, ComponentType type) {
         this.id = id;
         this.type = type;
     }
@@ -40,8 +40,9 @@ public abstract class GameComponent implements IComponent {
      * Constructor
      * @param id The game component's unique id
      * @param type The game component's type
+     * @param parent The associated game entity holding this component
      */
-    void GameComponent(int id, ComponentType type, IEntity parent) {
+    public GameComponent(int id, ComponentType type, IEntity parent) {
         this.id = id;
         this.type = type;
         this.parent = parent;
