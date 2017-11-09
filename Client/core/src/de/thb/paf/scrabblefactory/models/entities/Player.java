@@ -10,22 +10,29 @@ package de.thb.paf.scrabblefactory.models.entities;
 public class Player extends GameEntity {
 
     /**
-     * Default constructor
+     * The player's name
      */
-    public Player() {
+    private String name;
+
+    /**
+     * Constructor
+     * @param id The entity's unique identifier
+     * @param type The entity's type
+     */
+    public Player(int id, EntityType type) {
+        super(id, type);
     }
 
     /**
      * Constructor
+     * @param id The entity's unique identifier
+     * @param type The entity's type
      * @param name The player's name
      */
-    public Player(String name) {
+    public Player(int id, EntityType type, String name) {
+        this(id, type);
+        this.name = name;
     }
-
-    /**
-     * The player's name
-     */
-    private String name;
 
     /**
      * Get the player's name.

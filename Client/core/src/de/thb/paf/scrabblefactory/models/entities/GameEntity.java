@@ -2,6 +2,11 @@ package de.thb.paf.scrabblefactory.models.entities;
 
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.List;
+
+import de.thb.paf.scrabblefactory.models.components.ComponentType;
+import de.thb.paf.scrabblefactory.models.components.IComponent;
+
 /**
  * Abstract representation of a game entity.
  * 
@@ -10,12 +15,6 @@ import com.badlogic.gdx.math.Vector2;
  * @since 1.0
  */
 abstract class GameEntity implements IEntity {
-
-    /**
-     * Default constructor
-     */
-    GameEntity() {
-    }
 
     /**
      * The game entity's unique identifier
@@ -49,12 +48,13 @@ abstract class GameEntity implements IEntity {
 
     /**
      * Constructor
-     * @see EntityType
      * @param id The entity's unique identifier
      * @param type The entity's type
+     * @see EntityType
      */
     GameEntity(int id, EntityType type) {
-        // TODO implement here
+        this.id = id;
+        this.type = type;
     }
 
     @Override
@@ -88,6 +88,24 @@ abstract class GameEntity implements IEntity {
     }
 
     @Override
+    public List<IComponent> getAllComponents() {
+        // TODO implement here
+        return null;
+    }
+
+    @Override
+    public List<IComponent> getAllComponents(ComponentType type) {
+        // TODO implement here
+        return null;
+    }
+
+    @Override
+    public IComponent getComponent(int id) {
+        // TODO implement here
+        return null;
+    }
+
+    @Override
     public boolean isTerminated() {
         return this.isTerminated;
     }
@@ -110,6 +128,34 @@ abstract class GameEntity implements IEntity {
     @Override
     public void setTerminated(boolean isTerminated) {
         this.isTerminated = isTerminated;
+    }
+
+    @Override
+    public void addComponent(IComponent component) {
+        // TODO implement here
+    }
+
+    @Override
+    public void addComponents(List<IComponent> components) {
+        // TODO implement here
+    }
+
+    @Override
+    public boolean removeAllComponents() {
+        // TODO implement here
+        return false;
+    }
+
+    @Override
+    public boolean removeComponent(int id) {
+        // TODO implement here
+        return false;
+    }
+
+    @Override
+    public boolean removeAllComponents(ComponentType type) {
+        // TODO implement here
+        return false;
     }
 
 }

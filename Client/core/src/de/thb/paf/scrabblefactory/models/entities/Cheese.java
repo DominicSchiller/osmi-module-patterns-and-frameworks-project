@@ -10,30 +10,6 @@ package de.thb.paf.scrabblefactory.models.entities;
 public class Cheese extends GameEntity {
 
     /**
-     * Default constructor
-     */
-    public Cheese() {
-    }
-
-    /**
-     * Constructor
-     * @param letter The cheese's associated letter
-     */
-    public Cheese(char letter) {
-        this.letter = letter;
-    }
-
-    /**
-     * Constructor
-     * @param letter The cheese's associated letter
-     * @param isRotten Quality characteristic whether the cheese is rotten or not
-     */
-    public Cheese(char letter, boolean isRotten) {
-        this(letter);
-        this.isRotten = isRotten;
-    }
-
-    /**
      * Quality characteristic whether the cheese is rotten or not
      */
     private boolean isRotten;
@@ -42,6 +18,38 @@ public class Cheese extends GameEntity {
      * The cheese's associated letter
      */
     private char letter;
+
+    /**
+     * Constructor
+     * @param id The entity's unique identifier
+     * @param type The entity's type
+     */
+    public Cheese(int id, EntityType type) {
+        super(id, type);
+    }
+
+    /**
+     * Constructor
+     * @param id The entity's unique identifier
+     * @param type The entity's type
+     * @param letter The cheese's associated letter
+     */
+    public Cheese(int id, EntityType type, char letter) {
+        this(id, type);
+        this.letter = letter;
+    }
+
+    /**
+     * Constructor
+     * @param id The entity's unique identifier
+     * @param type The entity's type
+     * @param letter The cheese's associated letter
+     * @param isRotten Quality characteristic whether the cheese is rotten or not
+     */
+    public Cheese(int id, EntityType type, char letter, boolean isRotten) {
+        this(id, type, letter);
+        this.isRotten = isRotten;
+    }
 
     /**
      * Get the quality characteristic whether the cheese is rotten or not.
