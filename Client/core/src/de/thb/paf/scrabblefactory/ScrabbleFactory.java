@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import de.thb.paf.scrabblefactory.managers.GameScreenManager;
+import de.thb.paf.scrabblefactory.screens.MainMenuScreen;
 import de.thb.paf.scrabblefactory.screens.PlayScreen;
 
 /**
@@ -52,7 +53,7 @@ public class ScrabbleFactory extends Game {
 		batch = new SpriteBatch();
 
 		// TODO: code to remove later on - just for dev demo purpose
-		GameScreenManager.getInstance().setScreen(new PlayScreen());
+		GameScreenManager.getInstance().setScreen(new MainMenuScreen());
 	}
 
 	@Override
