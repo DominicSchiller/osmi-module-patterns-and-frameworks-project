@@ -2,10 +2,12 @@ package de.thb.paf.scrabblefactory.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+
 import de.thb.paf.scrabblefactory.ScrabbleFactory;
+import de.thb.paf.scrabblefactory.Settings;
 
 /**
- * Launcher responsible for starting the game on a conventional desktop system.
+ * Launcher responsible for starting the Scrabble Factory game on a conventional desktop system.
  *
  * @author Dominic Schiller, Technische Hochschule Brandenburg
  * @version 1.0
@@ -23,7 +25,10 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.height = WINDOW_HEIGHT;
 		config.width = WINDOW_WIDTH;
+		config.title = Settings.App.APP_TITLE;
+		config.backgroundFPS = Settings.App.FPS;
+		config.backgroundFPS = Settings.App.FPS;
 		config.useHDPI = true;
-		new LwjglApplication(new ScrabbleFactory(), config);
+		new LwjglApplication(ScrabbleFactory.getInstance(), config);
 	}
 }

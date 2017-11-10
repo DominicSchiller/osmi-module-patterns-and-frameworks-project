@@ -12,7 +12,7 @@ import de.thb.paf.scrabblefactory.models.entities.IEntity;
 public interface IComponent {
 
     /**
-     * Updates the component  based on the game's current render tick.
+     * Updates the component based on the game's current render tick.
      * @param deltaTime The time passed between the last and the current frame in seconds
      */
     void update(float deltaTime);
