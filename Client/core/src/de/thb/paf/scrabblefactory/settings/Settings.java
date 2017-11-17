@@ -10,7 +10,7 @@ package de.thb.paf.scrabblefactory.settings;
 
 import com.badlogic.gdx.Gdx;
 
-import de.thb.paf.scrabblefactory.utils.ui.DeviceDimensionsHelper;
+import de.thb.paf.scrabblefactory.utils.graphics.DeviceDimensionsHelper;
 
 import static de.thb.paf.scrabblefactory.settings.Settings.App.DEVICE_SCREEN_HEIGHT;
 import static de.thb.paf.scrabblefactory.settings.Settings.App.DEVICE_SCREEN_WIDTH;

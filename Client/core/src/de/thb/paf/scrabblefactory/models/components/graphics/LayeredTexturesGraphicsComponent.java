@@ -1,16 +1,11 @@
 package de.thb.paf.scrabblefactory.models.components.graphics;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.math.Vector2;
-
-import java.util.List;
 
 import de.thb.paf.scrabblefactory.models.components.ComponentType;
 import de.thb.paf.scrabblefactory.models.components.GameComponent;
 import de.thb.paf.scrabblefactory.models.entities.IEntity;
-import de.thb.paf.scrabblefactory.settings.Settings;
-import de.thb.paf.scrabblefactory.utils.ui.AlignmentHelper;
+import de.thb.paf.scrabblefactory.utils.graphics.AlignmentHelper;
 
 /**
  * Graphics component responsible for rendering layered textures.
