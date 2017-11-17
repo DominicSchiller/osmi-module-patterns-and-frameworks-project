@@ -7,7 +7,7 @@ import de.thb.paf.scrabblefactory.models.components.ComponentType;
 import de.thb.paf.scrabblefactory.models.components.IComponent;
 
 /**
- * Represents of a Level.
+ * Represents a basic Level.
  *
  * @author Dominic Schiller - Technische Hochschule Brandenburg
  * @version 1.0
