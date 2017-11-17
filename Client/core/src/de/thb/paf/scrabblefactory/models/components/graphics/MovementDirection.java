@@ -1,5 +1,7 @@
 package de.thb.paf.scrabblefactory.models.components.graphics;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Enumeration of all available movement directions.
  * 
@@ -8,8 +10,12 @@ package de.thb.paf.scrabblefactory.models.components.graphics;
  * @since 1.0
  */
 public enum MovementDirection {
+    @SerializedName("up")
     UP,
+    @SerializedName("down")
     DOWN,
+    @SerializedName("left")
     LEFT,
+    @SerializedName("right")
     RIGHT
 }

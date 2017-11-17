@@ -1,12 +1,16 @@
 package de.thb.paf.scrabblefactory.models.components.graphics;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Vector2;
 
 import java.util.List;
 
 import de.thb.paf.scrabblefactory.models.components.ComponentType;
 import de.thb.paf.scrabblefactory.models.components.GameComponent;
 import de.thb.paf.scrabblefactory.models.entities.IEntity;
+import de.thb.paf.scrabblefactory.settings.Settings;
+import de.thb.paf.scrabblefactory.utils.ui.AlignmentHelper;
 
 /**
  * Graphics component responsible for rendering layered textures.
@@ -18,19 +22,21 @@ import de.thb.paf.scrabblefactory.models.entities.IEntity;
 public class LayeredTexturesGraphicsComponent extends GameComponent implements IGraphicsComponent {
 
     /**
-     * List of textures to render stacked
+     * List of static textures to render stacked
      */
-    private List<TextureLayer> layers;
+    private TextureLayer[] staticLayers;
+
+    /**
+     * List of movable textures to render stacked
+     */
+    private MovableTextureLayer[] movableLayers;
 
     /**
      * Constructor
      * @param id The game component's unique id
-     * @param type The game component's type
-     * @param layers The list of layered textures to render
      */
-    public LayeredTexturesGraphicsComponent(int id, ComponentType type, List<TextureLayer> layers) {
-        super(id, type);
-        this.layers = layers;
+    public LayeredTexturesGraphicsComponent(Integer id) {
+        super(id, ComponentType.GFX_COMPONENT);
     }
 
     /**
@@ -38,21 +44,51 @@ public class LayeredTexturesGraphicsComponent extends GameComponent implements I
      * @param id The game component's unique id
      * @param type The game component's type
      * @param parent The associated game entity holding this component
-     * @param layers The list of layered textures to render
      */
-    public LayeredTexturesGraphicsComponent(int id, ComponentType type, IEntity parent, List<TextureLayer> layers) {
+    public LayeredTexturesGraphicsComponent(int id, ComponentType type, IEntity parent) {
         super(id, type, parent);
-        this.layers = layers;
     }
 
     @Override
     public void update(float deltaTime) {
+        // we just update all movable layers
+        for(MovableTextureLayer layer : this.movableLayers) {
+            // just update movable sprites
+            AlignmentHelper.updatePositionByAutoMovement(
+                    layer.texture,
+                    layer.direction,
+                    layer.speed,
+                    layer.isInfiniteLoop
+            );
+        }
         // TODO implement here
     }
 
     @Override
     public void render(Batch batch) {
-        // TODO implement here
+        for(TextureLayer layer : this.staticLayers) {
+            layer.texture.draw(batch);
+        }
+        for(TextureLayer layer : this.movableLayers) {
+            layer.texture.draw(batch);
+        }
+        //TODO: implement drawing of movable layers
+    }
+
+    /**
+     * Get all associated static layers.
+     * @return List of associated static layers.
+     */
+    public TextureLayer[] getStaticLayers() {
+        return this.staticLayers;
+    }
+
+    /**
+     * Get all associated movable layers.
+     * @return List of associated movable layers.
+     */
+    public MovableTextureLayer[] getMovableLayers() {
+        return this.movableLayers;
     }
 
 }
