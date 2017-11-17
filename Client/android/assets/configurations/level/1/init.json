@@ -1,0 +1,58 @@
+{
+  "id" : 1,
+  "title" : "Level 1",
+  "countdown" : 10000,
+
+  "wordPool" : [
+    "Auto",
+    "Haus",
+    "Maus",
+    "Katze",
+    "Hund",
+    "Papa",
+    "Mama"
+  ],
+
+  "componentList": [
+    {
+      "name": "LayeredTexturesGraphicsComponent",
+      "type": "graphics",
+      "staticLayers": [
+        {
+          "textureName": "background",
+          "alignment": "center center",
+          "margin" : [0, 0, 0, 0],
+          "isMovable": false,
+          "zIndex": 1
+        },
+        {
+          "textureName": "ground",
+          "alignment": "bottom center",
+          "margin" : [10, 0, 0, 0],
+          "isMovable": false,
+          "zIndex": 2
+        }
+      ],
+      "movableLayers": [
+        {
+          "textureName": "haze",
+          "alignment": "top left",
+          "margin" : [5, 0, 0, 0],
+          "isInfiniteLoop": true,
+          "direction": "left",
+          "speed": 0.25,
+          "zIndex": 2
+        },
+        {
+          "textureName": "clouds",
+          "alignment": "top left",
+          "margin" : [5, 0, 0, 0],
+          "isInfiniteLoop": true,
+          "direction": "left",
+          "speed": 0.5,
+          "zIndex": 2
+        }
+      ]
+    }
+  ]
+}

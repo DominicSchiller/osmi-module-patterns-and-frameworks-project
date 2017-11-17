@@ -1,0 +1,33 @@
+level.png
+size: 572, 536
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+background
+  rotate: false
+  xy: 1, 175
+  size: 570, 360
+  orig: 570, 360
+  offset: 0, 0
+  index: -1
+clouds
+  rotate: false
+  xy: 1, 28
+  size: 531, 70
+  orig: 531, 70
+  offset: 0, 0
+  index: -1
+ground
+  rotate: false
+  xy: 1, 1
+  size: 570, 25
+  orig: 570, 25
+  offset: 0, 0
+  index: -1
+haze
+  rotate: false
+  xy: 1, 100
+  size: 530, 73
+  orig: 530, 73
+  offset: 0, 0
+  index: -1
