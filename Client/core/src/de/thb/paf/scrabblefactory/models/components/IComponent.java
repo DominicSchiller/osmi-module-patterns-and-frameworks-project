@@ -1,5 +1,6 @@
 package de.thb.paf.scrabblefactory.models.components;
 
+import de.thb.paf.scrabblefactory.models.IGameObject;
 import de.thb.paf.scrabblefactory.models.entities.IEntity;
 
 /**
@@ -30,10 +31,10 @@ public interface IComponent {
     ComponentType getType();
 
     /**
-     * Set the game entity the component belongs to.
-     * @param entity The associated game entity
+     * Set the game object the component belongs to.
+     * @param parent The associated game entity
      */
-    void setParent(IEntity entity);
+    void setParent(IGameObject parent);
 
     /**
      * Set the component's type.

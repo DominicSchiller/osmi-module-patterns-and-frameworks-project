@@ -1,5 +1,6 @@
 package de.thb.paf.scrabblefactory.models.components;
 
+import de.thb.paf.scrabblefactory.models.IGameObject;
 import de.thb.paf.scrabblefactory.models.entities.IEntity;
 
 /**
@@ -22,9 +23,9 @@ public abstract class GameComponent implements IComponent {
     private ComponentType type;
 
     /**
-     * The associated entity holding this component
+     * The associated gamer object holding this component
      */
-    private IEntity parent;
+    private IGameObject parent;
 
     /**
      * Constructor
@@ -64,7 +65,7 @@ public abstract class GameComponent implements IComponent {
     }
 
     @Override
-    public void setParent(IEntity entity) {
+    public void setParent(IGameObject parent) {
         this.parent = parent;
     }
 
