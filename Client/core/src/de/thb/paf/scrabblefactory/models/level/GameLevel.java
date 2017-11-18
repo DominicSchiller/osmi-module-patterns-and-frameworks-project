@@ -7,29 +7,39 @@ import de.thb.paf.scrabblefactory.models.components.ComponentType;
 import de.thb.paf.scrabblefactory.models.components.IComponent;
 
 /**
- * Represents a basic Level.
+ * Abstract representation of a level.
  *
  * @author Dominic Schiller - Technische Hochschule Brandenburg
  * @version 1.0
  * @since 1.0
  */
 
-public class Level implements ILevel {
+abstract class GameLevel implements ILevel {
 
+    /**
+     * List of associated components
+     */
+    List<IComponent> components;
+
+    /**
+     * The level's unique identifier
+     */
     private int id;
 
+    /**
+     * The level's title
+     */
     private String title;
 
+    /**
+     * The level's given countdown
+     */
     private int countdown;
-
-    private String[] wordPool;
-
-    private List<IComponent> components;
 
     /**
      * Default Constructor
      */
-    public Level() {
+    GameLevel() {
         this.components = new ArrayList<IComponent>();
     }
 
@@ -54,11 +64,6 @@ public class Level implements ILevel {
     @Override
     public int getCountdown() {
         return this.countdown;
-    }
-
-    @Override
-    public String[] getWordPool() {
-        return this.wordPool;
     }
 
     @Override
