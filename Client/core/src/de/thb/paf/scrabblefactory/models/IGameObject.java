@@ -23,6 +23,12 @@ public interface IGameObject {
     void update(float deltaTime);
 
     /**
+     * Get the level's unique identifier.
+     * @return The level's unique identifier
+     */
+    int getID();
+
+    /**
      * Get all with the entity associated components.
      * @return List of associated components
      */

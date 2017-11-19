@@ -18,12 +18,6 @@ import de.thb.paf.scrabblefactory.models.components.IComponent;
 public interface IEntity extends IGameObject{
 
     /**
-     * Get the entity's unique identifier.
-     * @return The entity's unique identifier
-     */
-     int getID();
-
-    /**
      * Get the entity's unique entity type
      *
      * @see EntityType

@@ -1,7 +1,6 @@
 package de.thb.paf.scrabblefactory.models.components;
 
 import de.thb.paf.scrabblefactory.models.IGameObject;
-import de.thb.paf.scrabblefactory.models.entities.IEntity;
 
 /**
  * Interface that declares methods a dedicated  game component class must implement in order to work correctly as an ordinary game component .

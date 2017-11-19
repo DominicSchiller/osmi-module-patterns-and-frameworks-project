@@ -85,5 +85,4 @@ public class LayeredTexturesGraphicsComponent extends GameComponent implements I
     public MovableTextureLayer[] getMovableLayers() {
         return this.movableLayers;
     }
-
 }
