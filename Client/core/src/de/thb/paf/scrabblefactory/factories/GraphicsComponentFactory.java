@@ -1,5 +1,6 @@
 package de.thb.paf.scrabblefactory.factories;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.google.gson.Gson;
@@ -122,6 +123,7 @@ public class GraphicsComponentFactory {
             );
 
             // assign the layer's texture field
+            texture.getTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
             layer.texture = texture;
         }
     }
