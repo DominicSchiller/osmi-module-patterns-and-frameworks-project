@@ -101,6 +101,11 @@ public final class Settings {
         public static float VIRTUAL_SCALE = DeviceDimensionsHelper.calculateVirtualScale();
 
         /**
+         * The virtual pixel density multiplier
+         */
+        public static float VIRTUAL_PIXEL_DENSITY_MULTIPLIER = DeviceDimensionsHelper.calculateScreenMultiplier();
+
+        /**
          * Private constructor
          */
         private Game() {
