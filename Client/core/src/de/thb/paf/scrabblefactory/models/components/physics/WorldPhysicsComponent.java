@@ -3,6 +3,8 @@ package de.thb.paf.scrabblefactory.models.components.physics;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 
+import de.thb.paf.scrabblefactory.settings.Settings;
+
 /**
  * Represents a physical world where all (dynamic) physic simulation is happening.
  *
@@ -44,6 +46,12 @@ public class WorldPhysicsComponent extends AbstractPhysicsComponent {
     public WorldPhysicsComponent(Integer id, Vector2 gravity) {
         this(id);
         this.setWordGravity(gravity);
+    }
+
+    @Override
+    public void update(float deltaTime) {
+        super.update(deltaTime);
+        this.world.step(1 / Settings.App.FPS, 6, 2);
     }
 
     /**
