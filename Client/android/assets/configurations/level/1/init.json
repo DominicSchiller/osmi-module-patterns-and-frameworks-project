@@ -53,6 +53,14 @@
           "zIndex": 2
         }
       ]
+    },
+    {
+      "name": "WorldPhysicsComponent",
+      "type": "physics",
+      "gravity": {
+        "x": 0,
+        "y": 10
+      }
     }
   ]
 }
