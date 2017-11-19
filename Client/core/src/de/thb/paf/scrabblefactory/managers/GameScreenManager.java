@@ -34,7 +34,7 @@ public class GameScreenManager implements IGameManager {
 
     /**
      * Get the global GameScreenManager instance.
-     * @return The global game instance
+     * @return The global game screen manager instance
      */
     public static GameScreenManager getInstance() {
         return instance;
