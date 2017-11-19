@@ -1,7 +1,7 @@
 package de.thb.paf.scrabblefactory.models.assets;
 
 /**
- * Enumerations of available fonts.
+ * Enumeration of all available fonts.
  *
  * @author Dominic Schiller - Technische Hochschule Brandenburg
  * @version 1.0

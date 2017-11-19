@@ -2,13 +2,19 @@ package de.thb.paf.scrabblefactory.io;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+
+import java.util.Arrays;
 
 import de.thb.paf.scrabblefactory.models.assets.AssetFileType;
 import de.thb.paf.scrabblefactory.models.assets.AssetTargetType;
 import de.thb.paf.scrabblefactory.models.assets.AssetType;
+import de.thb.paf.scrabblefactory.models.assets.FontAsset;
 import de.thb.paf.scrabblefactory.settings.Settings;
 
 /**
@@ -26,6 +32,11 @@ public class AssetLoader {
      * The asset's default configuration file name
      */
     private static final String CONFIG_FILE_NAME = "init";
+
+    /**
+     * Default character set a bitmap font will be assigned with
+     */
+    private static final String DEFAULT_FONT_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!?.-+*/=ß\"()ÄÖÜäöü";
 
     /**
      * Loads JSON configuration file for a given asset target.
@@ -57,6 +68,39 @@ public class AssetLoader {
 
         TextureAtlas textureAtlas = new TextureAtlas(this.getFileHandle(atlasPath));
         return textureAtlas;
+    }
+
+    /**
+     * Loads a specific Font with given properties
+     * @param font The font to load
+     * @param fontSize The font size to set
+     * @param borderWidth The font's character's outline width
+     * @param fillColor The font's fill color
+     * @param borderColor The font's outline color
+     * @param chars A custom set of characters that can be written with this font (optional parameter)
+     * @return The loaded font
+     */
+    public BitmapFont loadFont(FontAsset font, int fontSize, int borderWidth, Color fillColor, Color borderColor, String... chars) {
+        String fontPath = AssetType.FONT.path + "/" + font.fileName + AssetFileType.TRUE_TYPE_FONT.fileEnding;
+
+        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(this.getFileHandle(fontPath));
+        FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+
+        if(chars.length > 0) {
+            fontParameter.characters = Arrays.toString(chars);
+        } else {
+            fontParameter.characters = DEFAULT_FONT_CHARS;
+        }
+
+        fontParameter.size = fontSize;
+        fontParameter.borderWidth = borderWidth;
+        fontParameter.color = fillColor;
+        fontParameter.borderColor = borderColor;
+
+        BitmapFont bitmapFont = fontGenerator.generateFont(fontParameter);
+        fontGenerator.dispose();
+
+        return bitmapFont;
     }
 
     /**
