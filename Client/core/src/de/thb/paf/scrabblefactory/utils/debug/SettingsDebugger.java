@@ -33,7 +33,7 @@ public class SettingsDebugger {
         System.out.println("VIRTUAL HEIGHT:\t" + Settings.Game.VIRTUAL_HEIGHT + "px");
         System.out.println("FPS:\t" + Settings.App.FPS);
         System.out.println("PPM:\t" + Settings.Game.PPM);
-//        System.out.println("VIRTUAL MULTIPLYER:\t" + "x" + VIRTUAL_SCREEN_MULTIPLYER);
+        System.out.println("VIRTUAL PIXEL DENSITY MULTIPLIER:\t" + "x" + Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER);
         System.out.println("--------------------------------------------");
         System.out.println("SCREEN WIDTH:\t" + Settings.App.DEVICE_SCREEN_WIDTH + "px");
         System.out.println("SCREEN HEIGHT:\t" + Settings.App.DEVICE_SCREEN_HEIGHT + "px");
