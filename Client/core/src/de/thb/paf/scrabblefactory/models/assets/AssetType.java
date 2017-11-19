@@ -10,7 +10,8 @@ package de.thb.paf.scrabblefactory.models.assets;
 
 public enum AssetType {
     CONFIG("configurations"),
-    TEXTURE("textures");
+    TEXTURE("textures"),
+    FONT("fonts");
 
     /**
      * Private Constructor
