@@ -14,12 +14,6 @@ import de.thb.paf.scrabblefactory.models.IGameObject;
 public interface ILevel extends IGameObject {
 
     /**
-     * Get the level's unique identifier.
-     * @return The level's unique identifier
-     */
-    int getID();
-
-    /**
      * Get the level's title.
      * @return The level's title.
      */
