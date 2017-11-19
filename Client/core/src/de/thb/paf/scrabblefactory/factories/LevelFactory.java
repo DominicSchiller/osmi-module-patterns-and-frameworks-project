@@ -1,32 +1,20 @@
 package de.thb.paf.scrabblefactory.factories;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import de.thb.paf.scrabblefactory.io.AssetLoader;
+import de.thb.paf.scrabblefactory.managers.GameObjectManager;
 import de.thb.paf.scrabblefactory.models.assets.AssetTargetType;
 import de.thb.paf.scrabblefactory.models.components.IComponent;
-import de.thb.paf.scrabblefactory.models.components.graphics.LayeredTexturesGraphicsComponent;
-import de.thb.paf.scrabblefactory.models.components.graphics.TextureLayer;
-import de.thb.paf.scrabblefactory.models.components.physics.WorldPhysicsComponent;
 import de.thb.paf.scrabblefactory.models.level.BasicLevel;
 import de.thb.paf.scrabblefactory.models.level.ILevel;
-import de.thb.paf.scrabblefactory.settings.Settings;
-import de.thb.paf.scrabblefactory.utils.CloneComponentHelper;
-import de.thb.paf.scrabblefactory.utils.graphics.AlignmentHelper;
 
-import static de.thb.paf.scrabblefactory.settings.Constants.Files.LEVEL_ATLAS_NAME;
-import static de.thb.paf.scrabblefactory.settings.Constants.Java.COMPONENTS_PACKAGE;
 import static de.thb.paf.scrabblefactory.settings.Constants.Json.JSON_KEY_COMPONENTS;
-import static de.thb.paf.scrabblefactory.settings.Constants.Json.JSON_KEY_NAME;
 import static de.thb.paf.scrabblefactory.settings.Constants.Json.JSON_KEY_TYPE;
 
 /**
@@ -86,6 +74,7 @@ public class LevelFactory {
         }
 
         level.addComponents(components);
+        GameObjectManager.getInstance().addGameObject(level);
         return level;
     }
 }
