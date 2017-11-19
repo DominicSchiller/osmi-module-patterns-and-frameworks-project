@@ -39,13 +39,16 @@ public class VisualGameDebugger {
     /**
      * The fps counter display
      */
-    private BitmapFont fpsDisplayFont;
+    private BitmapFont fpsDisplay;
 
     /**
-     * The Physics debug renderer
+     * The physics debug renderer
      */
     private Box2DDebugRenderer physicsDebugRenderer;
 
+    /**
+     * The physical Box2D world to render
+     */
     private World physicalWorld;
 
     /**
@@ -53,15 +56,15 @@ public class VisualGameDebugger {
      */
     public VisualGameDebugger() {
         //init debug font
-        fpsDisplayFont = new AssetLoader().loadFont(
+        fpsDisplay = new AssetLoader().loadFont(
                 FontAsset.SAN_FRANCISCO,
                 (int)(DEBUG_FONT_SIZE * Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER),
                 0,
                 new Color(0xcc1331ff),
                 Color.BLACK
         );
-        fpsDisplayFont.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        fpsDisplayFont.getData().setScale(Settings.Game.VIRTUAL_SCALE, Settings.Game.VIRTUAL_SCALE);
+        fpsDisplay.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        fpsDisplay.getData().setScale(Settings.Game.VIRTUAL_SCALE, Settings.Game.VIRTUAL_SCALE);
 
         // init the debug renderer
         physicsDebugRenderer = new Box2DDebugRenderer();
@@ -84,15 +87,15 @@ public class VisualGameDebugger {
     /**
      * Renders all debug information to screen.
      * @param batch The game's global render batch
-     * @param projectionViewMatrix The current camera's projection-view matrix
+     * @param cameraProjectionMatrix The current camera's projection-view matrix
      */
-    public void render(Batch batch, Matrix4 projectionViewMatrix) {
+    public void render(Batch batch, Matrix4 cameraProjectionMatrix) {
         batch.begin();
-        fpsDisplayFont.draw(batch, "fps: " + Gdx.graphics.getFramesPerSecond(), 5, Settings.Game.VIRTUAL_HEIGHT - 12);
+        fpsDisplay.draw(batch, "fps: " + Gdx.graphics.getFramesPerSecond(), 5, Settings.Game.VIRTUAL_HEIGHT - 12);
         batch.end();
 
 //        Gdx.gl.glLineWidth(0.5f * GameInfo.VIRTUAL_SCREEN_MULTIPLYER);
         Gdx.gl.glLineWidth(3.0f);
-        physicsDebugRenderer.render(this.physicalWorld, projectionViewMatrix);
+        physicsDebugRenderer.render(this.physicalWorld, cameraProjectionMatrix);
     }
 }
