@@ -2,6 +2,7 @@ package de.thb.paf.scrabblefactory.utils.graphics;
 
 import de.thb.paf.scrabblefactory.settings.ScreenAspectRatio;
 import de.thb.paf.scrabblefactory.settings.ScreenResolution;
+import de.thb.paf.scrabblefactory.settings.Settings;
 import de.thb.paf.scrabblefactory.settings.Settings.Game;
 
 import static de.thb.paf.scrabblefactory.settings.ScreenAspectRatio.*;
@@ -83,14 +84,33 @@ public class DeviceDimensionsHelper {
             case SIXTEEN_TO_NINE:
             case SIXTEEN_TO_TEN:
             case THREE_TO_TWO:
-                scaleFactor = Game.VIRTUAL_WIDTH / (float)DEVICE_SCREEN_WIDTH;
-//                VIRTUAL_SCREEN_MULTIPLYER = (float) Math.floor(SCREEN_WIDTH / (float)VIRTUAL_WIDTH);
+                scaleFactor = VIRTUAL_WIDTH / (float)DEVICE_SCREEN_WIDTH;
                 break;
             case FOUR_TO_THREE:
                 scaleFactor = VIRTUAL_HEIGHT / (float)DEVICE_SCREEN_HEIGHT;
-//                VIRTUAL_SCREEN_MULTIPLYER = (float) Math.floor(SCREEN_HEIGHT / (float) VIRTUAL_HEIGHT);
                 break;
         }
         return scaleFactor;
+    }
+
+    /**
+     * Calculates the virtual pixel density multiplier required to fix some resolution issues.
+     * @return The calculated pixel density multiplier
+     */
+    public static float calculateScreenMultiplier() {
+        float multiplier = 1;
+
+        switch(Game.ASPECT_RATIO) {
+            case SIXTEEN_TO_NINE:
+            case SIXTEEN_TO_TEN:
+            case THREE_TO_TWO:
+                multiplier = (float) Math.floor(DEVICE_SCREEN_WIDTH / (float)VIRTUAL_WIDTH);
+                break;
+            case FOUR_TO_THREE:
+                multiplier = (float) Math.floor(DEVICE_SCREEN_HEIGHT / (float) VIRTUAL_HEIGHT);
+                break;
+        }
+
+        return multiplier;
     }
 }
