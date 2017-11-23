@@ -1,11 +1,14 @@
 package de.thb.paf.scrabblefactory;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import de.thb.paf.scrabblefactory.managers.GameScreenManager;
+import de.thb.paf.scrabblefactory.screens.IGameScreen;
 import de.thb.paf.scrabblefactory.screens.MainMenuScreen;
 import de.thb.paf.scrabblefactory.screens.PlayScreen;
+import de.thb.paf.scrabblefactory.utils.debug.SettingsDebugger;
 
 /**
  * The global Scrabble Factory game class.
@@ -52,6 +55,7 @@ public class ScrabbleFactory extends Game {
 	public void create () {
 		batch = new SpriteBatch();
 
+		SettingsDebugger.printSettings();
 		// TODO: code to remove later on - just for dev demo purpose
 		GameScreenManager.getInstance().setScreen(new MainMenuScreen());
 	}
