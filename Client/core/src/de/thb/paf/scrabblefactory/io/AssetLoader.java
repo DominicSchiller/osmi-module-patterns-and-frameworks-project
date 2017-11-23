@@ -5,11 +5,15 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.codeandweb.physicseditor.PhysicsShapeCache;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import de.thb.paf.scrabblefactory.models.assets.AssetFileType;
 import de.thb.paf.scrabblefactory.models.assets.AssetTargetType;
@@ -29,9 +33,14 @@ import de.thb.paf.scrabblefactory.settings.Settings;
 public class AssetLoader {
 
     /**
-     * The asset's default configuration file name
+     * The asset's init configuration file name
      */
-    private static final String CONFIG_FILE_NAME = "init";
+    private static final String INIT_CONFIG_FILE_NAME = "init";
+
+    /**
+     * The asset's physics configuration file name
+     */
+    private static final String PHY_CONFIG_FILE_NAME = "physics";
 
     /**
      * Default character set a bitmap font will be assigned with
@@ -39,17 +48,61 @@ public class AssetLoader {
     private static final String DEFAULT_FONT_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!?.-+*/=ß\"()ÄÖÜäöü";
 
     /**
-     * Loads JSON configuration file for a given asset target.
+     * Loads JSON init configuration file for a given asset target.
      * @param assetTargetType The asset's target type
      * @param assetID The asset's unique identifier
      * @return The asset's JSON configuration
      */
-    public JsonObject loadLevelConfiguration(AssetTargetType assetTargetType, int assetID) {
-        String configFilePath = AssetType.CONFIG.path + "/" + assetTargetType.path + "/" + assetID + "/" + CONFIG_FILE_NAME + AssetFileType.JSON.fileEnding;
+    public JsonObject loadInitConfiguration(AssetTargetType assetTargetType, int assetID) {
+        String configFilePath = AssetType.CONFIG.path + "/" + assetTargetType.path + "/" + assetID + "/" + INIT_CONFIG_FILE_NAME + AssetFileType.JSON.fileEnding;
         FileHandle fileHandle = this.getFileHandle(configFilePath);
 
         JsonParser jsonParser = new JsonParser();
         return jsonParser.parse(fileHandle.readString()).getAsJsonObject();
+    }
+
+    /**
+     * Loads parsed XML physics configuration file for a given asset target
+     * @param assetTargetType The asset's target type
+     * @param assetID The asset's unique identifier
+     * @return The asset's parsed XML physics configuration
+     */
+    public PhysicsShapeCache loadPhysicsConfiguration(AssetTargetType assetTargetType, int assetID) {
+        String configFilePath = AssetType.CONFIG.path + "/" + assetTargetType.path + "/" + assetID + "/" + PHY_CONFIG_FILE_NAME + AssetFileType.XML.fileEnding;
+        FileHandle fileHandle = this.getFileHandle(configFilePath);
+        return new PhysicsShapeCache(fileHandle);
+    }
+
+    /**
+     * Loads a all texture atlases from asset target's directory.
+     * @param assetTargetType The asset's target type
+     * @param assetID The asset's unique identifier (optional parameter)
+     * @return Map of all loaded texture atlases organized by it's atlas name
+     */
+    public Map<String, TextureRegion[]> loadTextureAtlases(AssetTargetType assetTargetType, int... assetID) {
+        String atlasesRootPath = AssetType.TEXTURE.path + "/" + Settings.Game.RESOLUTION.name + "/" + assetTargetType.path;
+        if(assetID.length > 0) {
+            atlasesRootPath += "/" + assetID[0];
+        }
+
+        FileHandle dirFileHandle = this.getFileHandle(atlasesRootPath);
+        FileHandle[] atlasFileHandles = dirFileHandle.list();
+
+        HashMap<String, TextureRegion[]> textures = new HashMap<>();
+        if(atlasFileHandles.length > 0) {
+            for(FileHandle fileHandle: atlasFileHandles) {
+                System.out.println();
+                String fileName = fileHandle.file().getName();
+                if(fileName.contains(AssetFileType.TEXTURE_ATLAS.fileEnding)) {
+                    textures.put(
+                            fileName.replace(AssetFileType.TEXTURE_ATLAS.fileEnding, ""),
+                            new TextureAtlas(fileHandle).getRegions().toArray()
+                    );
+                }
+            }
+        }
+
+        return textures;
     }
 
     /**

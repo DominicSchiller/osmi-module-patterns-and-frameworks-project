@@ -10,6 +10,7 @@ package de.thb.paf.scrabblefactory.models.assets;
 
 public enum AssetFileType {
     JSON(".json"),
+    XML(".xml"),
     TEXTURE_ATLAS(".atlas"),
     TRUE_TYPE_FONT(".ttf");
 
