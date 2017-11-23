@@ -71,6 +71,9 @@ public class PlayScreen extends GameScreen {
     @Override
     public void render(float delta) {
 
+        // update the screen first before rendering it's content
+        this.update(delta);
+
         Gdx.gl.glClearColor(1/255f, 8/255f, 15/255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
