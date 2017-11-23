@@ -3,8 +3,6 @@ package de.thb.paf.scrabblefactory.models.components.physics;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 
-import de.thb.paf.scrabblefactory.settings.Settings;
-
 /**
  * Represents a physical world where all (dynamic) physic simulation is happening.
  *
@@ -16,11 +14,6 @@ import de.thb.paf.scrabblefactory.settings.Settings;
 public class WorldPhysicsComponent extends AbstractPhysicsComponent {
 
     /**
-     * The default gravity which will be applied to new Box2D world instances
-     */
-    private static final Vector2 DEFAULT_GRAVITY = new Vector2(0, 12);
-
-    /**
      * The LibGDX Box2D world instance
      */
     private World world;
@@ -30,12 +23,17 @@ public class WorldPhysicsComponent extends AbstractPhysicsComponent {
      */
     private Vector2 gravity;
 
+    private float mAccumulator;
+
+    private float sps;
+
     /**
      * Default Constructor
      * @param id The component's unique identifier
      */
     public WorldPhysicsComponent(Integer id) {
         super(id, PhysicsType.WORLD);
+        mAccumulator = 0;
     }
 
     /**
@@ -45,21 +43,19 @@ public class WorldPhysicsComponent extends AbstractPhysicsComponent {
      */
     public WorldPhysicsComponent(Integer id, Vector2 gravity) {
         this(id);
-        this.setWordGravity(gravity);
     }
 
     @Override
     public void update(float deltaTime) {
-        super.update(deltaTime);
-        this.world.step(1 / Settings.App.FPS, 6, 2);
+        this.stepWorld(deltaTime);
     }
 
     /**
-     * Get the referenced Box2D physical world.
-     * @return The referenced Box2D physical world.
+     * Get the physical world's gravity.
+     * @return the physical world's gravity vector
      */
-    public World getWorld() {
-        return this.world;
+    public Vector2 getWorldGravity() {
+        return this.gravity;
     }
 
     /**
@@ -71,11 +67,35 @@ public class WorldPhysicsComponent extends AbstractPhysicsComponent {
     }
 
     /**
-     * Re-initializes the physical Box2D world based on currently set gravity vector.
+     * Set the physical world instance
+     * @param world The physical world instance
      */
-    public void reloadWorld() {
-        Vector2 gravity = this.gravity == null ? DEFAULT_GRAVITY : this.gravity;
-        this.world = new World(gravity, false);
+    public void setWorld(World world) {
+        this.world = world;
+        world.setGravity(this.gravity);
+    }
+
+    /**
+     * Set the world's steps-per-seconds rate at which to update the physics
+     * @param sps The world's steps-per-seconds rate
+     */
+    public void setSPS(float sps) {
+        this.sps = 1/sps;
+    }
+
+    /**
+     * Steps though the world
+     * @link https://www.codeandweb.com/texturepacker/tutorials/libgdx-physics
+     * @param deltaTime The game's current deltaTime (calculated through each render loop cycle)
+     */
+    private void stepWorld(float deltaTime) {
+        mAccumulator += Math.min(deltaTime, 0.25f);
+
+        if(mAccumulator >= this.sps) {
+            mAccumulator -= this.sps;
+
+            this.world.step(this.sps, 6, 2);
+        }
     }
 
 }
