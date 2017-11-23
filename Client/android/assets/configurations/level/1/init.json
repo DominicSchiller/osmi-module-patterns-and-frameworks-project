@@ -1,5 +1,14 @@
 {
   "id" : 1,
+  "position": {
+    "x": 0,
+    "y": 0
+  },
+  "size": {
+    "x": 480,
+    "y": 320
+  },
+  "assetTargetType": "level",
   "title" : "Level 1",
   "countdown" : 10000,
 
@@ -59,8 +68,16 @@
       "type": "physics",
       "gravity": {
         "x": 0,
-        "y": 10
+        "y": 0
       }
+    },
+    {
+      "name": "RigidBodyPhysicsComponent",
+      "type": "physics",
+      "activeBodyName": "ground",
+      "bodyKeys": [
+        "ground"
+      ]
     }
   ]
 }
