@@ -1,5 +1,7 @@
 package de.thb.paf.scrabblefactory.models.assets;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Enumeration of all available asset targets to load from the game's assets folder.
  *
@@ -9,7 +11,10 @@ package de.thb.paf.scrabblefactory.models.assets;
  */
 
 public enum AssetTargetType {
-    LEVEL("level");
+    @SerializedName("level")
+    LEVEL("level"),
+    @SerializedName("character")
+    CHARACTER("character");
 
     /**
      * Private Constructor

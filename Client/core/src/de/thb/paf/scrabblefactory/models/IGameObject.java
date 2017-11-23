@@ -1,7 +1,10 @@
 package de.thb.paf.scrabblefactory.models;
 
+import com.badlogic.gdx.math.Vector2;
+
 import java.util.List;
 
+import de.thb.paf.scrabblefactory.models.assets.AssetTargetType;
 import de.thb.paf.scrabblefactory.models.components.ComponentType;
 import de.thb.paf.scrabblefactory.models.components.IComponent;
 
@@ -29,6 +32,24 @@ public interface IGameObject {
     int getID();
 
     /**
+     * Get the game object's position.
+     * @return The game object's position
+     */
+    Vector2 getPosition();
+
+    /**
+     * Get the game object's size.
+     * @return The game object's size
+     */
+    Vector2 getSize();
+
+    /**
+     * Get the game object's asset target type.
+     * @return The game object's asset target type
+     */
+    AssetTargetType getAssetTargetType();
+
+    /**
      * Get all with the entity associated components.
      * @return List of associated components
      */
@@ -47,6 +68,18 @@ public interface IGameObject {
      * @return The found component
      */
     IComponent getComponent(int id);
+
+    /**
+     * Set the game object's position.
+     * @param position The new position vector to set
+     */
+    void setPosition(Vector2 position);
+
+    /**
+     * Set the game object's size.
+     * @param size The new size vector to set
+     */
+    void setSize(Vector2 size);
 
     /**
      * Add a new component to the list of associated components.
