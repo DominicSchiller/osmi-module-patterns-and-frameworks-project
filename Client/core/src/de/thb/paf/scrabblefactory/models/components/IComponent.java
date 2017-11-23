@@ -24,6 +24,12 @@ public interface IComponent {
     int getID();
 
     /**
+     * Get the associated game object holding this component.
+     * @return The associated game object holding this component
+     */
+    IGameObject getParent();
+
+    /**
      * Get the component's type.
      * @return The component's type
      */

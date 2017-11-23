@@ -17,13 +17,18 @@ public abstract class GameComponent implements IComponent {
      */
     private int id;
 
+    @Override
+    public IGameObject getParent() {
+        return this.parent;
+    }
+
     /**
      * The component's unique type
      */
     private ComponentType type;
 
     /**
-     * The associated gamer object holding this component
+     * The associated game object holding this component
      */
     private IGameObject parent;
 
