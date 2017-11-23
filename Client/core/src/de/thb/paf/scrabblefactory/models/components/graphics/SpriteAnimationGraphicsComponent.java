@@ -1,15 +1,17 @@
 package de.thb.paf.scrabblefactory.models.components.graphics;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 
 import java.util.Map;
 
 import de.thb.paf.scrabblefactory.models.components.ComponentType;
 import de.thb.paf.scrabblefactory.models.components.GameComponent;
 import de.thb.paf.scrabblefactory.models.entities.IEntity;
-
-import static com.badlogic.gdx.graphics.g2d.TextureAtlas.*;
+import de.thb.paf.scrabblefactory.settings.Settings;
 
 /**
  * Graphics component responsible for rendering sprite animations based on texture atlases.
@@ -24,17 +26,17 @@ public class SpriteAnimationGraphicsComponent extends GameComponent implements I
     /**
      * The default animation cycle time
      */
-    private static float DEFAULT_ANIM_CYCLE_TIME;
+    private static int DEFAULT_ANIM_CYCLE_TIME = 30;
 
     /**
      * All texture atlases organized by animation key
      */
-    private Map<String, AtlasRegion[]> textures;
+    private Map<String, TextureRegion[]> textures;
 
     /**
      * The animation looping through textures from a given texture atlas
      */
-    private Animation<AtlasRegion> animation;
+    private Animation<TextureRegion> animation;
 
     /**
      * The currently selected texture atlases key
@@ -47,9 +49,9 @@ public class SpriteAnimationGraphicsComponent extends GameComponent implements I
     private boolean isInfiniteLoop;
 
     /**
-     * The set cycle time after which the animation moves to the next image frame from the selected texture atlas
+     * The animation's frames-per-seconds rate
      */
-    private float animationCycleTime;
+    private int fps;
 
     /**
      * The elapsed time since the last rendering
@@ -59,94 +61,96 @@ public class SpriteAnimationGraphicsComponent extends GameComponent implements I
     /**
      * Constructor
      * @param id The game component's unique id
-     * @param type The game component's type
-     * @param textures All texture atlases organized by animation key
-     * @param initialAtlasName The name of the texture atlas which should be initially set
      */
-    public SpriteAnimationGraphicsComponent(int id, ComponentType type, Map<String, AtlasRegion[]> textures, String initialAtlasName) {
-        super(id, type);
+    public SpriteAnimationGraphicsComponent(Integer id) {
+        super(id, ComponentType.GFX_COMPONENT);
+    }
+
+    /**
+     * Constructor
+     * @param id The game component's unique id
+     * @param parent The associated game entity holding this component
+     */
+    public SpriteAnimationGraphicsComponent(Integer id, IEntity parent) {
+        this(id);
+        this.setParent(parent);
+    }
+
+    /**
+     * Constructor
+     * @param id The game component's unique id
+     * @param parent The associated game entity holding this component
+     * @param textures All texture atlases organized by animation key
+     */
+    public SpriteAnimationGraphicsComponent(Integer id, IEntity parent, Map<String, TextureRegion[]> textures) {
+        this(id, parent);
         this.textures = textures;
-        this.selectedAtlasName = initialAtlasName;
+        this.selectedAtlasName = "";
         this.isInfiniteLoop = false;
-        this.animationCycleTime = DEFAULT_ANIM_CYCLE_TIME;
+        this.fps = DEFAULT_ANIM_CYCLE_TIME;
         this.elapsedTime = 0;
         initAnimation();
     }
 
     /**
      * Constructor
-     * @param id The game component's unique id
-     * @param type The game component's type
+     * @param id The game component's unique identifier
      * @param parent The associated game entity holding this component
      * @param textures All texture atlases organized by animation key
      * @param initialAtlasName The name of the texture atlas which should be initially set
      */
-    public SpriteAnimationGraphicsComponent(int id, ComponentType type, IEntity parent, Map<String, AtlasRegion[]> textures, String initialAtlasName) {
-        super(id, type, parent);
-        this.textures = textures;
+    public SpriteAnimationGraphicsComponent(Integer id, IEntity parent, Map<String, TextureRegion[]> textures, String initialAtlasName) {
+        this(id, parent, textures);
         this.selectedAtlasName = initialAtlasName;
         this.isInfiniteLoop = false;
-        this.animationCycleTime = DEFAULT_ANIM_CYCLE_TIME;
+        this.fps = DEFAULT_ANIM_CYCLE_TIME;
         this.elapsedTime = 0;
         initAnimation();
     }
 
     /**
      * Constructor
-     * @param id The game component's unique id
-     * @param type The game component's type
+     * @param id The game component's unique identifier
+     * @param parent The associated game entity holding this component
      * @param textures All texture atlases organized by animation key
      * @param initialAtlasName The name of the texture atlas which should be initially set
-     * @param animationCycleTime The set cycle time after which the animation moves to the next image frame from the selected texture atlas
+     * @param fps The animation's frames-per-seconds rate
      */
-    public SpriteAnimationGraphicsComponent(int id, ComponentType type, Map<String, AtlasRegion[]> textures, String initialAtlasName, float animationCycleTime) {
-        this(id, type, textures, initialAtlasName);
-        this.animationCycleTime = animationCycleTime;
+    public SpriteAnimationGraphicsComponent(Integer id, IEntity parent, Map<String, TextureRegion[]> textures, String initialAtlasName, int fps) {
+        this(id, parent, textures, initialAtlasName);
+        this.fps = fps;
         initAnimation();
     }
 
     /**
      * Constructor
      * @param id The game component's unique id
-     * @param type The game component's type
      * @param parent The associated game entity holding this component
      * @param textures All texture atlases organized by animation key
      * @param initialAtlasName The name of the texture atlas which should be initially set
-     * @param animationCycleTime The set cycle time after which the animation moves to the next image frame from the selected texture atlas
-     */
-    public SpriteAnimationGraphicsComponent(int id, ComponentType type, IEntity parent, Map<String, AtlasRegion[]> textures, String initialAtlasName, float animationCycleTime) {
-        this(id, type, parent, textures, initialAtlasName);
-        this.animationCycleTime = animationCycleTime;
-        initAnimation();
-    }
-
-    /**
-     * Constructor
-     * @param id The game component's unique id
-     * @param type The game component's type
-     * @param textures All texture atlases organized by animation key
-     * @param initialAtlasName The name of the texture atlas which should be initially set
-     * @param animationCycleTime The set cycle time after which the animation moves to the next image frame from the selected texture atlas
+     * @param fps The animation's frames-per-seconds rate
      * @param isInfiniteLoop Indicator whether the animation is infinitely looping or stop after the last frame
      */
-    public SpriteAnimationGraphicsComponent(int id, ComponentType type, Map<String, AtlasRegion[]> textures, String initialAtlasName, float animationCycleTime, boolean isInfiniteLoop) {
-        this(id, type, textures, initialAtlasName, animationCycleTime);
+    public SpriteAnimationGraphicsComponent(Integer id, IEntity parent, Map<String, TextureRegion[]> textures, String initialAtlasName, int fps, boolean isInfiniteLoop) {
+        this(id, parent, textures, initialAtlasName, fps);
         this.isInfiniteLoop = isInfiniteLoop;
     }
 
     /**
-     * Constructor
-     * @param id The game component's unique id
-     * @param type The game component's type
-     * @param parent The associated game entity holding this component
-     * @param textures All texture atlases organized by animation key
-     * @param initialAtlasName The name of the texture atlas which should be initially set
-     * @param animationCycleTime The set cycle time after which the animation moves to the next image frame from the selected texture atlas
-     * @param isInfiniteLoop Indicator whether the animation is infinitely looping or stop after the last frame
+     * Set all texture atlases organized by animation key
+     * @param textures Map containing all texture atlases organized by animation key
      */
-    public SpriteAnimationGraphicsComponent(int id, ComponentType type, IEntity parent, Map<String, AtlasRegion[]> textures, String initialAtlasName, float animationCycleTime, boolean isInfiniteLoop) {
-        this(id, type, parent, textures, initialAtlasName, animationCycleTime);
-        this.isInfiniteLoop = isInfiniteLoop;
+    public void setTextures(Map<String, TextureRegion[]> textures) {
+        this.textures = textures;
+
+        //set texture filters to each texture
+        for(Object[] textureSet : this.textures.values()) {
+            for(Object texture : textureSet) {
+                ((TextureRegion)texture).getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
+            }
+        }
+
+        this.initAnimation();
     }
 
     /**
@@ -158,12 +162,12 @@ public class SpriteAnimationGraphicsComponent extends GameComponent implements I
     }
 
     /**
-     * Set the animation's frame-by-frame cycle time.
-     * @param animationCycleTime The cycle time after which the animation moves to the next image frame from the selected texture atlas
+     * Set the animation's frames-per-seconds rate.
+     * @param fps The animation's frames-per-seconds rate
      */
-    public void setAnimationCycleTime(float animationCycleTime) {
-        this.animationCycleTime = animationCycleTime;
-        this.animation = new Animation<AtlasRegion>(this.animationCycleTime, textures.get(this.selectedAtlasName));
+    public void setFps(int fps) {
+        this.fps = fps;
+        this.animation.setFrameDuration(fps);
     }
 
     /**
@@ -171,24 +175,38 @@ public class SpriteAnimationGraphicsComponent extends GameComponent implements I
      * @param atlasName The name of the texture atlas to switch to
      */
     public void switchToAnimation(String atlasName) {
-        // TODO implement here
         this.elapsedTime = 0;
-        this.animation = new Animation<AtlasRegion>(this.animationCycleTime, textures.get(this.selectedAtlasName));
+        this.selectedAtlasName = atlasName;
+        this.initAnimation();
     }
 
     @Override
     public void update(float deltaTime) {
-        // TODO implement here
+        this.elapsedTime += deltaTime;
     }
 
     @Override
     public void render(Batch batch) {
-        // TODO implement here
+        Vector2 position = this.getParent().getPosition();
+        TextureRegion texture = this.animation.getKeyFrame(this.elapsedTime, this.isInfiniteLoop);
+        float width = texture.getRegionWidth()  * Settings.Game.VIRTUAL_SCALE;
+        float height = texture.getRegionHeight() * Settings.Game.VIRTUAL_SCALE;
+        batch.draw(
+                texture,
+                position.x,
+                position.y,
+                width,
+                height
+
+        );
     }
 
+    /**
+     * Initializes the animation based on current settings
+     */
     private void initAnimation() {
-        this.animation = new Animation<AtlasRegion>(
-                this.animationCycleTime,
+        this.animation = new Animation<>(
+                1/(float)this.fps,
                 textures.get(this.selectedAtlasName)
         );
     }
