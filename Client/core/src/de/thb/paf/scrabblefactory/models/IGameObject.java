@@ -20,10 +20,15 @@ import de.thb.paf.scrabblefactory.models.components.IComponent;
 public interface IGameObject {
 
     /**
-     * Updates the entity based on the game's current render tick.
+     * Updates the game object based on the game's current render tick.
      * @param deltaTime The time passed between the last and the current frame in seconds
      */
     void update(float deltaTime);
+
+    /**
+     * Dispose the game object.
+     */
+    void dispose();
 
     /**
      * Get the level's unique identifier.

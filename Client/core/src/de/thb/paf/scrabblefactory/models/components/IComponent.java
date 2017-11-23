@@ -18,6 +18,11 @@ public interface IComponent {
     void update(float deltaTime);
 
     /**
+     * Dispose the game component.
+     */
+    void dispose();
+
+    /**
      * Get the component's unique identifier.
      * @return The component's unique identifier
      */

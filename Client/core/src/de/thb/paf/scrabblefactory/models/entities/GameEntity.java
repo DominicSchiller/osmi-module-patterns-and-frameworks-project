@@ -91,6 +91,11 @@ abstract class GameEntity implements IEntity {
     }
 
     @Override
+    public void dispose() {
+        //TODO: implement here...
+    }
+
+    @Override
     public int getID() {
         return this.id;
     }

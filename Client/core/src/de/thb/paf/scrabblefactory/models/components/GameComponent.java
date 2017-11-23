@@ -60,6 +60,11 @@ public abstract class GameComponent implements IComponent {
     }
 
     @Override
+    public void dispose() {
+        // TODO: implement here....
+    }
+
+    @Override
     public int getID() {
         return this.id;
     }

@@ -1,7 +1,5 @@
 package de.thb.paf.scrabblefactory.models.level;
 
-import de.thb.paf.scrabblefactory.models.components.IComponent;
-
 /**
  * Represents a basic level.
  *

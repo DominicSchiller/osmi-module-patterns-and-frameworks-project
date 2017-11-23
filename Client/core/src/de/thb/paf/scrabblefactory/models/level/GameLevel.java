@@ -70,6 +70,11 @@ abstract class GameLevel implements ILevel {
     }
 
     @Override
+    public void dispose() {
+        //TODO implement here...
+    }
+
+    @Override
     public int getID() {
         return this.id;
     }
