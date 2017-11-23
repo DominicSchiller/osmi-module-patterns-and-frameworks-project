@@ -42,11 +42,12 @@ public class LevelFactory {
             this.assetLoader = new AssetLoader();
         }
 
-        JsonObject levelConfig = this.assetLoader.loadLevelConfiguration(AssetTargetType.LEVEL, levelID);
+        JsonObject levelConfig = this.assetLoader.loadInitConfiguration(AssetTargetType.LEVEL, levelID);
         Gson gson = new GsonBuilder().create();
 
         // init level
         BasicLevel level = gson.fromJson(levelConfig, BasicLevel.class);
+        GameObjectManager.getInstance().addGameObject(level);
 
         // init components
         List<IComponent> components = new ArrayList<>();
@@ -74,7 +75,6 @@ public class LevelFactory {
         }
 
         level.addComponents(components);
-        GameObjectManager.getInstance().addGameObject(level);
         return level;
     }
 }
