@@ -1,8 +1,11 @@
 package de.thb.paf.scrabblefactory.models.level;
 
+import com.badlogic.gdx.math.Vector2;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import de.thb.paf.scrabblefactory.models.assets.AssetTargetType;
 import de.thb.paf.scrabblefactory.models.components.ComponentType;
 import de.thb.paf.scrabblefactory.models.components.IComponent;
 
@@ -15,6 +18,16 @@ import de.thb.paf.scrabblefactory.models.components.IComponent;
  */
 
 abstract class GameLevel implements ILevel {
+
+    /**
+     * The pivot point position (default: left bottom corner)
+     */
+    private Vector2 position;
+
+    /**
+     * The level's on screen dimensions
+     */
+    private Vector2 size;
 
     /**
      * List of associated components
@@ -37,6 +50,11 @@ abstract class GameLevel implements ILevel {
     private int countdown;
 
     /**
+     * The level's assetTargetType
+     */
+    private AssetTargetType assetTargetType;
+
+    /**
      * Default Constructor
      */
     GameLevel() {
@@ -54,6 +72,21 @@ abstract class GameLevel implements ILevel {
     @Override
     public int getID() {
         return this.id;
+    }
+
+    @Override
+    public Vector2 getPosition() {
+        return this.position;
+    }
+
+    @Override
+    public Vector2 getSize() {
+        return this.size;
+    }
+
+    @Override
+    public AssetTargetType getAssetTargetType() {
+        return this.assetTargetType;
     }
 
     @Override
@@ -86,6 +119,16 @@ abstract class GameLevel implements ILevel {
     @Override
     public IComponent getComponent(int id) {
         return null;
+    }
+
+    @Override
+    public void setPosition(Vector2 position) {
+        this.position = position;
+    }
+
+    @Override
+    public void setSize(Vector2 size) {
+        this.size = size;
     }
 
     @Override
