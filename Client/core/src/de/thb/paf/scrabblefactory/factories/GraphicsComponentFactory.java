@@ -14,11 +14,10 @@ import java.util.List;
 
 import de.thb.paf.scrabblefactory.io.AssetLoader;
 import de.thb.paf.scrabblefactory.models.IGameObject;
-import de.thb.paf.scrabblefactory.models.assets.AssetTargetType;
 import de.thb.paf.scrabblefactory.models.components.IComponent;
 import de.thb.paf.scrabblefactory.models.components.graphics.LayeredTexturesGraphicsComponent;
+import de.thb.paf.scrabblefactory.models.components.graphics.SpriteAnimationGraphicsComponent;
 import de.thb.paf.scrabblefactory.models.components.graphics.TextureLayer;
-import de.thb.paf.scrabblefactory.settings.Settings;
 import de.thb.paf.scrabblefactory.utils.CloneComponentHelper;
 import de.thb.paf.scrabblefactory.utils.graphics.AlignmentHelper;
 
@@ -26,6 +25,7 @@ import static de.thb.paf.scrabblefactory.settings.Constants.Files.LEVEL_ATLAS_NA
 import static de.thb.paf.scrabblefactory.settings.Constants.Java.COMPONENTS_PACKAGE;
 import static de.thb.paf.scrabblefactory.settings.Constants.Json.JSON_KEY_NAME;
 import static de.thb.paf.scrabblefactory.settings.Constants.Json.JSON_KEY_TYPE;
+import static de.thb.paf.scrabblefactory.settings.Settings.Game.VIRTUAL_SCALE;
 
 /**
  * Factory class dedicated to create and assemble new graphics component instances.
@@ -95,6 +95,8 @@ public class GraphicsComponentFactory {
     private void initGfxComponent(IComponent graphicsComponent, IGameObject parent) {
         if(graphicsComponent instanceof LayeredTexturesGraphicsComponent) {
             initLayeredGraphicsComponent(graphicsComponent, parent);
+        } else if(graphicsComponent instanceof SpriteAnimationGraphicsComponent) {
+            this.initSpriteAnimationGraphicsComponent(graphicsComponent, parent);
         }
     }
 
@@ -105,7 +107,8 @@ public class GraphicsComponentFactory {
      * @see LayeredTexturesGraphicsComponent
      */
     private void initLayeredGraphicsComponent(IComponent graphicsComponent, IGameObject parent) {
-        TextureAtlas textureAtlas = this.assetLoader.loadTextureAtlas(AssetTargetType.LEVEL, LEVEL_ATLAS_NAME, parent.getID());
+        //TODO: atlas name generalisieren!!!! <--- LEVEL_ATLAS_NAME schon spezialisiert
+        TextureAtlas textureAtlas = this.assetLoader.loadTextureAtlas(parent.getAssetTargetType(), LEVEL_ATLAS_NAME, parent.getID());
 
         List<TextureLayer> layers = new ArrayList<>();
         Collections.addAll(layers, ((LayeredTexturesGraphicsComponent) graphicsComponent).getStaticLayers());
@@ -114,7 +117,10 @@ public class GraphicsComponentFactory {
         for(TextureLayer layer : layers) {
             Sprite texture = new Sprite(textureAtlas.findRegion(layer.textureName));
 
-            texture.setSize(texture.getWidth() * Settings.Game.VIRTUAL_SCALE, texture.getHeight() * Settings.Game.VIRTUAL_SCALE);
+            texture.setSize(
+                texture.getWidth() * VIRTUAL_SCALE,
+                texture.getHeight() * VIRTUAL_SCALE
+            );
 
             AlignmentHelper.setRelativeOnScreenPosition(
                     texture,
@@ -126,5 +132,12 @@ public class GraphicsComponentFactory {
             texture.getTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
             layer.texture = texture;
         }
+    }
+
+    private void initSpriteAnimationGraphicsComponent(IComponent component, IGameObject parent) {
+        // init texture atlases
+        ((SpriteAnimationGraphicsComponent)component).setTextures(
+                this.assetLoader.loadTextureAtlases(parent.getAssetTargetType(), parent.getID())
+        );
     }
 }
