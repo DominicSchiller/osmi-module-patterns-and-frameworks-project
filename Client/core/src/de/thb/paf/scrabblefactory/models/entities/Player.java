@@ -15,6 +15,13 @@ public class Player extends GameEntity {
     private String name;
 
     /**
+     * Default Constructor
+     */
+    public Player() {
+        super();
+    }
+
+    /**
      * Constructor
      * @param id The entity's unique identifier
      * @param type The entity's type

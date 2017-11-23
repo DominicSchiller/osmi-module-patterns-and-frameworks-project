@@ -2,8 +2,10 @@ package de.thb.paf.scrabblefactory.models.entities;
 
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import de.thb.paf.scrabblefactory.models.assets.AssetTargetType;
 import de.thb.paf.scrabblefactory.models.components.ComponentType;
 import de.thb.paf.scrabblefactory.models.components.IComponent;
 
@@ -27,6 +29,11 @@ abstract class GameEntity implements IEntity {
     private Vector2 position;
 
     /**
+     * The game entity's size
+     */
+    private Vector2 size;
+
+    /**
      * The game entity's scaling
      */
     private Vector2 scale;
@@ -47,12 +54,30 @@ abstract class GameEntity implements IEntity {
     private EntityType type;
 
     /**
+     * The game entity's asset target type
+     */
+    private AssetTargetType assetTargetType;
+
+    /**
+     * List of associated components
+     */
+    List<IComponent> components;
+
+    /**
+     * Default COnstructor
+     */
+    GameEntity() {
+        this.components = new ArrayList<>();
+    }
+
+    /**
      * Constructor
      * @param id The entity's unique identifier
      * @param type The entity's type
      * @see EntityType
      */
     GameEntity(int id, EntityType type) {
+        this();
         this.id = id;
         this.type = type;
     }
@@ -60,6 +85,9 @@ abstract class GameEntity implements IEntity {
     @Override
     public void update(float deltaTime) {
         // TODO implement here
+        for(IComponent component : this.components) {
+            component.update(deltaTime);
+        }
     }
 
     @Override
@@ -78,6 +106,16 @@ abstract class GameEntity implements IEntity {
     }
 
     @Override
+    public Vector2 getSize() {
+        return this.size;
+    }
+
+    @Override
+    public AssetTargetType getAssetTargetType() {
+        return this.assetTargetType;
+    }
+
+    @Override
     public Vector2 getScale() {
         return this.scale;
     }
@@ -89,14 +127,19 @@ abstract class GameEntity implements IEntity {
 
     @Override
     public List<IComponent> getAllComponents() {
-        // TODO implement here
-        return null;
+        return this.components;
     }
 
     @Override
     public List<IComponent> getAllComponents(ComponentType type) {
-        // TODO implement here
-        return null;
+        List<IComponent> filteredComponents = new ArrayList<>();
+        for(IComponent component : this.components) {
+            if(component.getType().equals(type)) {
+                filteredComponents.add(component);
+            }
+        }
+
+        return filteredComponents;
     }
 
     @Override
@@ -113,6 +156,11 @@ abstract class GameEntity implements IEntity {
     @Override
     public void setPosition(Vector2 position) {
         this.position = position;
+    }
+
+    @Override
+    public void setSize(Vector2 size) {
+        this.size = size;
     }
 
     @Override
@@ -138,6 +186,7 @@ abstract class GameEntity implements IEntity {
     @Override
     public void addComponents(List<IComponent> components) {
         // TODO implement here
+        this.components.addAll(components);
     }
 
     @Override
