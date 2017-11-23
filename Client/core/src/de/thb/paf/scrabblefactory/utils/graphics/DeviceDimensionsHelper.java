@@ -2,8 +2,6 @@ package de.thb.paf.scrabblefactory.utils.graphics;
 
 import de.thb.paf.scrabblefactory.settings.ScreenAspectRatio;
 import de.thb.paf.scrabblefactory.settings.ScreenResolution;
-import de.thb.paf.scrabblefactory.settings.Settings;
-import de.thb.paf.scrabblefactory.settings.Settings.Game;
 
 import static de.thb.paf.scrabblefactory.settings.ScreenAspectRatio.*;
 import static de.thb.paf.scrabblefactory.settings.ScreenResolution.*;
@@ -80,17 +78,17 @@ public class DeviceDimensionsHelper {
     public static float calculateVirtualScale() {
         float scaleFactor = 0;
 
-        switch(Game.ASPECT_RATIO) {
+        switch(ASPECT_RATIO) {
             case SIXTEEN_TO_NINE:
             case SIXTEEN_TO_TEN:
             case THREE_TO_TWO:
-                scaleFactor = VIRTUAL_WIDTH / (float)DEVICE_SCREEN_WIDTH;
+                scaleFactor = VIRTUAL_WIDTH / (DEVICE_SCREEN_WIDTH / PPM);
                 break;
             case FOUR_TO_THREE:
-                scaleFactor = VIRTUAL_HEIGHT / (float)DEVICE_SCREEN_HEIGHT;
+                scaleFactor = VIRTUAL_HEIGHT / (DEVICE_SCREEN_HEIGHT / PPM);
                 break;
         }
-        return scaleFactor;
+        return (scaleFactor * RESOLUTION.virtualScaleFactor) / PPM;
     }
 
     /**
@@ -100,14 +98,14 @@ public class DeviceDimensionsHelper {
     public static float calculateScreenMultiplier() {
         float multiplier = 1;
 
-        switch(Game.ASPECT_RATIO) {
+        switch(ASPECT_RATIO) {
             case SIXTEEN_TO_NINE:
             case SIXTEEN_TO_TEN:
             case THREE_TO_TWO:
-                multiplier = (float) Math.floor(DEVICE_SCREEN_WIDTH / (float)VIRTUAL_WIDTH);
+                multiplier = (float) Math.floor((DEVICE_SCREEN_WIDTH / PPM) / (float)VIRTUAL_WIDTH);
                 break;
             case FOUR_TO_THREE:
-                multiplier = (float) Math.floor(DEVICE_SCREEN_HEIGHT / (float) VIRTUAL_HEIGHT);
+                multiplier = (float) Math.floor((DEVICE_SCREEN_HEIGHT / PPM) / (float) VIRTUAL_HEIGHT);
                 break;
         }
 

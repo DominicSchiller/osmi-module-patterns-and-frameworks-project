@@ -5,7 +5,10 @@ import com.badlogic.gdx.math.Vector2;
 
 import de.thb.paf.scrabblefactory.models.components.graphics.Alignment;
 import de.thb.paf.scrabblefactory.models.components.graphics.MovementDirection;
-import de.thb.paf.scrabblefactory.settings.Settings;
+
+import static de.thb.paf.scrabblefactory.settings.Settings.Game.PPM;
+import static de.thb.paf.scrabblefactory.settings.Settings.Game.VIRTUAL_HEIGHT;
+import static de.thb.paf.scrabblefactory.settings.Settings.Game.VIRTUAL_WIDTH;
 
 /**
  * Utility class helping to align textures on screen.
@@ -36,26 +39,26 @@ public class AlignmentHelper {
         switch(alignment) {
             case CENTER_LEFT:
                 x = 0;
-                y = Settings.Game.VIRTUAL_HEIGHT / 2 - texture.getHeight() / 2;
+                y = VIRTUAL_HEIGHT / 2 - texture.getHeight() / 2;
                 break;
             case CENTER_RIGHT:
-                x = Settings.Game.VIRTUAL_WIDTH - texture.getWidth();
-                y = Settings.Game.VIRTUAL_HEIGHT / 2 - texture.getHeight() / 2;
+                x = VIRTUAL_WIDTH - texture.getWidth();
+                y = VIRTUAL_HEIGHT / 2 - texture.getHeight() / 2;
                 break;
             case TOP_CENTER:
-                x = Settings.Game.VIRTUAL_WIDTH / 2 - texture.getWidth() / 2;
-                y = Settings.Game.VIRTUAL_HEIGHT - texture.getHeight();
+                x = VIRTUAL_WIDTH / 2 - texture.getWidth() / 2;
+                y = VIRTUAL_HEIGHT - texture.getHeight();
                 break;
             case TOP_LEFT:
                 x = 0;
-                y = Settings.Game.VIRTUAL_HEIGHT - texture.getHeight();
+                y = VIRTUAL_HEIGHT - texture.getHeight();
                 break;
             case TOP_RIGHT:
-                x = Settings.Game.VIRTUAL_WIDTH - texture.getWidth();
-                y = Settings.Game.VIRTUAL_HEIGHT - texture.getHeight();
+                x = VIRTUAL_WIDTH - texture.getWidth();
+                y = VIRTUAL_HEIGHT - texture.getHeight();
                 break;
             case BOTTOM_CENTER:
-                x = Settings.Game.VIRTUAL_WIDTH / 2 - texture.getWidth() / 2;
+                x = VIRTUAL_WIDTH / 2 - texture.getWidth() / 2;
                 y = 0;
                 break;
             case BOTTOM_LEFT:
@@ -63,21 +66,21 @@ public class AlignmentHelper {
                 y = 0;
                 break;
             case BOTTOM_RIGHT:
-                x = Settings.Game.VIRTUAL_WIDTH - texture.getWidth();
+                x = VIRTUAL_WIDTH - texture.getWidth();
                 y = 0;
                 break;
             case MIDDLE:
             default:
-                x = Settings.Game.VIRTUAL_WIDTH / 2 - texture.getWidth() / 2;
-                y = Settings.Game.VIRTUAL_HEIGHT / 2 - texture.getHeight() / 2;
+                x = VIRTUAL_WIDTH / 2 - texture.getWidth() / 2;
+                y = VIRTUAL_HEIGHT / 2 - texture.getHeight() / 2;
                 break;
         }
 
         // apply margins
-        x += margins[3];
-        x -= margins[1];
-        y -= margins[0];
-        y += margins[2];
+        x += margins[3] != 0 ? margins[3] / PPM : 0;
+        x -= margins[1] != 0 ? margins[1] / PPM : 0;
+        y -= margins[0] != 0 ? margins[0] / PPM : 0;
+        y += margins[2] != 0 ? margins[2] / PPM : 0;
 
         texture.setPosition(x, y);
     }
@@ -92,10 +95,10 @@ public class AlignmentHelper {
     public static void updatePositionByAutoMovement(Sprite texture, MovementDirection movementDirection, float speed, boolean isAutoLoop) {
 
         Vector2 updatedPosition = new Vector2();
-        speed = speed/10f;
+        speed = speed/10f / PPM;
         switch(movementDirection) {
             case LEFT:
-                float viewPortWidth = Settings.Game.VIRTUAL_WIDTH;
+                float viewPortWidth = VIRTUAL_WIDTH;
 
                 if(texture.getX() < (viewPortWidth * -1) + ((viewPortWidth - texture.getWidth()))) {
                     if(isAutoLoop) {
