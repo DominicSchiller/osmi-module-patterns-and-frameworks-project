@@ -1,0 +1,215 @@
+walking_carrying.png
+size: 1710, 2538
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+walking_carrying/walking_carrying_000
+  rotate: false
+  xy: 0, 0
+  size: 342, 423
+  orig: 342, 423
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_001
+  rotate: false
+  xy: 342, 0
+  size: 342, 423
+  orig: 342, 423
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_002
+  rotate: false
+  xy: 684, 0
+  size: 342, 423
+  orig: 342, 423
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_003
+  rotate: false
+  xy: 1026, 0
+  size: 342, 423
+  orig: 342, 423
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_004
+  rotate: false
+  xy: 1368, 0
+  size: 342, 423
+  orig: 342, 423
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_005
+  rotate: false
+  xy: 0, 423
+  size: 342, 423
+  orig: 342, 423
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_006
+  rotate: false
+  xy: 342, 423
+  size: 342, 423
+  orig: 342, 423
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_007
+  rotate: false
+  xy: 684, 423
+  size: 342, 423
+  orig: 342, 423
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_008
+  rotate: false
+  xy: 1026, 423
+  size: 342, 423
+  orig: 342, 423
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_009
+  rotate: false
+  xy: 1368, 423
+  size: 342, 423
+  orig: 342, 423
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_010
+  rotate: false
+  xy: 0, 846
+  size: 342, 423
+  orig: 342, 423
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_011
+  rotate: false
+  xy: 342, 846
+  size: 342, 423
+  orig: 342, 423
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_012
+  rotate: false
+  xy: 684, 846
+  size: 342, 423
+  orig: 342, 423
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_013
+  rotate: false
+  xy: 1026, 846
+  size: 342, 423
+  orig: 342, 423
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_014
+  rotate: false
+  xy: 1368, 846
+  size: 342, 423
+  orig: 342, 423
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_015
+  rotate: false
+  xy: 0, 1269
+  size: 342, 423
+  orig: 342, 423
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_016
+  rotate: false
+  xy: 342, 1269
+  size: 342, 423
+  orig: 342, 423
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_017
+  rotate: false
+  xy: 684, 1269
+  size: 342, 423
+  orig: 342, 423
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_018
+  rotate: false
+  xy: 1026, 1269
+  size: 342, 423
+  orig: 342, 423
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_019
+  rotate: false
+  xy: 1368, 1269
+  size: 342, 423
+  orig: 342, 423
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_020
+  rotate: false
+  xy: 0, 1692
+  size: 342, 423
+  orig: 342, 423
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_021
+  rotate: false
+  xy: 342, 1692
+  size: 342, 423
+  orig: 342, 423
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_022
+  rotate: false
+  xy: 684, 1692
+  size: 342, 423
+  orig: 342, 423
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_023
+  rotate: false
+  xy: 1026, 1692
+  size: 342, 423
+  orig: 342, 423
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_024
+  rotate: false
+  xy: 1368, 1692
+  size: 342, 423
+  orig: 342, 423
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_025
+  rotate: false
+  xy: 0, 2115
+  size: 342, 423
+  orig: 342, 423
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_026
+  rotate: false
+  xy: 342, 2115
+  size: 342, 423
+  orig: 342, 423
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_027
+  rotate: false
+  xy: 684, 2115
+  size: 342, 423
+  orig: 342, 423
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_028
+  rotate: false
+  xy: 1026, 2115
+  size: 342, 423
+  orig: 342, 423
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_029
+  rotate: false
+  xy: 1368, 2115
+  size: 342, 423
+  orig: 342, 423
+  offset: 0, 0
+  index: -1

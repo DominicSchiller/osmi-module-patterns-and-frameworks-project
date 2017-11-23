@@ -1,0 +1,635 @@
+idle.png
+size: 2626, 1911
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+idle
+  rotate: false
+  xy: 1, 1
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 0
+idle
+  rotate: false
+  xy: 1, 274
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 1
+idle
+  rotate: false
+  xy: 1, 547
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 2
+idle
+  rotate: false
+  xy: 1, 820
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 3
+idle
+  rotate: false
+  xy: 1, 1093
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 4
+idle
+  rotate: false
+  xy: 1, 1366
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 5
+idle
+  rotate: false
+  xy: 1, 1639
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 6
+idle
+  rotate: false
+  xy: 203, 1
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 7
+idle
+  rotate: false
+  xy: 203, 274
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 8
+idle
+  rotate: false
+  xy: 203, 547
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 9
+idle
+  rotate: false
+  xy: 203, 820
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 10
+idle
+  rotate: false
+  xy: 203, 1093
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 11
+idle
+  rotate: false
+  xy: 203, 1366
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 12
+idle
+  rotate: false
+  xy: 203, 1639
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 13
+idle
+  rotate: false
+  xy: 405, 1
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 14
+idle
+  rotate: false
+  xy: 405, 274
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 15
+idle
+  rotate: false
+  xy: 405, 547
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 16
+idle
+  rotate: false
+  xy: 405, 820
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 17
+idle
+  rotate: false
+  xy: 405, 1093
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 18
+idle
+  rotate: false
+  xy: 405, 1366
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 19
+idle
+  rotate: false
+  xy: 405, 1639
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 20
+idle
+  rotate: false
+  xy: 607, 1
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 21
+idle
+  rotate: false
+  xy: 607, 274
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 22
+idle
+  rotate: false
+  xy: 607, 547
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 23
+idle
+  rotate: false
+  xy: 607, 820
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 24
+idle
+  rotate: false
+  xy: 607, 1093
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 25
+idle
+  rotate: false
+  xy: 607, 1366
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 26
+idle
+  rotate: false
+  xy: 607, 1639
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 27
+idle
+  rotate: false
+  xy: 809, 1
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 28
+idle
+  rotate: false
+  xy: 809, 274
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 29
+idle
+  rotate: false
+  xy: 809, 547
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 30
+idle
+  rotate: false
+  xy: 809, 820
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 31
+idle
+  rotate: false
+  xy: 809, 1093
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 32
+idle
+  rotate: false
+  xy: 809, 1366
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 33
+idle
+  rotate: false
+  xy: 809, 1639
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 34
+idle
+  rotate: false
+  xy: 1011, 1
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 35
+idle
+  rotate: false
+  xy: 1011, 274
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 36
+idle
+  rotate: false
+  xy: 1011, 547
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 37
+idle
+  rotate: false
+  xy: 1011, 820
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 38
+idle
+  rotate: false
+  xy: 1011, 1093
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 39
+idle
+  rotate: false
+  xy: 1011, 1366
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 40
+idle
+  rotate: false
+  xy: 1011, 1639
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 41
+idle
+  rotate: false
+  xy: 1213, 1
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 42
+idle
+  rotate: false
+  xy: 1213, 274
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 43
+idle
+  rotate: false
+  xy: 1213, 547
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 44
+idle
+  rotate: false
+  xy: 1213, 820
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 45
+idle
+  rotate: false
+  xy: 1213, 1093
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 46
+idle
+  rotate: false
+  xy: 1213, 1366
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 47
+idle
+  rotate: false
+  xy: 1213, 1639
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 48
+idle
+  rotate: false
+  xy: 1415, 1
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 49
+idle
+  rotate: false
+  xy: 1415, 274
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 50
+idle
+  rotate: false
+  xy: 1415, 547
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 51
+idle
+  rotate: false
+  xy: 1415, 820
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 52
+idle
+  rotate: false
+  xy: 1415, 1093
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 53
+idle
+  rotate: false
+  xy: 1415, 1366
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 54
+idle
+  rotate: false
+  xy: 1415, 1639
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 55
+idle
+  rotate: false
+  xy: 1617, 1
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 56
+idle
+  rotate: false
+  xy: 1617, 274
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 57
+idle
+  rotate: false
+  xy: 1617, 547
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 58
+idle
+  rotate: false
+  xy: 1617, 820
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 59
+idle
+  rotate: false
+  xy: 1617, 1093
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 60
+idle
+  rotate: false
+  xy: 1617, 1366
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 61
+idle
+  rotate: false
+  xy: 1617, 1639
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 62
+idle
+  rotate: false
+  xy: 1819, 1
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 63
+idle
+  rotate: false
+  xy: 1819, 274
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 64
+idle
+  rotate: false
+  xy: 1819, 547
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 65
+idle
+  rotate: false
+  xy: 1819, 820
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 66
+idle
+  rotate: false
+  xy: 1819, 1093
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 67
+idle
+  rotate: false
+  xy: 1819, 1366
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 68
+idle
+  rotate: false
+  xy: 1819, 1639
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 69
+idle
+  rotate: false
+  xy: 2021, 1
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 70
+idle
+  rotate: false
+  xy: 2021, 274
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 71
+idle
+  rotate: false
+  xy: 2021, 547
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 72
+idle
+  rotate: false
+  xy: 2021, 820
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 73
+idle
+  rotate: false
+  xy: 2021, 1093
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 74
+idle
+  rotate: false
+  xy: 2021, 1366
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 75
+idle
+  rotate: false
+  xy: 2021, 1639
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 76
+idle
+  rotate: false
+  xy: 2223, 1
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 77
+idle
+  rotate: false
+  xy: 2223, 274
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 78
+idle
+  rotate: false
+  xy: 2223, 547
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 79
+idle
+  rotate: false
+  xy: 2223, 820
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 80
+idle
+  rotate: false
+  xy: 2223, 1093
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 81
+idle
+  rotate: false
+  xy: 2223, 1366
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 82
+idle
+  rotate: false
+  xy: 2223, 1639
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 83
+idle
+  rotate: false
+  xy: 2425, 1
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 84
+idle
+  rotate: false
+  xy: 2425, 274
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 85
+idle
+  rotate: false
+  xy: 2425, 547
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 86
+idle
+  rotate: false
+  xy: 2425, 820
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 87
+idle
+  rotate: false
+  xy: 2425, 1093
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 88
+idle
+  rotate: false
+  xy: 2425, 1366
+  size: 200, 271
+  orig: 200, 271
+  offset: 0, 0
+  index: 89

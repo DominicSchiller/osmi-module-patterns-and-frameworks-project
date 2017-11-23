@@ -1,0 +1,215 @@
+walking_carrying.png
+size: 1824, 1128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+walking_carrying/walking_carrying_000
+  rotate: false
+  xy: 0, 0
+  size: 228, 282
+  orig: 228, 282
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_001
+  rotate: false
+  xy: 228, 0
+  size: 228, 282
+  orig: 228, 282
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_002
+  rotate: false
+  xy: 456, 0
+  size: 228, 282
+  orig: 228, 282
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_003
+  rotate: false
+  xy: 684, 0
+  size: 228, 282
+  orig: 228, 282
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_004
+  rotate: false
+  xy: 912, 0
+  size: 228, 282
+  orig: 228, 282
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_005
+  rotate: false
+  xy: 1140, 0
+  size: 228, 282
+  orig: 228, 282
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_006
+  rotate: false
+  xy: 1368, 0
+  size: 228, 282
+  orig: 228, 282
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_007
+  rotate: false
+  xy: 1596, 0
+  size: 228, 282
+  orig: 228, 282
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_008
+  rotate: false
+  xy: 0, 282
+  size: 228, 282
+  orig: 228, 282
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_009
+  rotate: false
+  xy: 228, 282
+  size: 228, 282
+  orig: 228, 282
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_010
+  rotate: false
+  xy: 456, 282
+  size: 228, 282
+  orig: 228, 282
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_011
+  rotate: false
+  xy: 684, 282
+  size: 228, 282
+  orig: 228, 282
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_012
+  rotate: false
+  xy: 912, 282
+  size: 228, 282
+  orig: 228, 282
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_013
+  rotate: false
+  xy: 1140, 282
+  size: 228, 282
+  orig: 228, 282
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_014
+  rotate: false
+  xy: 1368, 282
+  size: 228, 282
+  orig: 228, 282
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_015
+  rotate: false
+  xy: 1596, 282
+  size: 228, 282
+  orig: 228, 282
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_016
+  rotate: false
+  xy: 0, 564
+  size: 228, 282
+  orig: 228, 282
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_017
+  rotate: false
+  xy: 228, 564
+  size: 228, 282
+  orig: 228, 282
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_018
+  rotate: false
+  xy: 456, 564
+  size: 228, 282
+  orig: 228, 282
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_019
+  rotate: false
+  xy: 684, 564
+  size: 228, 282
+  orig: 228, 282
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_020
+  rotate: false
+  xy: 912, 564
+  size: 228, 282
+  orig: 228, 282
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_021
+  rotate: false
+  xy: 1140, 564
+  size: 228, 282
+  orig: 228, 282
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_022
+  rotate: false
+  xy: 1368, 564
+  size: 228, 282
+  orig: 228, 282
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_023
+  rotate: false
+  xy: 1596, 564
+  size: 228, 282
+  orig: 228, 282
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_024
+  rotate: false
+  xy: 0, 846
+  size: 228, 282
+  orig: 228, 282
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_025
+  rotate: false
+  xy: 228, 846
+  size: 228, 282
+  orig: 228, 282
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_026
+  rotate: false
+  xy: 456, 846
+  size: 228, 282
+  orig: 228, 282
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_027
+  rotate: false
+  xy: 684, 846
+  size: 228, 282
+  orig: 228, 282
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_028
+  rotate: false
+  xy: 912, 846
+  size: 228, 282
+  orig: 228, 282
+  offset: 0, 0
+  index: -1
+walking_carrying/walking_carrying_029
+  rotate: false
+  xy: 1140, 846
+  size: 228, 282
+  orig: 228, 282
+  offset: 0, 0
+  index: -1

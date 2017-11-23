@@ -1,0 +1,635 @@
+idle_carrying.png
+size: 5198, 3807
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+idle_carrying/idle_carrying_000
+  rotate: false
+  xy: 1, 1
+  size: 399, 542
+  orig: 399, 542
+  offset: 0, 0
+  index: -1
+idle_carrying/idle_carrying_001
+  rotate: false
+  xy: 1, 545
+  size: 399, 542
+  orig: 399, 542
+  offset: 0, 0
+  index: -1
+idle_carrying/idle_carrying_002
+  rotate: false
+  xy: 1, 1089
+  size: 399, 542
+  orig: 399, 542
+  offset: 0, 0
+  index: -1
+idle_carrying/idle_carrying_003
+  rotate: false
+  xy: 1, 1633
+  size: 399, 542
+  orig: 399, 542
+  offset: 0, 0
+  index: -1
+idle_carrying/idle_carrying_004
+  rotate: false
+  xy: 1, 2177
+  size: 399, 542
+  orig: 399, 542
+  offset: 0, 0
+  index: -1
+idle_carrying/idle_carrying_005
+  rotate: false
+  xy: 1, 2721
+  size: 399, 542
+  orig: 399, 542
+  offset: 0, 0
+  index: -1
+idle_carrying/idle_carrying_006
+  rotate: false
+  xy: 1, 3265
+  size: 399, 541
+  orig: 399, 542
+  offset: 0, 0
+  index: -1
+idle_carrying/idle_carrying_007
+  rotate: false
+  xy: 402, 3265
+  size: 399, 541
+  orig: 399, 542
+  offset: 0, 0
+  index: -1
+idle_carrying/idle_carrying_008
+  rotate: false
+  xy: 1605, 1
+  size: 398, 541
+  orig: 399, 542
+  offset: 1, 0
+  index: -1
+idle_carrying/idle_carrying_009
+  rotate: false
+  xy: 1605, 544
+  size: 398, 541
+  orig: 399, 542
+  offset: 1, 0
+  index: -1
+idle_carrying/idle_carrying_010
+  rotate: false
+  xy: 1605, 1087
+  size: 398, 541
+  orig: 399, 542
+  offset: 1, 0
+  index: -1
+idle_carrying/idle_carrying_011
+  rotate: false
+  xy: 2804, 545
+  size: 398, 540
+  orig: 399, 542
+  offset: 1, 0
+  index: -1
+idle_carrying/idle_carrying_012
+  rotate: false
+  xy: 3204, 545
+  size: 398, 540
+  orig: 399, 542
+  offset: 1, 0
+  index: -1
+idle_carrying/idle_carrying_013
+  rotate: false
+  xy: 3203, 1630
+  size: 397, 540
+  orig: 399, 542
+  offset: 2, 0
+  index: -1
+idle_carrying/idle_carrying_014
+  rotate: false
+  xy: 3203, 2172
+  size: 397, 540
+  orig: 399, 542
+  offset: 2, 0
+  index: -1
+idle_carrying/idle_carrying_015
+  rotate: false
+  xy: 3203, 2714
+  size: 397, 540
+  orig: 399, 542
+  offset: 2, 0
+  index: -1
+idle_carrying/idle_carrying_016
+  rotate: false
+  xy: 3203, 3256
+  size: 397, 540
+  orig: 399, 542
+  offset: 2, 0
+  index: -1
+idle_carrying/idle_carrying_017
+  rotate: false
+  xy: 3602, 1630
+  size: 397, 540
+  orig: 399, 542
+  offset: 2, 0
+  index: -1
+idle_carrying/idle_carrying_018
+  rotate: false
+  xy: 4001, 1630
+  size: 397, 540
+  orig: 399, 542
+  offset: 2, 0
+  index: -1
+idle_carrying/idle_carrying_019
+  rotate: false
+  xy: 3604, 545
+  size: 398, 540
+  orig: 399, 542
+  offset: 1, 0
+  index: -1
+idle_carrying/idle_carrying_020
+  rotate: false
+  xy: 1605, 1630
+  size: 398, 541
+  orig: 399, 542
+  offset: 1, 0
+  index: -1
+idle_carrying/idle_carrying_021
+  rotate: false
+  xy: 1605, 2173
+  size: 398, 541
+  orig: 399, 542
+  offset: 1, 0
+  index: -1
+idle_carrying/idle_carrying_022
+  rotate: false
+  xy: 1605, 2716
+  size: 398, 541
+  orig: 399, 542
+  offset: 1, 0
+  index: -1
+idle_carrying/idle_carrying_023
+  rotate: false
+  xy: 1605, 3259
+  size: 398, 541
+  orig: 399, 542
+  offset: 1, 0
+  index: -1
+idle_carrying/idle_carrying_024
+  rotate: false
+  xy: 803, 3265
+  size: 399, 541
+  orig: 399, 542
+  offset: 0, 0
+  index: -1
+idle_carrying/idle_carrying_025
+  rotate: false
+  xy: 402, 1
+  size: 399, 542
+  orig: 399, 542
+  offset: 0, 0
+  index: -1
+idle_carrying/idle_carrying_026
+  rotate: false
+  xy: 402, 545
+  size: 399, 542
+  orig: 399, 542
+  offset: 0, 0
+  index: -1
+idle_carrying/idle_carrying_027
+  rotate: false
+  xy: 402, 1089
+  size: 399, 542
+  orig: 399, 542
+  offset: 0, 0
+  index: -1
+idle_carrying/idle_carrying_028
+  rotate: false
+  xy: 402, 1633
+  size: 399, 542
+  orig: 399, 542
+  offset: 0, 0
+  index: -1
+idle_carrying/idle_carrying_029
+  rotate: false
+  xy: 402, 2177
+  size: 399, 542
+  orig: 399, 542
+  offset: 0, 0
+  index: -1
+idle_carrying/idle_carrying_030
+  rotate: false
+  xy: 402, 2721
+  size: 399, 542
+  orig: 399, 542
+  offset: 0, 0
+  index: -1
+idle_carrying/idle_carrying_031
+  rotate: false
+  xy: 803, 1
+  size: 399, 542
+  orig: 399, 542
+  offset: 0, 0
+  index: -1
+idle_carrying/idle_carrying_032
+  rotate: false
+  xy: 803, 545
+  size: 399, 542
+  orig: 399, 542
+  offset: 0, 0
+  index: -1
+idle_carrying/idle_carrying_033
+  rotate: false
+  xy: 803, 1089
+  size: 399, 542
+  orig: 399, 542
+  offset: 0, 0
+  index: -1
+idle_carrying/idle_carrying_034
+  rotate: false
+  xy: 803, 1633
+  size: 399, 542
+  orig: 399, 542
+  offset: 0, 0
+  index: -1
+idle_carrying/idle_carrying_035
+  rotate: false
+  xy: 803, 2177
+  size: 399, 542
+  orig: 399, 542
+  offset: 0, 0
+  index: -1
+idle_carrying/idle_carrying_036
+  rotate: false
+  xy: 803, 2721
+  size: 399, 542
+  orig: 399, 542
+  offset: 0, 0
+  index: -1
+idle_carrying/idle_carrying_037
+  rotate: false
+  xy: 1204, 2177
+  size: 399, 541
+  orig: 399, 542
+  offset: 0, 0
+  index: -1
+idle_carrying/idle_carrying_038
+  rotate: false
+  xy: 2005, 1
+  size: 398, 541
+  orig: 399, 542
+  offset: 1, 0
+  index: -1
+idle_carrying/idle_carrying_039
+  rotate: false
+  xy: 2005, 544
+  size: 398, 541
+  orig: 399, 542
+  offset: 1, 0
+  index: -1
+idle_carrying/idle_carrying_040
+  rotate: false
+  xy: 2005, 1087
+  size: 398, 541
+  orig: 399, 542
+  offset: 1, 0
+  index: -1
+idle_carrying/idle_carrying_041
+  rotate: false
+  xy: 2005, 1630
+  size: 398, 541
+  orig: 399, 542
+  offset: 1, 0
+  index: -1
+idle_carrying/idle_carrying_042
+  rotate: false
+  xy: 4004, 545
+  size: 398, 540
+  orig: 399, 542
+  offset: 1, 0
+  index: -1
+idle_carrying/idle_carrying_043
+  rotate: false
+  xy: 4400, 1630
+  size: 397, 540
+  orig: 399, 542
+  offset: 2, 0
+  index: -1
+idle_carrying/idle_carrying_044
+  rotate: false
+  xy: 4799, 1630
+  size: 397, 540
+  orig: 399, 542
+  offset: 2, 0
+  index: -1
+idle_carrying/idle_carrying_045
+  rotate: false
+  xy: 3602, 2172
+  size: 397, 540
+  orig: 399, 542
+  offset: 2, 0
+  index: -1
+idle_carrying/idle_carrying_046
+  rotate: false
+  xy: 3602, 2714
+  size: 397, 540
+  orig: 399, 542
+  offset: 2, 0
+  index: -1
+idle_carrying/idle_carrying_047
+  rotate: false
+  xy: 3602, 3256
+  size: 397, 540
+  orig: 399, 542
+  offset: 2, 0
+  index: -1
+idle_carrying/idle_carrying_048
+  rotate: false
+  xy: 4001, 2172
+  size: 397, 540
+  orig: 399, 542
+  offset: 2, 0
+  index: -1
+idle_carrying/idle_carrying_049
+  rotate: false
+  xy: 4400, 2172
+  size: 397, 540
+  orig: 399, 542
+  offset: 2, 0
+  index: -1
+idle_carrying/idle_carrying_050
+  rotate: false
+  xy: 2804, 1087
+  size: 397, 541
+  orig: 399, 542
+  offset: 2, 0
+  index: -1
+idle_carrying/idle_carrying_051
+  rotate: false
+  xy: 2804, 1630
+  size: 397, 541
+  orig: 399, 542
+  offset: 2, 0
+  index: -1
+idle_carrying/idle_carrying_052
+  rotate: false
+  xy: 2804, 2173
+  size: 397, 541
+  orig: 399, 542
+  offset: 2, 0
+  index: -1
+idle_carrying/idle_carrying_053
+  rotate: false
+  xy: 2804, 2716
+  size: 397, 541
+  orig: 399, 542
+  offset: 2, 0
+  index: -1
+idle_carrying/idle_carrying_054
+  rotate: false
+  xy: 2804, 3259
+  size: 397, 541
+  orig: 399, 542
+  offset: 2, 0
+  index: -1
+idle_carrying/idle_carrying_055
+  rotate: false
+  xy: 2805, 1
+  size: 397, 542
+  orig: 399, 542
+  offset: 2, 0
+  index: -1
+idle_carrying/idle_carrying_056
+  rotate: false
+  xy: 2405, 544
+  size: 397, 542
+  orig: 399, 542
+  offset: 2, 0
+  index: -1
+idle_carrying/idle_carrying_057
+  rotate: false
+  xy: 3204, 1
+  size: 397, 542
+  orig: 399, 542
+  offset: 2, 0
+  index: -1
+idle_carrying/idle_carrying_058
+  rotate: false
+  xy: 3603, 1
+  size: 397, 542
+  orig: 399, 542
+  offset: 2, 0
+  index: -1
+idle_carrying/idle_carrying_059
+  rotate: false
+  xy: 4002, 1
+  size: 397, 542
+  orig: 399, 542
+  offset: 2, 0
+  index: -1
+idle_carrying/idle_carrying_060
+  rotate: false
+  xy: 4401, 1
+  size: 397, 542
+  orig: 399, 542
+  offset: 2, 0
+  index: -1
+idle_carrying/idle_carrying_061
+  rotate: false
+  xy: 4800, 1
+  size: 397, 542
+  orig: 399, 542
+  offset: 2, 0
+  index: -1
+idle_carrying/idle_carrying_062
+  rotate: false
+  xy: 2405, 1088
+  size: 397, 542
+  orig: 399, 542
+  offset: 2, 0
+  index: -1
+idle_carrying/idle_carrying_063
+  rotate: false
+  xy: 2405, 1632
+  size: 397, 542
+  orig: 399, 542
+  offset: 2, 0
+  index: -1
+idle_carrying/idle_carrying_064
+  rotate: false
+  xy: 2405, 2176
+  size: 397, 542
+  orig: 399, 542
+  offset: 2, 0
+  index: -1
+idle_carrying/idle_carrying_065
+  rotate: false
+  xy: 2405, 2720
+  size: 397, 542
+  orig: 399, 542
+  offset: 2, 0
+  index: -1
+idle_carrying/idle_carrying_066
+  rotate: false
+  xy: 2405, 3264
+  size: 397, 542
+  orig: 399, 542
+  offset: 2, 0
+  index: -1
+idle_carrying/idle_carrying_067
+  rotate: false
+  xy: 3203, 1087
+  size: 397, 541
+  orig: 399, 542
+  offset: 2, 0
+  index: -1
+idle_carrying/idle_carrying_068
+  rotate: false
+  xy: 3602, 1087
+  size: 397, 541
+  orig: 399, 542
+  offset: 2, 0
+  index: -1
+idle_carrying/idle_carrying_069
+  rotate: false
+  xy: 4001, 1087
+  size: 397, 541
+  orig: 399, 542
+  offset: 2, 0
+  index: -1
+idle_carrying/idle_carrying_070
+  rotate: false
+  xy: 4400, 1087
+  size: 397, 541
+  orig: 399, 542
+  offset: 2, 0
+  index: -1
+idle_carrying/idle_carrying_071
+  rotate: false
+  xy: 4799, 1087
+  size: 397, 541
+  orig: 399, 542
+  offset: 2, 0
+  index: -1
+idle_carrying/idle_carrying_072
+  rotate: false
+  xy: 4799, 2172
+  size: 397, 540
+  orig: 399, 542
+  offset: 2, 0
+  index: -1
+idle_carrying/idle_carrying_073
+  rotate: false
+  xy: 4001, 2714
+  size: 397, 540
+  orig: 399, 542
+  offset: 2, 0
+  index: -1
+idle_carrying/idle_carrying_074
+  rotate: false
+  xy: 4001, 3256
+  size: 397, 540
+  orig: 399, 542
+  offset: 2, 0
+  index: -1
+idle_carrying/idle_carrying_075
+  rotate: false
+  xy: 4400, 2714
+  size: 397, 540
+  orig: 399, 542
+  offset: 2, 0
+  index: -1
+idle_carrying/idle_carrying_076
+  rotate: false
+  xy: 4799, 2714
+  size: 397, 540
+  orig: 399, 542
+  offset: 2, 0
+  index: -1
+idle_carrying/idle_carrying_077
+  rotate: false
+  xy: 4400, 3256
+  size: 397, 540
+  orig: 399, 542
+  offset: 2, 0
+  index: -1
+idle_carrying/idle_carrying_078
+  rotate: false
+  xy: 4799, 3256
+  size: 397, 540
+  orig: 399, 542
+  offset: 2, 0
+  index: -1
+idle_carrying/idle_carrying_079
+  rotate: false
+  xy: 4404, 545
+  size: 398, 540
+  orig: 399, 542
+  offset: 1, 0
+  index: -1
+idle_carrying/idle_carrying_080
+  rotate: false
+  xy: 2005, 2173
+  size: 398, 541
+  orig: 399, 542
+  offset: 1, 0
+  index: -1
+idle_carrying/idle_carrying_081
+  rotate: false
+  xy: 2005, 2716
+  size: 398, 541
+  orig: 399, 542
+  offset: 1, 0
+  index: -1
+idle_carrying/idle_carrying_082
+  rotate: false
+  xy: 2005, 3259
+  size: 398, 541
+  orig: 399, 542
+  offset: 1, 0
+  index: -1
+idle_carrying/idle_carrying_083
+  rotate: false
+  xy: 2405, 1
+  size: 398, 541
+  orig: 399, 542
+  offset: 1, 0
+  index: -1
+idle_carrying/idle_carrying_084
+  rotate: false
+  xy: 1204, 2720
+  size: 399, 541
+  orig: 399, 542
+  offset: 0, 0
+  index: -1
+idle_carrying/idle_carrying_085
+  rotate: false
+  xy: 1204, 3263
+  size: 399, 541
+  orig: 399, 542
+  offset: 0, 0
+  index: -1
+idle_carrying/idle_carrying_086
+  rotate: false
+  xy: 1204, 1
+  size: 399, 542
+  orig: 399, 542
+  offset: 0, 0
+  index: -1
+idle_carrying/idle_carrying_087
+  rotate: false
+  xy: 1204, 545
+  size: 399, 542
+  orig: 399, 542
+  offset: 0, 0
+  index: -1
+idle_carrying/idle_carrying_088
+  rotate: false
+  xy: 1204, 1089
+  size: 399, 542
+  orig: 399, 542
+  offset: 0, 0
+  index: -1
+idle_carrying/idle_carrying_089
+  rotate: false
+  xy: 1204, 1633
+  size: 399, 542
+  orig: 399, 542
+  offset: 0, 0
+  index: -1
