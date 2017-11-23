@@ -70,20 +70,21 @@ public final class Settings {
      * @since 1.0
      */
     public static final class Game {
-        /**
-         * The virtual screen width (where all graphical assets are based on)
-         */
-        public static final int VIRTUAL_WIDTH = 480;
-
-        /**
-         * The virtual screen width (where all graphical assets are based on)
-         */
-        public static final int VIRTUAL_HEIGHT = 320;
 
         /**
          * The virtual 'points per meter' factor required for the Box2D physics calculation
          */
         public static final float PPM = 32f;
+
+        /**
+         * The virtual screen width (where all graphical assets are based on)
+         */
+        public static final int VIRTUAL_WIDTH = (int) (480 / PPM);
+
+        /**
+         * The virtual screen width (where all graphical assets are based on)
+         */
+        public static final int VIRTUAL_HEIGHT = (int) (320 / PPM);
 
         /**
          * The device's screen aspect ratio
