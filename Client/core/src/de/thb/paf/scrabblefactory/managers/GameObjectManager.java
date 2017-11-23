@@ -15,7 +15,7 @@ import de.thb.paf.scrabblefactory.models.components.IComponent;
  * @since 1.0
  */
 
-public class GameObjectManager {
+public class GameObjectManager implements IGameManager {
 
     /**
      * The singleton instance of the GameObjectManager
@@ -35,7 +35,7 @@ public class GameObjectManager {
     }
 
     /**
-     * Private singleton constructor
+     * Private singleton constructor.
      */
     private GameObjectManager() {
         this.gameObjects = new ArrayList<>();
@@ -49,20 +49,27 @@ public class GameObjectManager {
         return instance;
     }
 
+    /**
+     * Add game object to the managed list of registered game objects.
+     * @param gameObject The game object to add
+     */
     public void addGameObject(IGameObject gameObject) {
         this.gameObjects.add(gameObject);
     }
 
+    /**
+     * Remove game object from the managed list of registered game objects.
+     * @param gameObject The game object to remove
+     * @return The success state
+     */
     public boolean removeGameObject(IGameObject gameObject) {
         return this.gameObjects.remove(gameObject);
     }
 
-    public List<IComponent> getComponentsByType(ComponentType type) {
-        List<IComponent> components = new ArrayList<>();
+    @Override
+    public void dispose() {
         for(IGameObject gameObject : this.gameObjects) {
-            components.addAll(gameObject.getAllComponents(type));
+            gameObject.dispose();
         }
-
-        return components;
     }
 }
