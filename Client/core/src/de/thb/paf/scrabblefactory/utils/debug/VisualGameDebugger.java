@@ -9,7 +9,7 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 
 import de.thb.paf.scrabblefactory.io.AssetLoader;
-import de.thb.paf.scrabblefactory.managers.PhysicsManager;
+import de.thb.paf.scrabblefactory.managers.WorldPhysicsManager;
 import de.thb.paf.scrabblefactory.models.assets.FontAsset;
 import de.thb.paf.scrabblefactory.settings.Settings;
 
@@ -74,6 +74,6 @@ public class VisualGameDebugger {
 
 //        Gdx.gl.glLineWidth(0.5f * GameInfo.VIRTUAL_SCREEN_MULTIPLYER);
         Gdx.gl.glLineWidth(3.0f);
-        physicsDebugRenderer.render(PhysicsManager.getInstance().getPhysicalWorld(), cameraProjectionMatrix);
+        physicsDebugRenderer.render(WorldPhysicsManager.getInstance().getPhysicalWorld(), cameraProjectionMatrix);
     }
 }
