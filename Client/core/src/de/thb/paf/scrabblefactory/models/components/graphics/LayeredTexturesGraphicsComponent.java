@@ -7,6 +7,8 @@ import de.thb.paf.scrabblefactory.models.components.GameComponent;
 import de.thb.paf.scrabblefactory.models.entities.IEntity;
 import de.thb.paf.scrabblefactory.utils.graphics.AlignmentHelper;
 
+import static de.thb.paf.scrabblefactory.settings.Settings.Game.VIRTUAL_WIDTH;
+
 /**
  * Graphics component responsible for rendering layered textures.
  * 
@@ -66,6 +68,14 @@ public class LayeredTexturesGraphicsComponent extends GameComponent implements I
         }
         for(TextureLayer layer : this.movableLayers) {
             layer.texture.draw(batch);
+            // draw a "ghost" copy of the moving sprite
+            // to ensure a seamless auto loop transition
+            batch.draw(
+                    layer.texture,
+                    layer.texture.getX() + layer.texture.getWidth() + VIRTUAL_WIDTH - layer.texture.getWidth(),
+                    layer.texture.getY(), layer.texture.getWidth(), layer.texture.getHeight());
+
+
         }
         //TODO: implement drawing of movable layers
     }

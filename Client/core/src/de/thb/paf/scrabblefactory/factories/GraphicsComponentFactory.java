@@ -25,6 +25,7 @@ import static de.thb.paf.scrabblefactory.settings.Constants.Files.LEVEL_ATLAS_NA
 import static de.thb.paf.scrabblefactory.settings.Constants.Java.COMPONENTS_PACKAGE;
 import static de.thb.paf.scrabblefactory.settings.Constants.Json.JSON_KEY_NAME;
 import static de.thb.paf.scrabblefactory.settings.Constants.Json.JSON_KEY_TYPE;
+import static de.thb.paf.scrabblefactory.settings.Settings.Game.RESOLUTION;
 import static de.thb.paf.scrabblefactory.settings.Settings.Game.VIRTUAL_SCALE;
 
 /**

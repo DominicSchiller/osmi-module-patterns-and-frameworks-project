@@ -1,6 +1,7 @@
 package de.thb.paf.scrabblefactory.models.components.graphics;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * Represents a basic texture layer  which can be used by the LayeredTexturesGraphicsComponent.
@@ -20,21 +21,25 @@ public class TextureLayer {
     /**
      * The texture's file name
      */
+    @SerializedName("textureName")
     public final String textureName;
 
     /**
      * The texture's alignment
      */
+    @SerializedName("alignment")
     public final Alignment alignment;
 
     /**
      * The layer's margins
      */
+    @SerializedName("margin")
     public final int[] margin;
 
     /**
      * The z-index representing the order in the layer-stack
      */
+    @SerializedName("zIndex")
     public final int zIndex;
 
     /**
