@@ -1,6 +1,9 @@
 package de.thb.paf.scrabblefactory.factories;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
@@ -15,9 +18,11 @@ import java.util.List;
 
 import de.thb.paf.scrabblefactory.io.AssetLoader;
 import de.thb.paf.scrabblefactory.models.IGameObject;
+
 import de.thb.paf.scrabblefactory.models.components.IComponent;
 import de.thb.paf.scrabblefactory.models.components.graphics.Alignment;
 import de.thb.paf.scrabblefactory.models.components.graphics.BasicGraphicsComponent;
+import de.thb.paf.scrabblefactory.models.components.graphics.FontGraphicsComponent;
 import de.thb.paf.scrabblefactory.models.components.graphics.LayeredTexturesGraphicsComponent;
 import de.thb.paf.scrabblefactory.models.components.graphics.SpriteAnimationGraphicsComponent;
 import de.thb.paf.scrabblefactory.models.components.graphics.TextureLayer;
@@ -31,6 +36,7 @@ import static de.thb.paf.scrabblefactory.settings.Constants.Json.JSON_KEY_NAME;
 import static de.thb.paf.scrabblefactory.settings.Constants.Json.JSON_KEY_TYPE;
 import static de.thb.paf.scrabblefactory.settings.Settings.Game.PPM;
 import static de.thb.paf.scrabblefactory.settings.Settings.Game.RESOLUTION;
+import static de.thb.paf.scrabblefactory.settings.Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER;
 import static de.thb.paf.scrabblefactory.settings.Settings.Game.VIRTUAL_SCALE;
 
 /**
@@ -105,6 +111,8 @@ public class GraphicsComponentFactory {
             initLayeredGraphicsComponent(graphicsComponent, parent);
         } else if(graphicsComponent instanceof SpriteAnimationGraphicsComponent) {
             this.initSpriteAnimationGraphicsComponent(graphicsComponent, parent);
+        } else if(graphicsComponent instanceof FontGraphicsComponent) {
+            initFontGraphicsComponent(graphicsComponent, parent);
         }
     }
 
@@ -149,6 +157,49 @@ public class GraphicsComponentFactory {
                 );
             }
         }
+    }
+
+    private void initFontGraphicsComponent(IComponent graphicsComponent, IGameObject parent) {
+        FontGraphicsComponent fontGraphicsComponent = (FontGraphicsComponent)graphicsComponent;
+
+        BitmapFont font = new AssetLoader().loadFont(
+                fontGraphicsComponent.fontAsset,
+                (int)(fontGraphicsComponent.fontSize * VIRTUAL_PIXEL_DENSITY_MULTIPLIER),
+                (int)(fontGraphicsComponent.borderWidth * VIRTUAL_PIXEL_DENSITY_MULTIPLIER),
+                Color.WHITE,
+                Color.BLACK
+        );
+
+        font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        float scaleFactor = RESOLUTION.virtualScaleFactor * 1/VIRTUAL_PIXEL_DENSITY_MULTIPLIER;
+        font.getData().setScale(scaleFactor);
+        fontGraphicsComponent.font = font;
+
+        if(fontGraphicsComponent.isRelativeToParent) {
+            GlyphLayout glyphLayout = new GlyphLayout();
+            glyphLayout.setText(font, "x");
+
+            // calculates the relative position in the parent canvas and apply the padding
+            Vector2 relativePosition = AlignmentHelper.getRelativePosition(
+                    new Vector2(
+                            glyphLayout.width / PPM,
+                            (glyphLayout.height) / PPM
+                    ),
+                    new Vector2(
+                            parent.getSize().x / PPM,
+                            parent.getSize().y / PPM
+                    ),
+                    fontGraphicsComponent.alignment,
+                    fontGraphicsComponent.margin
+            );
+
+            fontGraphicsComponent.position = new Vector2(
+                    parent.getPosition().x + relativePosition.x,
+                    parent.getPosition().y + relativePosition.y
+            );
+        }
+
+        System.out.println();
     }
 
     /**
