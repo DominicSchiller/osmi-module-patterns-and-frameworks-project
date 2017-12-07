@@ -8,10 +8,16 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 
+import de.thb.paf.scrabblefactory.ScrabbleFactory;
 import de.thb.paf.scrabblefactory.io.AssetLoader;
 import de.thb.paf.scrabblefactory.managers.WorldPhysicsManager;
 import de.thb.paf.scrabblefactory.models.assets.FontAsset;
-import de.thb.paf.scrabblefactory.settings.Settings;
+
+import static de.thb.paf.scrabblefactory.settings.Settings.Game.PPM;
+import static de.thb.paf.scrabblefactory.settings.Settings.Game.RESOLUTION;
+import static de.thb.paf.scrabblefactory.settings.Settings.Game.VIRTUAL_HEIGHT;
+import static de.thb.paf.scrabblefactory.settings.Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER;
+import static de.thb.paf.scrabblefactory.settings.Settings.Game.VIRTUAL_WIDTH;
 
 /**
  * Utility class helping visualizing FPS and physical Box2D elements.
@@ -26,7 +32,7 @@ public class VisualGameDebugger {
     /**
      * The debugger's default font size
      */
-    private static final short DEBUG_FONT_SIZE = 12;
+    private static final int DEBUG_FONT_SIZE = 13;
 
     /**
      * The fps counter display
@@ -43,15 +49,17 @@ public class VisualGameDebugger {
      */
     public VisualGameDebugger() {
         //init debug font
+        int size = (int)(DEBUG_FONT_SIZE * VIRTUAL_PIXEL_DENSITY_MULTIPLIER);
         fpsDisplay = new AssetLoader().loadFont(
-                FontAsset.SAN_FRANCISCO,
-                (int)(DEBUG_FONT_SIZE),
+                FontAsset.OPEN_SANS,
+                size,
                 0,
                 new Color(0xcc1331ff),
                 Color.BLACK
         );
         fpsDisplay.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        fpsDisplay.getData().setScale(Settings.Game.VIRTUAL_SCALE, Settings.Game.VIRTUAL_SCALE);
+        float scaleFactor = RESOLUTION.virtualScaleFactor * 1/VIRTUAL_PIXEL_DENSITY_MULTIPLIER;
+        fpsDisplay.getData().setScale(scaleFactor);
 
         // init the debug renderer
         physicsDebugRenderer = new Box2DDebugRenderer();
@@ -65,15 +73,21 @@ public class VisualGameDebugger {
     /**
      * Renders all debug information to screen.
      * @param batch The game's global render batch
-     * @param cameraProjectionMatrix The current camera's projection-view matrix
      */
-    public void render(Batch batch, Matrix4 cameraProjectionMatrix) {
+    public void render(Batch batch) {
+        Matrix4 projectionMatrix = batch.getProjectionMatrix();
+
         batch.begin();
-        fpsDisplay.draw(batch, "fps: " + Gdx.graphics.getFramesPerSecond(), 5, Settings.Game.VIRTUAL_HEIGHT - 12);
+        float x = 5;
+        float y = (VIRTUAL_HEIGHT * PPM) - 12;
+
+        fpsDisplay.draw(batch, "fps: " + Gdx.graphics.getFramesPerSecond(), x, y);
         batch.end();
 
 //        Gdx.gl.glLineWidth(0.5f * GameInfo.VIRTUAL_SCREEN_MULTIPLYER);
         Gdx.gl.glLineWidth(3.0f);
-        physicsDebugRenderer.render(WorldPhysicsManager.getInstance().getPhysicalWorld(), cameraProjectionMatrix);
+        physicsDebugRenderer.render(
+                WorldPhysicsManager.getInstance().getPhysicalWorld(),
+                ScrabbleFactory.getInstance().batch.getProjectionMatrix());
     }
 }

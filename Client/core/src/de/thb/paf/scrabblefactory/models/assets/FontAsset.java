@@ -1,5 +1,7 @@
 package de.thb.paf.scrabblefactory.models.assets;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Enumeration of all available fonts.
  *
@@ -9,8 +11,10 @@ package de.thb.paf.scrabblefactory.models.assets;
  */
 
 public enum FontAsset {
+    @SerializedName("porkys")
     PORKY("porkys"),
-    SAN_FRANCISCO("san-francisco");
+    @SerializedName("open-sans")
+    OPEN_SANS("open-sans");
 
     /**
      * Private Constructor
