@@ -43,6 +43,14 @@ public class AlignmentHelper {
         texture.setPosition(position.x, position.y);
     }
 
+    /**
+     * Calculate the relative position of an object in relation to it's canvas.
+     * @param objectSize The object's size
+     * @param canvasSize The canvas' size
+     * @param alignment The object's alignment
+     * @param margins The object's margin
+     * @return The relative position
+     */
     public static Vector2 getRelativePosition(Vector2 objectSize, Vector2 canvasSize, Alignment alignment, int[] margins) {
         float x, y;
 
@@ -87,10 +95,10 @@ public class AlignmentHelper {
         }
 
         // apply margins
-        x += margins[3] != 0 ? margins[3] / PPM : 0;
-        x -= margins[1] != 0 ? margins[1] / PPM : 0;
-        y -= margins[0] != 0 ? margins[0] / PPM : 0;
-        y += margins[2] != 0 ? margins[2] / PPM : 0;
+        x += margins[3] / PPM;
+        x -= margins[1] / PPM;
+        y -= margins[0] / PPM;
+        y += margins[2] / PPM;
 
         return new Vector2(x, y);
     }
