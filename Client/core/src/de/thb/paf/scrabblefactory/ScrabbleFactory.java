@@ -24,6 +24,8 @@ public class ScrabbleFactory extends Game {
 	 */
 	public SpriteBatch batch;
 
+	public SpriteBatch textBatch;
+
 	/**
 	 * The singleton instance of ScrabbleFactory
 	 */
@@ -54,14 +56,16 @@ public class ScrabbleFactory extends Game {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
+		textBatch = new SpriteBatch();
 
 		SettingsDebugger.printSettings();
 		// TODO: code to remove later on - just for dev demo purpose
-		GameScreenManager.getInstance().setScreen(new MainMenuScreen());
+		GameScreenManager.getInstance().setScreen(new PlayScreen());
 	}
 
 	@Override
 	public void render () {
+
 		super.render();
 	}
 	
