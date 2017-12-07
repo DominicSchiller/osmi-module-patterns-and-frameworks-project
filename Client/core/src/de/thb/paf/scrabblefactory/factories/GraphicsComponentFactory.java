@@ -3,6 +3,7 @@ package de.thb.paf.scrabblefactory.factories;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Vector2;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -15,16 +16,20 @@ import java.util.List;
 import de.thb.paf.scrabblefactory.io.AssetLoader;
 import de.thb.paf.scrabblefactory.models.IGameObject;
 import de.thb.paf.scrabblefactory.models.components.IComponent;
+import de.thb.paf.scrabblefactory.models.components.graphics.Alignment;
+import de.thb.paf.scrabblefactory.models.components.graphics.BasicGraphicsComponent;
 import de.thb.paf.scrabblefactory.models.components.graphics.LayeredTexturesGraphicsComponent;
 import de.thb.paf.scrabblefactory.models.components.graphics.SpriteAnimationGraphicsComponent;
 import de.thb.paf.scrabblefactory.models.components.graphics.TextureLayer;
 import de.thb.paf.scrabblefactory.utils.CloneComponentHelper;
 import de.thb.paf.scrabblefactory.utils.graphics.AlignmentHelper;
 
+import static de.thb.paf.scrabblefactory.settings.Constants.Files.HUD_ATLAS_NAME;
 import static de.thb.paf.scrabblefactory.settings.Constants.Files.LEVEL_ATLAS_NAME;
 import static de.thb.paf.scrabblefactory.settings.Constants.Java.COMPONENTS_PACKAGE;
 import static de.thb.paf.scrabblefactory.settings.Constants.Json.JSON_KEY_NAME;
 import static de.thb.paf.scrabblefactory.settings.Constants.Json.JSON_KEY_TYPE;
+import static de.thb.paf.scrabblefactory.settings.Settings.Game.PPM;
 import static de.thb.paf.scrabblefactory.settings.Settings.Game.RESOLUTION;
 import static de.thb.paf.scrabblefactory.settings.Settings.Game.VIRTUAL_SCALE;
 
@@ -94,10 +99,55 @@ public class GraphicsComponentFactory {
      * @param parent The parent game object
      */
     private void initGfxComponent(IComponent graphicsComponent, IGameObject parent) {
-        if(graphicsComponent instanceof LayeredTexturesGraphicsComponent) {
+        if(graphicsComponent instanceof BasicGraphicsComponent) {
+            initBasicGraphicsComponent(graphicsComponent, parent);
+        } else if(graphicsComponent instanceof LayeredTexturesGraphicsComponent) {
             initLayeredGraphicsComponent(graphicsComponent, parent);
         } else if(graphicsComponent instanceof SpriteAnimationGraphicsComponent) {
             this.initSpriteAnimationGraphicsComponent(graphicsComponent, parent);
+        }
+    }
+
+    private void initBasicGraphicsComponent(IComponent graphicsComponent, IGameObject parent) {
+        TextureAtlas textureAtlas;
+        switch(parent.getAssetTargetType()) {
+            case HUD:
+                textureAtlas = this.assetLoader.loadTextureAtlas(parent.getAssetTargetType(), HUD_ATLAS_NAME, parent.getID());
+                break;
+            default:
+                textureAtlas = null;
+                break;
+        }
+
+        if(textureAtlas != null) {
+            BasicGraphicsComponent basicGraphicsComponent = (BasicGraphicsComponent)graphicsComponent;
+            basicGraphicsComponent.texture = this.initSprite(
+                    textureAtlas,
+                    basicGraphicsComponent.textureName,
+                    basicGraphicsComponent.alignment,
+                    basicGraphicsComponent.margin
+            );
+
+            if(basicGraphicsComponent.isRelativeToParent) {
+                // calculates the relative position in the parent canvas and apply the padding
+                Vector2 relativePosition = AlignmentHelper.getRelativePosition(
+                        new Vector2(
+                                basicGraphicsComponent.texture.getWidth(),
+                                basicGraphicsComponent.texture.getHeight()
+                        ),
+                        new Vector2(
+                                parent.getSize().x / PPM,
+                                parent.getSize().y / PPM
+                        ),
+                        basicGraphicsComponent.alignment,
+                        basicGraphicsComponent.margin
+                );
+
+                basicGraphicsComponent.texture.setPosition(
+                      parent.getPosition().x + relativePosition.x,
+                        parent.getPosition().y + relativePosition.y
+                );
+            }
         }
     }
 
@@ -140,5 +190,24 @@ public class GraphicsComponentFactory {
         ((SpriteAnimationGraphicsComponent)component).setTextures(
                 this.assetLoader.loadTextureAtlases(parent.getAssetTargetType(), parent.getID())
         );
+    }
+
+    private Sprite initSprite(TextureAtlas textureAtlas, String textureName, Alignment alignment, int[] margin) {
+        Sprite texture = new Sprite(textureAtlas.findRegion(textureName));
+
+        texture.setSize(
+                texture.getWidth() * VIRTUAL_SCALE,
+                texture.getHeight() * VIRTUAL_SCALE
+        );
+
+        AlignmentHelper.setRelativeOnScreenPosition(
+                texture,
+                alignment,
+                margin
+        );
+
+        // assign the layer's texture field
+        texture.getTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        return texture;
     }
 }
