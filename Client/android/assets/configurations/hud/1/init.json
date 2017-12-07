@@ -1,0 +1,38 @@
+{
+  "type": "single-player",
+  "componentList": [
+    {
+      "id": 1,
+      "type": "health",
+      "health": 3,
+      "alignment": "top right",
+      "margin": [2, 2, 0, 0],
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "size": {
+        "x": 62,
+        "y": 28
+      },
+      "componentList": [
+        {
+          "name": "BasicGraphicsComponent",
+          "type": "graphics",
+          "textureName": "default_bar",
+          "isRelativeToParent": true,
+          "alignment": "bottom center",
+          "margin": [0, 0, 0, 0]
+        },
+        {
+          "name": "BasicGraphicsComponent",
+          "type": "graphics",
+          "textureName": "apple",
+          "isRelativeToParent": true,
+          "alignment": "bottom left",
+          "margin": [0, 0, 2, 5]
+        }
+      ]
+    }
+  ]
+}

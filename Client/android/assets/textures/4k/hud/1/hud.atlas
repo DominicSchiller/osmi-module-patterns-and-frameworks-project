@@ -1,0 +1,26 @@
+hud.png
+size: 501, 306
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+apple
+  rotate: false
+  xy: 199, 49
+  size: 165, 211
+  orig: 165, 211
+  offset: 0, 0
+  index: -1
+default_bar
+  rotate: false
+  xy: 1, 1
+  size: 499, 46
+  orig: 499, 46
+  offset: 0, 0
+  index: -1
+hour_glass
+  rotate: false
+  xy: 1, 49
+  size: 196, 256
+  orig: 196, 256
+  offset: 0, 0
+  index: -1
