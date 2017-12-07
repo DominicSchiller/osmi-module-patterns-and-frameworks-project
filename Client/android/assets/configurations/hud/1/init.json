@@ -31,6 +31,19 @@
           "isRelativeToParent": true,
           "alignment": "bottom left",
           "margin": [0, 0, 2, 5]
+        },
+        {
+          "name": "FontGraphicsComponent",
+          "type": "graphics",
+          "fontAsset": "porkys",
+          "fontSize": 23,
+          "borderWidth": 1,
+          "fillColor": "ffffff",
+          "borderColor": "000000",
+          "isRelativeToParent": true,
+          "alignment": "bottom left",
+          "margin": [0, 0, 4, 24],
+          "text": "x02"
         }
       ]
     }
