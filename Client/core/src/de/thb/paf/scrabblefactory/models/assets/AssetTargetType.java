@@ -11,6 +11,8 @@ import com.google.gson.annotations.SerializedName;
  */
 
 public enum AssetTargetType {
+    @SerializedName("hud")
+    HUD("hud"),
     @SerializedName("level")
     LEVEL("level"),
     @SerializedName("character")

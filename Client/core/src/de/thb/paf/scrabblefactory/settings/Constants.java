@@ -25,6 +25,11 @@ public class Constants {
         public static final String LEVEL_ATLAS_NAME = "level";
 
         /**
+         * The default name of a hud's texture atlas file
+         */
+        public static final String HUD_ATLAS_NAME = "hud";
+
+        /**
          * Private Constructor
          */
         private Files() {
