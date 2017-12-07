@@ -2,18 +2,17 @@ package de.thb.paf.scrabblefactory;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import de.thb.paf.scrabblefactory.managers.GameScreenManager;
-import de.thb.paf.scrabblefactory.screens.IGameScreen;
-import de.thb.paf.scrabblefactory.screens.MainMenuScreen;
-import de.thb.paf.scrabblefactory.screens.PlayScreen;
+import de.thb.paf.scrabblefactory.screens.HomeScreen;
 import de.thb.paf.scrabblefactory.utils.debug.SettingsDebugger;
 
 /**
  * The global Scrabble Factory game class.
  *
- * @author Dominic Schiller - Technische Hochschule Brandenburg
+ * @author Dominic Schiller, Melanie Steiner - Technische Hochschule Brandenburg
  * @version 1.0
  * @since 1.0
  */
@@ -28,6 +27,11 @@ public class ScrabbleFactory extends Game {
 	 * The singleton instance of ScrabbleFactory
 	 */
 	private static final ScrabbleFactory instance;
+
+	/**
+	 * The asset manager loads the assets
+	 */
+	private final AssetManager assetManager = new AssetManager();
 
 	/**
 	 * static initializer: called when the class is loaded by the JVM
@@ -56,8 +60,14 @@ public class ScrabbleFactory extends Game {
 		batch = new SpriteBatch();
 
 		SettingsDebugger.printSettings();
-		// TODO: code to remove later on - just for dev demo purpose
-		GameScreenManager.getInstance().setScreen(new MainMenuScreen());
+		GameScreenManager.getInstance().setScreen(new HomeScreen());
+	}
+
+	/**
+	 * Get the AssetManager instance.
+	 */
+	public AssetManager getAssetManager(){
+		return assetManager;
 	}
 
 	@Override

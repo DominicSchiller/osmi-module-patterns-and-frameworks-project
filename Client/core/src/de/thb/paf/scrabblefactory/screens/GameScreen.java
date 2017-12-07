@@ -20,6 +20,7 @@ public abstract class GameScreen implements IGameScreen {
         this.state = state;
     }
 
+
     @Override
     public ScreenState getState() {
         return this.state;

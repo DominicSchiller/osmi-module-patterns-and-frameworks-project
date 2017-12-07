@@ -1,8 +1,15 @@
 package de.thb.paf.scrabblefactory.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 
 import java.util.List;
 
@@ -26,7 +33,7 @@ import static de.thb.paf.scrabblefactory.settings.Settings.Game.VIRTUAL_WIDTH;
 /**
  * Represents the play screen where all single and multi-player levels take place.
  *
- * @author Dominic Schiller - Technische Hochschule Brandenburg
+ * @author Dominic Schiller, Melanie Steiner - Technische Hochschule Brandenburg
  * @version 1.0
  * @since 1.0
  */
@@ -36,6 +43,8 @@ public class PlayScreen extends GameScreen {
     private OrthographicCamera camera;
     private ILevel level;
     private IEntity player;
+    private Texture pauseTexture, pausePressTexture;
+    private Stage stage;
 
     /**
      * Default Constructor
@@ -61,11 +70,32 @@ public class PlayScreen extends GameScreen {
     @Override
     public void show() {
 
+        /**
+         * Level sound and music
+         */
+        Music levelmusic = Gdx.audio.newMusic(Gdx.files.internal("data/alrightlevel.mp3"));
+        levelmusic.setLooping(true);
+        levelmusic.play();
+
+        /**
+         * All level assets
+         */
         this.level = new LevelFactory().getLevel(1);
         this.player = new EntityFactory().getEntity(EntityType.PLAYER, 1);
         this.debugRenderer = new VisualGameDebugger();
 
-        // TODO: Implement here...
+        /**
+         * All navigation elements
+         */
+        pauseTexture = new Texture(Gdx.files.internal("tap.png"));
+        pausePressTexture = new Texture(Gdx.files.internal("tapPressed.png"));
+
+        ImageButton start = new ImageButton(new TextureRegionDrawable(new TextureRegion(pauseTexture)), new TextureRegionDrawable(new TextureRegion(pausePressTexture)));
+
+        this.stage = new Stage();
+        this.stage.addActor(start);
+
+
     }
 
     @Override
@@ -98,6 +128,7 @@ public class PlayScreen extends GameScreen {
 //                this.camera.combined.cpy().scl(PPM)
                 this.camera.combined
         );
+
     }
 
     @Override
