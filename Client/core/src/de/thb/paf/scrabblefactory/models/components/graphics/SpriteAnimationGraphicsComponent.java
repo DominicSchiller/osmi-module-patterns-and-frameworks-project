@@ -187,6 +187,8 @@ public class SpriteAnimationGraphicsComponent extends GameComponent implements I
 
     @Override
     public void render(Batch batch) {
+        batch.begin();
+
         Vector2 position = this.getParent().getPosition();
         TextureRegion texture = this.animation.getKeyFrame(this.elapsedTime, this.isInfiniteLoop);
         float width = texture.getRegionWidth()  * Settings.Game.VIRTUAL_SCALE;
@@ -199,6 +201,8 @@ public class SpriteAnimationGraphicsComponent extends GameComponent implements I
                 height
 
         );
+
+        batch.end();
     }
 
     /**

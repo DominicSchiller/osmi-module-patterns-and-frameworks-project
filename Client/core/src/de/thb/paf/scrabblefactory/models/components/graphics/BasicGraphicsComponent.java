@@ -84,7 +84,9 @@ public class BasicGraphicsComponent extends GameComponent implements IGraphicsCo
 
     @Override
     public void render(Batch batch) {
+        batch.begin();
         this.texture.draw(batch);
+        batch.end();
     }
 
 }

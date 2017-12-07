@@ -63,6 +63,7 @@ public class LayeredTexturesGraphicsComponent extends GameComponent implements I
 
     @Override
     public void render(Batch batch) {
+        batch.begin();
         for(TextureLayer layer : this.staticLayers) {
             layer.texture.draw(batch);
         }
@@ -77,7 +78,7 @@ public class LayeredTexturesGraphicsComponent extends GameComponent implements I
 
 
         }
-        //TODO: implement drawing of movable layers
+        batch.end();
     }
 
     /**

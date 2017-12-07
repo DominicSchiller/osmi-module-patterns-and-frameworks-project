@@ -32,7 +32,7 @@ public enum Alignment {
     @SerializedName("bottom left")
     BOTTOM_LEFT,
 
-    @SerializedName("bottom center")
+    @SerializedName("bottom right")
     BOTTOM_RIGHT,
 
     @SerializedName("bottom center")
