@@ -116,6 +116,12 @@ public class GraphicsComponentFactory {
         }
     }
 
+    /**
+     * Initializes the content of a base sprite graphics component.
+     * @param graphicsComponent The graphics component to assemble the content for
+     * @param parent The parent game object
+     * @see BasicGraphicsComponent
+     */
     private void initBasicGraphicsComponent(IComponent graphicsComponent, IGameObject parent) {
         TextureAtlas textureAtlas;
         switch(parent.getAssetTargetType()) {
@@ -159,6 +165,12 @@ public class GraphicsComponentFactory {
         }
     }
 
+    /**
+     * Initializes the content of a font graphics component.
+     * @param graphicsComponent The graphics component to assemble the content for
+     * @param parent The parent game object
+     * @see FontGraphicsComponent
+     */
     private void initFontGraphicsComponent(IComponent graphicsComponent, IGameObject parent) {
         FontGraphicsComponent fontGraphicsComponent = (FontGraphicsComponent)graphicsComponent;
 
@@ -236,13 +248,27 @@ public class GraphicsComponentFactory {
         }
     }
 
-    private void initSpriteAnimationGraphicsComponent(IComponent component, IGameObject parent) {
+    /**
+     * Initializes the content of a sprite animation graphics component.
+     * @param graphicsComponent The graphics component to assemble the content for
+     * @param parent The parent game object
+     * @see SpriteAnimationGraphicsComponent
+     */
+    private void initSpriteAnimationGraphicsComponent(IComponent graphicsComponent, IGameObject parent) {
         // init texture atlases
-        ((SpriteAnimationGraphicsComponent)component).setTextures(
+        ((SpriteAnimationGraphicsComponent)graphicsComponent).setTextures(
                 this.assetLoader.loadTextureAtlases(parent.getAssetTargetType(), parent.getID())
         );
     }
 
+    /**
+     * Initialize a sprite texture
+     * @param textureAtlas The texture atlas to load the texture from
+     * @param textureName The texture's name to load
+     * @param alignment The sprite's relative on screen position
+     * @param margin The sprite's relative on screen margin
+     * @return The initialized sprite instance
+     */
     private Sprite initSprite(TextureAtlas textureAtlas, String textureName, Alignment alignment, int[] margin) {
         Sprite texture = new Sprite(textureAtlas.findRegion(textureName));
 
