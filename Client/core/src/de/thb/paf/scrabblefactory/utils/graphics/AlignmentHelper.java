@@ -34,31 +34,41 @@ public class AlignmentHelper {
      * @param margins The object's outer margins
      */
     public static void setRelativeOnScreenPosition(Sprite texture, Alignment alignment, int[] margins) {
+        Vector2 position = getRelativePosition(
+                new Vector2(texture.getWidth(), texture.getHeight()),
+                new Vector2(VIRTUAL_WIDTH, VIRTUAL_HEIGHT),
+                alignment,
+                margins
+        );
+        texture.setPosition(position.x, position.y);
+    }
+
+    public static Vector2 getRelativePosition(Vector2 objectSize, Vector2 canvasSize, Alignment alignment, int[] margins) {
         float x, y;
 
         switch(alignment) {
             case CENTER_LEFT:
                 x = 0;
-                y = VIRTUAL_HEIGHT / 2 - texture.getHeight() / 2;
+                y = canvasSize.y / 2 - objectSize.x / 2;
                 break;
             case CENTER_RIGHT:
-                x = VIRTUAL_WIDTH - texture.getWidth();
-                y = VIRTUAL_HEIGHT / 2 - texture.getHeight() / 2;
+                x = canvasSize.x - objectSize.x;
+                y = canvasSize.y / 2 - objectSize.y / 2;
                 break;
             case TOP_CENTER:
-                x = VIRTUAL_WIDTH / 2 - texture.getWidth() / 2;
-                y = VIRTUAL_HEIGHT - texture.getHeight();
+                x = canvasSize.x / 2 - objectSize.x / 2;
+                y = canvasSize.y - objectSize.y;
                 break;
             case TOP_LEFT:
                 x = 0;
-                y = VIRTUAL_HEIGHT - texture.getHeight();
+                y = canvasSize.y - objectSize.y;
                 break;
             case TOP_RIGHT:
-                x = VIRTUAL_WIDTH - texture.getWidth();
-                y = VIRTUAL_HEIGHT - texture.getHeight();
+                x = canvasSize.x - objectSize.x;
+                y = canvasSize.y - objectSize.y;
                 break;
             case BOTTOM_CENTER:
-                x = VIRTUAL_WIDTH / 2 - texture.getWidth() / 2;
+                x = canvasSize.x / 2 - objectSize.x / 2;
                 y = 0;
                 break;
             case BOTTOM_LEFT:
@@ -66,13 +76,13 @@ public class AlignmentHelper {
                 y = 0;
                 break;
             case BOTTOM_RIGHT:
-                x = VIRTUAL_WIDTH - texture.getWidth();
+                x = canvasSize.x - objectSize.x;
                 y = 0;
                 break;
             case MIDDLE:
             default:
-                x = VIRTUAL_WIDTH / 2 - texture.getWidth() / 2;
-                y = VIRTUAL_HEIGHT / 2 - texture.getHeight() / 2;
+                x = canvasSize.x / 2 - objectSize.x / 2;
+                y = canvasSize.y / 2 - objectSize.y / 2;
                 break;
         }
 
@@ -82,7 +92,7 @@ public class AlignmentHelper {
         y -= margins[0] != 0 ? margins[0] / PPM : 0;
         y += margins[2] != 0 ? margins[2] / PPM : 0;
 
-        texture.setPosition(x, y);
+        return new Vector2(x, y);
     }
 
     /**
