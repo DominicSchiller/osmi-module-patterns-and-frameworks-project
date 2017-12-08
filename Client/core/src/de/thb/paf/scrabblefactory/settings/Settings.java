@@ -25,6 +25,21 @@ import static de.thb.paf.scrabblefactory.settings.Settings.App.DEVICE_SCREEN_WID
 public final class Settings {
 
     /**
+     * Private constructor
+     */
+    private Settings() {
+        // this is a plain static class
+    }
+
+    /**
+     * Update variable settings.
+     */
+    public static void update() {
+        Settings.App.update();
+        Settings.Game.update();
+    }
+
+    /**
      * Settings section embracing all application relevant settings.
      *
      * @author Dominic Schiller - Technische Hochschule Brandenburg
@@ -41,12 +56,12 @@ public final class Settings {
         /**
          * The devices current screen width
          */
-        public static final int DEVICE_SCREEN_WIDTH = Gdx.graphics.getWidth();
+        public static int DEVICE_SCREEN_WIDTH;
 
         /**
          * The device's current screen height
          */
-        public static int DEVICE_SCREEN_HEIGHT = Gdx.graphics.getHeight();
+        public static int DEVICE_SCREEN_HEIGHT;
 
         /**
          * The frames per seconds count:
@@ -54,11 +69,23 @@ public final class Settings {
          */
         public static final int FPS = 60;
 
+        static {
+            update();
+        }
+
         /**
          * Private constructor
          */
         private App() {
             // this is a plain static class
+        }
+
+        /**
+         * Update variable app settings.
+         */
+        public static void update() {
+            DEVICE_SCREEN_WIDTH = Gdx.graphics.getWidth();
+            DEVICE_SCREEN_HEIGHT = Gdx.graphics.getHeight();
         }
     }
 
@@ -89,22 +116,26 @@ public final class Settings {
         /**
          * The device's screen aspect ratio
          */
-        public static ScreenAspectRatio ASPECT_RATIO = DeviceDimensionsHelper.calculateAspectRatio(DEVICE_SCREEN_WIDTH, DEVICE_SCREEN_HEIGHT);
+        public static ScreenAspectRatio ASPECT_RATIO;
 
         /**
          * The device's screen resolution
          */
-        public static ScreenResolution RESOLUTION = DeviceDimensionsHelper.calculateScreenResolution(DEVICE_SCREEN_WIDTH);
+        public static ScreenResolution RESOLUTION;
 
         /**
          * The virtual scale factor to adjust texture's scaling
          */
-        public static float VIRTUAL_SCALE = DeviceDimensionsHelper.calculateVirtualScale();
+        public static float VIRTUAL_SCALE;
 
         /**
          * The virtual pixel density multiplier
          */
-        public static float VIRTUAL_PIXEL_DENSITY_MULTIPLIER = DeviceDimensionsHelper.calculateScreenMultiplier();
+        public static float VIRTUAL_PIXEL_DENSITY_MULTIPLIER;
+
+        static {
+            update();
+        }
 
         /**
          * Private constructor
@@ -112,13 +143,15 @@ public final class Settings {
         private Game() {
             // this is a plain static class
         }
-    }
 
-    /**
-     * Private constructor
-     */
-    private Settings() {
-        // this is a plain static class
+        /**
+         * Update variable game settings.
+         */
+        public static void update() {
+            ASPECT_RATIO = DeviceDimensionsHelper.calculateAspectRatio(DEVICE_SCREEN_WIDTH, DEVICE_SCREEN_HEIGHT);
+            RESOLUTION = DeviceDimensionsHelper.calculateScreenResolution(DEVICE_SCREEN_WIDTH);
+            VIRTUAL_SCALE = DeviceDimensionsHelper.calculateVirtualScale();
+            VIRTUAL_PIXEL_DENSITY_MULTIPLIER = DeviceDimensionsHelper.calculateScreenMultiplier();
+        }
     }
-
 }
