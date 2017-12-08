@@ -210,8 +210,6 @@ public class GraphicsComponentFactory {
                     parent.getPosition().y + relativePosition.y
             );
         }
-
-        System.out.println();
     }
 
     /**
@@ -256,8 +254,13 @@ public class GraphicsComponentFactory {
      */
     private void initSpriteAnimationGraphicsComponent(IComponent graphicsComponent, IGameObject parent) {
         // init texture atlases
-        ((SpriteAnimationGraphicsComponent)graphicsComponent).setTextures(
-                this.assetLoader.loadTextureAtlases(parent.getAssetTargetType(), parent.getID())
+        SpriteAnimationGraphicsComponent animationGraphicsComponent = (SpriteAnimationGraphicsComponent)graphicsComponent;
+        animationGraphicsComponent.setTextures(
+                this.assetLoader.loadTextureAtlases(
+                        parent.getAssetTargetType(),
+                        animationGraphicsComponent.atlasNames,
+                        parent.getID()
+                )
         );
     }
 
