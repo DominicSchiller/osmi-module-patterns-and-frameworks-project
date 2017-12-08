@@ -1,13 +1,11 @@
 package de.thb.paf.scrabblefactory;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import de.thb.paf.scrabblefactory.managers.GameScreenManager;
-import de.thb.paf.scrabblefactory.screens.IGameScreen;
-import de.thb.paf.scrabblefactory.screens.MainMenuScreen;
 import de.thb.paf.scrabblefactory.screens.PlayScreen;
+import de.thb.paf.scrabblefactory.settings.Settings;
 import de.thb.paf.scrabblefactory.utils.debug.SettingsDebugger;
 
 /**
@@ -24,6 +22,9 @@ public class ScrabbleFactory extends Game {
 	 */
 	public SpriteBatch batch;
 
+	/**
+	 * The global sprite batch to render font typefaces with
+	 */
 	public SpriteBatch textBatch;
 
 	/**
@@ -58,17 +59,24 @@ public class ScrabbleFactory extends Game {
 		batch = new SpriteBatch();
 		textBatch = new SpriteBatch();
 
-		SettingsDebugger.printSettings();
 		// TODO: code to remove later on - just for dev demo purpose
 		GameScreenManager.getInstance().setScreen(new PlayScreen());
 	}
 
 	@Override
 	public void render () {
-
 		super.render();
 	}
-	
+
+	@Override
+	public void resize(int width, int height) {
+		// update global settings first
+		Settings.update();
+		SettingsDebugger.printSettings();
+		// then notify the active set screen to resize
+		super.resize(width, height);
+	}
+
 	@Override
 	public void dispose () {
 		batch.dispose();
