@@ -21,6 +21,8 @@ import de.thb.paf.scrabblefactory.models.assets.AssetType;
 import de.thb.paf.scrabblefactory.models.assets.FontAsset;
 import de.thb.paf.scrabblefactory.settings.Settings;
 
+import static de.thb.paf.scrabblefactory.models.assets.AssetFileType.TEXTURE_ATLAS;
+
 /**
  * Input Reader responsible for loading all supported types of assets from the app's global
  * asset directory.
@@ -76,29 +78,30 @@ public class AssetLoader {
     /**
      * Loads a all texture atlases from asset target's directory.
      * @param assetTargetType The asset's target type
+     * @param atlasNames List of atlas names to load
      * @param assetID The asset's unique identifier (optional parameter)
      * @return Map of all loaded texture atlases organized by it's atlas name
      */
-    public Map<String, TextureRegion[]> loadTextureAtlases(AssetTargetType assetTargetType, int... assetID) {
+    public Map<String, TextureRegion[]> loadTextureAtlases(AssetTargetType assetTargetType, String[] atlasNames, int... assetID) {
         String atlasesRootPath = AssetType.TEXTURE.path + "/" + Settings.Game.RESOLUTION.name + "/" + assetTargetType.path;
         if(assetID.length > 0) {
-            atlasesRootPath += "/" + assetID[0];
+            atlasesRootPath += "/" + assetID[0] + "/";
         }
 
-        FileHandle dirFileHandle = this.getFileHandle(atlasesRootPath);
-        FileHandle[] atlasFileHandles = dirFileHandle.list();
-
         HashMap<String, TextureRegion[]> textures = new HashMap<>();
-        if(atlasFileHandles.length > 0) {
-            for(FileHandle fileHandle: atlasFileHandles) {
-                System.out.println();
-                String fileName = fileHandle.file().getName();
-                if(fileName.contains(AssetFileType.TEXTURE_ATLAS.fileEnding)) {
-                    textures.put(
-                            fileName.replace(AssetFileType.TEXTURE_ATLAS.fileEnding, ""),
-                            new TextureAtlas(fileHandle).getRegions().toArray()
-                    );
+        if(atlasNames.length > 0) {
+            for(String atlasName: atlasNames) {
+                String filePath;
+                if(!atlasName.contains(TEXTURE_ATLAS.fileEnding)) {
+                    filePath = atlasesRootPath + atlasName + TEXTURE_ATLAS.fileEnding;
+                } else {
+                    filePath = atlasesRootPath + atlasName;
                 }
+
+                textures.put(
+                        atlasName,
+                        new TextureAtlas(this.getFileHandle(filePath)).getRegions().toArray()
+                );
             }
         }
 
@@ -117,7 +120,7 @@ public class AssetLoader {
         if(assetID.length > 0) {
             atlasPath += "/" + assetID[0];
         }
-        atlasPath += "/" + atlasName + AssetFileType.TEXTURE_ATLAS.fileEnding;
+        atlasPath += "/" + atlasName + TEXTURE_ATLAS.fileEnding;
 
         TextureAtlas textureAtlas = new TextureAtlas(this.getFileHandle(atlasPath));
         return textureAtlas;
