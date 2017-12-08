@@ -21,6 +21,9 @@
     {
       "name": "SpriteAnimationGraphicsComponent",
       "type": "graphics",
+      "atlasNames": [
+        "idle"
+      ],
       "selectedAtlasName": "idle",
       "isInfiniteLoop": true,
       "fps": "30"
