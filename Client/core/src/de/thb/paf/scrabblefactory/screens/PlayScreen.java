@@ -66,59 +66,58 @@ public class PlayScreen extends GameScreen {
     @Override
     public void update(float deltaTime) {
         // TODO: Implement here...
-        this.level.update(deltaTime);
-        this.player.update(deltaTime);
+        if(this.isInitialized) {
+            this.level.update(deltaTime);
+            this.player.update(deltaTime);
+        }
     }
 
     @Override
     public void show() {
-
         this.level = new LevelFactory().getLevel(1);
         this.hud = new HUDSystemFactory().getHUDSystem(HUDSystemType.SINGLE_PLAYER_HUD);
         this.player = new EntityFactory().getEntity(EntityType.PLAYER, 1);
         this.debugRenderer = new VisualGameDebugger();
 
-        // TODO: Implement here...
+        this.isInitialized = true;
     }
 
     @Override
     public void render(float delta) {
 
-        // update the screen first before rendering it's content
-        this.update(delta);
+        // just render the content if initialized so far
+        if(this.isInitialized) {
+            // update the screen first before rendering it's content
+            this.update(delta);
 
-        Gdx.gl.glClearColor(1/255f, 8/255f, 15/255f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+            Gdx.gl.glClearColor(1/255f, 8/255f, 15/255f, 1);
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        Batch batch = ScrabbleFactory.getInstance().batch;
-        Batch textBatch = ScrabbleFactory.getInstance().textBatch;
+            Batch batch = ScrabbleFactory.getInstance().batch;
+            Batch textBatch = ScrabbleFactory.getInstance().textBatch;
 
-        //TODO Implement more elegant method to render components
-        List<IComponent> components = this.level.getAllComponents(ComponentType.GFX_COMPONENT);
-        for(IComponent component : components) {
-            ((IGraphicsComponent) component).render(batch);
-        }
-
-        components = this.player.getAllComponents(ComponentType.GFX_COMPONENT);
-        for(IComponent component : components) {
-            ((IGraphicsComponent) component).render(batch);
-        }
-
-        // render HUD components
-        List<IHUDComponent> hudComponents = this.hud.getHUDComponents();
-        for(IGameObject hudComponent: hudComponents) {
-            components = hudComponent.getAllComponents(ComponentType.GFX_COMPONENT);
+            //TODO Implement more elegant method to render components
+            List<IComponent> components = this.level.getAllComponents(ComponentType.GFX_COMPONENT);
             for(IComponent component : components) {
                 ((IGraphicsComponent) component).render(batch);
             }
+
+            components = this.player.getAllComponents(ComponentType.GFX_COMPONENT);
+            for(IComponent component : components) {
+                ((IGraphicsComponent) component).render(batch);
+            }
+
+            // render HUD components
+            List<IHUDComponent> hudComponents = this.hud.getHUDComponents();
+            for(IGameObject hudComponent: hudComponents) {
+                components = hudComponent.getAllComponents(ComponentType.GFX_COMPONENT);
+                for(IComponent component : components) {
+                    ((IGraphicsComponent) component).render(batch);
+                }
+            }
+
+            this.debugRenderer.render(textBatch);
         }
-
-        this.debugRenderer.render(textBatch);
-    }
-
-    @Override
-    public void resize(int width, int height) {
-        // TODO: Implement here...
     }
 
     @Override
