@@ -39,6 +39,11 @@ public class SpriteAnimationGraphicsComponent extends GameComponent implements I
     private Animation<TextureRegion> animation;
 
     /**
+     * Names of all associated animation atlas files
+     */
+    public String[] atlasNames;
+
+    /**
      * The currently selected texture atlases key
      */
     private String selectedAtlasName;
