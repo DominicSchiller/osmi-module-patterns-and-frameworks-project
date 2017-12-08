@@ -85,7 +85,7 @@ public class DeviceDimensionsHelper {
                 scaleFactor = VIRTUAL_WIDTH / (DEVICE_SCREEN_WIDTH / PPM);
                 break;
             case FOUR_TO_THREE:
-                scaleFactor = VIRTUAL_HEIGHT / (DEVICE_SCREEN_HEIGHT / PPM);
+                scaleFactor = VIRTUAL_WIDTH / (DEVICE_SCREEN_HEIGHT/ PPM);
                 break;
         }
         return (scaleFactor * RESOLUTION.virtualScaleFactor) / PPM;
@@ -105,7 +105,7 @@ public class DeviceDimensionsHelper {
                 multiplier = (float) Math.floor((DEVICE_SCREEN_WIDTH / PPM) / (float)VIRTUAL_WIDTH);
                 break;
             case FOUR_TO_THREE:
-                multiplier = (float) Math.floor((DEVICE_SCREEN_HEIGHT / PPM) / (float) VIRTUAL_HEIGHT);
+                multiplier = (float) Math.floor((DEVICE_SCREEN_HEIGHT / PPM) / (float)VIRTUAL_WIDTH);
                 break;
         }
 
