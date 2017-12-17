@@ -18,7 +18,7 @@
       "componentList": [
         {
           "name": "BasicGraphicsComponent",
-          "type": "graphics",
+          "javaPackage": "de.thb.paf.scrabblefactory.models.components.graphics",
           "textureName": "default_bar",
           "isRelativeToParent": true,
           "alignment": "bottom center",
@@ -26,7 +26,7 @@
         },
         {
           "name": "BasicGraphicsComponent",
-          "type": "graphics",
+          "javaPackage": "de.thb.paf.scrabblefactory.models.components.graphics",
           "textureName": "apple",
           "isRelativeToParent": true,
           "alignment": "bottom left",
@@ -34,7 +34,7 @@
         },
         {
           "name": "FontGraphicsComponent",
-          "type": "graphics",
+          "javaPackage": "de.thb.paf.scrabblefactory.models.components.graphics",
           "fontAsset": "porkys",
           "fontSize": 23,
           "borderWidth": 1,
