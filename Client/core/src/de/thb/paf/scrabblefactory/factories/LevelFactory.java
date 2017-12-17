@@ -11,11 +11,15 @@ import de.thb.paf.scrabblefactory.io.AssetLoader;
 import de.thb.paf.scrabblefactory.managers.GameObjectManager;
 import de.thb.paf.scrabblefactory.models.assets.AssetTargetType;
 import de.thb.paf.scrabblefactory.models.components.IComponent;
+import de.thb.paf.scrabblefactory.models.components.graphics.IGraphicsComponent;
+import de.thb.paf.scrabblefactory.models.components.physics.IPhysicsComponent;
 import de.thb.paf.scrabblefactory.models.level.BasicLevel;
 import de.thb.paf.scrabblefactory.models.level.ILevel;
+import de.thb.paf.scrabblefactory.utils.ScrabbleFactoryClassLoader;
 
 import static de.thb.paf.scrabblefactory.settings.Constants.Json.JSON_KEY_COMPONENTS;
-import static de.thb.paf.scrabblefactory.settings.Constants.Json.JSON_KEY_TYPE;
+import static de.thb.paf.scrabblefactory.settings.Constants.Json.JSON_KEY_JAVA_PACKAGE;
+import static de.thb.paf.scrabblefactory.settings.Constants.Json.JSON_KEY_NAME;
 
 /**
  * Factory class dedicated to create and assemble new level instances.
@@ -52,21 +56,20 @@ public class LevelFactory {
         // init components
         List<IComponent> components = new ArrayList<>();
         JsonArray componentDefinitions = levelConfig.get(JSON_KEY_COMPONENTS).getAsJsonArray();
-        for(int i=0; i<componentDefinitions.size(); i++) {
 
+        for(int i=0; i<componentDefinitions.size(); i++) {
             JsonObject componentDef = componentDefinitions.get(i).getAsJsonObject();
-            String componentType = componentDef.get(JSON_KEY_TYPE).getAsString();
+            String componentName = componentDef.get(JSON_KEY_NAME).getAsString();
+            String javaPackageName = componentDef.get(JSON_KEY_JAVA_PACKAGE).getAsString();
+            Class<?> componentType = ScrabbleFactoryClassLoader.getClassForName(javaPackageName, componentName);
 
             IComponent component = null;
-            switch(componentType) {
-                case "graphics":
-                    component = new GraphicsComponentFactory(this.assetLoader)
-                            .getGfxComponent(componentDef, level);
-                    break;
-                case "physics":
-                     component = new PhysicsComponentFactory(this.assetLoader)
-                            .getPhysComponent(componentDef, level);
-                    break;
+            if(IPhysicsComponent.class.isAssignableFrom(componentType)) {
+                component = new PhysicsComponentFactory(this.assetLoader)
+                        .getPhysComponent(componentType, componentDef, level);
+            } else if(IGraphicsComponent.class.isAssignableFrom(componentType)) {
+                component = new GraphicsComponentFactory(this.assetLoader)
+                        .getGfxComponent(componentType, componentDef, level);
             }
 
             if(component != null) {
