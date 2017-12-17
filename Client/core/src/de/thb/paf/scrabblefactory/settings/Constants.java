@@ -45,28 +45,6 @@ public class Constants {
     }
 
     /**
-     * Collection of global Java related constants.
-     *
-     * @author Dominic Schiller - Technische Hochschule Brandenburg
-     * @version 1.0
-     * @since 1.0
-     */
-    public static class Java {
-
-        /**
-         * The component's full java package path
-         */
-        public static final String COMPONENTS_PACKAGE = "de.thb.paf.scrabblefactory.models.components.";
-
-        /**
-         * Private Constructor
-         */
-        private Java() {
-            // this is a static class
-        }
-    }
-
-    /**
      * Collection of global Json related constants.
      *
      * @author Dominic Schiller - Technische Hochschule Brandenburg
@@ -89,6 +67,11 @@ public class Constants {
          * Key to access the 'type' attribute from a JSON Object
          */
         public static final String JSON_KEY_TYPE = "type";
+
+        /**
+         * Key to access the 'type' attribute from a JSON Object
+         */
+        public static final String JSON_KEY_JAVA_PACKAGE = "javaPackage";
 
         /**
          * Private Constructor
