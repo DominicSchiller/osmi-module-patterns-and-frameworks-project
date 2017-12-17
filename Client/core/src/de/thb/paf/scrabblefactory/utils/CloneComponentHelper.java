@@ -1,8 +1,9 @@
 package de.thb.paf.scrabblefactory.utils;
 
 import java.lang.reflect.Field;
-
-import de.thb.paf.scrabblefactory.models.components.IComponent;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Utility class which helps cloning a component's data to another component.
@@ -22,32 +23,57 @@ public class CloneComponentHelper {
     }
 
     /**
-     * Clones all field values from the passed source component to the passed destination component.
-     * @param srcComponent The source component to clone all field values form
-     * @param destComponent The destination component to set all the cloned field values to
+     * Clones all field values from the passed source object to the passed destination object.
+     * @param srcObject The source object to clone all field values from
+     * @param destObject The destination objectto set all the cloned field values to
      */
-    public static void cloneFieldValues(IComponent srcComponent, IComponent destComponent) {
-        Field[] thisFields = srcComponent.getClass().getDeclaredFields();
-        Field[] superFields = srcComponent.getClass().getSuperclass().getDeclaredFields();
-        Field[] fields = new Field[thisFields.length + superFields.length];
-        System.arraycopy(thisFields, 0, fields, 0, thisFields.length);
-        System.arraycopy(superFields, 0, fields, thisFields.length, superFields.length);
+    public static void cloneFieldValues(Object srcObject, Object destObject) {
+        List<Field> fields = new ArrayList<>();
+        fields.addAll(Arrays.asList(srcObject.getClass().getDeclaredFields()));
+
+        boolean hasSuperClass = true;
+        Class<?> classReference = srcObject.getClass();
+        do {
+            Class<?> superClass = classReference.getSuperclass();
+            if(superClass != null && classReference != superClass) {
+                classReference = superClass;
+                Field[] superFields = superClass.getDeclaredFields();
+                fields.addAll((Arrays.asList(superFields)));
+            } else {
+                hasSuperClass = false;
+            }
+        } while(hasSuperClass);
 
         for(Field field : fields) {
-            try {
-                Field otherField = destComponent.getClass().getDeclaredField(field.getName());
-                otherField.setAccessible(true);
-                Object fieldValue = otherField.get(destComponent);
+            copyFieldValues(field, srcObject, destObject, destObject.getClass());
+        }
+    }
 
-                if(fieldValue != null) {
-                    field.setAccessible(true);
-                    field.set(srcComponent, fieldValue);
-                }
-            } catch (NoSuchFieldException | IllegalAccessException e) {
-                // we can safely ignore this case:
-                // because we're just copying. But if there's
-                // nothing to copy from we continue with the next possibly known field
+    /**
+     * Copy assigned field value from source to destination object.
+     * @param field The field to copy the value from
+     * @param srcObject The source object
+     * @param destObject The destination object
+     * @param srcClassType the source class type
+     */
+    private static void copyFieldValues(Field field, Object srcObject, Object destObject, Class<?> srcClassType) {
+        try {
+            Field srcField = srcClassType.getDeclaredField(field.getName());
+            srcField.setAccessible(true);
+            Object srcFieldValue = srcField.get(srcObject);
+
+            if(srcFieldValue != null) {
+                field.setAccessible(true);
+                field.set(destObject, srcFieldValue);
             }
+        } catch (NoSuchFieldException e) {
+            Class<?> srcSuperClass = srcClassType.getSuperclass();
+            if(srcSuperClass != null && srcSuperClass != srcClassType) {
+                // try to get the field value from the super class
+                copyFieldValues(field, srcObject, destObject, srcSuperClass);
+            }
+        } catch(IllegalAccessException e) {
+            System.out.println("");
         }
     }
 }
