@@ -20,20 +20,46 @@
   "componentList": [
     {
       "name": "SpriteAnimationGraphicsComponent",
-      "type": "graphics",
+      "javaPackage": "de.thb.paf.scrabblefactory.models.components.graphics",
       "atlasNames": [
-        "idle"
+        "idle",
+        "walking",
+        "jumping"
       ],
       "selectedAtlasName": "idle",
       "isInfiniteLoop": true,
-      "fps": "30"
+      "fps": "30",
+      "actions": [
+        {
+          "name": "SpriteAnimationMoveAction",
+          "javaPackage": "de.thb.paf.scrabblefactory.models.actions",
+          "eventsToHandle": [
+            "move"
+          ]
+        }
+      ]
     },
     {
       "name": "RigidBodyPhysicsComponent",
-      "type": "physics",
+      "javaPackage": "de.thb.paf.scrabblefactory.models.components.physics",
+      "velocity": {
+        "x": 0.5,
+        "y": 0.75
+      },
       "activeBodyName": "idle",
       "bodyKeys": [
-        "idle"
+        "idle",
+        "idle_flipped",
+        "jumping"
+      ],
+      "actions": [
+        {
+          "name": "RigidBodyMoveAction",
+          "javaPackage": "de.thb.paf.scrabblefactory.models.actions",
+          "eventsToHandle": [
+            "move"
+          ]
+        }
       ]
     }
   ]
