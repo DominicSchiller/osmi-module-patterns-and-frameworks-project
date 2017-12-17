@@ -13,13 +13,17 @@ import de.thb.paf.scrabblefactory.io.AssetLoader;
 import de.thb.paf.scrabblefactory.managers.GameObjectManager;
 import de.thb.paf.scrabblefactory.models.assets.AssetTargetType;
 import de.thb.paf.scrabblefactory.models.components.IComponent;
+import de.thb.paf.scrabblefactory.models.components.graphics.IGraphicsComponent;
+import de.thb.paf.scrabblefactory.models.components.physics.IPhysicsComponent;
 import de.thb.paf.scrabblefactory.models.entities.EntityType;
 import de.thb.paf.scrabblefactory.models.entities.IEntity;
 import de.thb.paf.scrabblefactory.models.entities.Player;
 import de.thb.paf.scrabblefactory.settings.Settings;
+import de.thb.paf.scrabblefactory.utils.ScrabbleFactoryClassLoader;
 
 import static de.thb.paf.scrabblefactory.settings.Constants.Json.JSON_KEY_COMPONENTS;
-import static de.thb.paf.scrabblefactory.settings.Constants.Json.JSON_KEY_TYPE;
+import static de.thb.paf.scrabblefactory.settings.Constants.Json.JSON_KEY_JAVA_PACKAGE;
+import static de.thb.paf.scrabblefactory.settings.Constants.Json.JSON_KEY_NAME;
 import static de.thb.paf.scrabblefactory.settings.Settings.Game.PPM;
 
 /**
@@ -81,21 +85,20 @@ public class EntityFactory {
         // init components
         List<IComponent> components = new ArrayList<>();
         JsonArray componentDefinitions = entityConfig.get(JSON_KEY_COMPONENTS).getAsJsonArray();
-        for(int i=0; i<componentDefinitions.size(); i++) {
 
+        for(int i=0; i<componentDefinitions.size(); i++) {
             JsonObject componentDef = componentDefinitions.get(i).getAsJsonObject();
-            String componentType = componentDef.get(JSON_KEY_TYPE).getAsString();
+            String componentName = componentDef.get(JSON_KEY_NAME).getAsString();
+            String javaPackageName = componentDef.get(JSON_KEY_JAVA_PACKAGE).getAsString();
+            Class<?> componentType = ScrabbleFactoryClassLoader.getClassForName(javaPackageName, componentName);
 
             IComponent component = null;
-            switch(componentType) {
-                case "graphics":
-                    component = new GraphicsComponentFactory(this.assetLoader)
-                            .getGfxComponent(componentDef, entity);
-                    break;
-                case "physics":
-                    component = new PhysicsComponentFactory(this.assetLoader)
-                            .getPhysComponent(componentDef, entity);
-                    break;
+            if(IPhysicsComponent.class.isAssignableFrom(componentType)) {
+                component = new PhysicsComponentFactory(this.assetLoader)
+                        .getPhysComponent(componentType, componentDef, entity);
+            } else if(IGraphicsComponent.class.isAssignableFrom(componentType)) {
+                component = new GraphicsComponentFactory(this.assetLoader)
+                        .getGfxComponent(componentType, componentDef, entity);
             }
 
             if(component != null) {
