@@ -10,13 +10,17 @@ import com.google.gson.JsonObject;
 import de.thb.paf.scrabblefactory.io.AssetLoader;
 import de.thb.paf.scrabblefactory.models.assets.AssetTargetType;
 import de.thb.paf.scrabblefactory.models.components.IComponent;
+import de.thb.paf.scrabblefactory.models.components.graphics.IGraphicsComponent;
 import de.thb.paf.scrabblefactory.models.hud.HUDSystem;
 import de.thb.paf.scrabblefactory.models.hud.HUDSystemType;
 import de.thb.paf.scrabblefactory.models.hud.HealthHUD;
 import de.thb.paf.scrabblefactory.models.hud.IHUDComponent;
+import de.thb.paf.scrabblefactory.utils.ScrabbleFactoryClassLoader;
 import de.thb.paf.scrabblefactory.utils.graphics.AlignmentHelper;
 
 import static de.thb.paf.scrabblefactory.settings.Constants.Json.JSON_KEY_COMPONENTS;
+import static de.thb.paf.scrabblefactory.settings.Constants.Json.JSON_KEY_JAVA_PACKAGE;
+import static de.thb.paf.scrabblefactory.settings.Constants.Json.JSON_KEY_NAME;
 import static de.thb.paf.scrabblefactory.settings.Constants.Json.JSON_KEY_TYPE;
 import static de.thb.paf.scrabblefactory.settings.Settings.Game.PPM;
 import static de.thb.paf.scrabblefactory.settings.Settings.Game.VIRTUAL_HEIGHT;
@@ -104,20 +108,15 @@ public class HUDSystemFactory {
                 .get(JSON_KEY_COMPONENTS).getAsJsonArray();
 
         for(JsonElement componentConfig: associatedComponentConfigs) {
-            String componentType = componentConfig.getAsJsonObject().get(JSON_KEY_TYPE).getAsString();
+            String componentName = componentConfig.getAsJsonObject().get(JSON_KEY_NAME).getAsString();
+            String javaPackageName = componentConfig.getAsJsonObject().get(JSON_KEY_JAVA_PACKAGE).getAsString();
+            Class<?> componentType = ScrabbleFactoryClassLoader.getClassForName(javaPackageName, componentName);
 
-            IComponent component;
-            switch(componentType) {
-                case "graphics":
-                    component = new GraphicsComponentFactory(this.assetLoader)
-                            .getGfxComponent(
-                                    componentConfig.getAsJsonObject(),
-                                    hudComponent
-                            );
-                    break;
-                default:
-                    component = null;
-                    break;
+            IComponent component = null;
+            if(IGraphicsComponent.class.isAssignableFrom(componentType)) {
+                System.out.println(componentType.getName());
+                component = new GraphicsComponentFactory(this.assetLoader)
+                        .getGfxComponent(componentType, componentConfig.getAsJsonObject(), hudComponent);
             }
 
             if(component != null) {
