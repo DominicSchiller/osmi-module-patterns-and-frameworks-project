@@ -25,7 +25,7 @@
   "componentList": [
     {
       "name": "LayeredTexturesGraphicsComponent",
-      "type": "graphics",
+      "javaPackage": "de.thb.paf.scrabblefactory.models.components.graphics",
       "staticLayers": [
         {
           "textureName": "background",
@@ -65,15 +65,15 @@
     },
     {
       "name": "WorldPhysicsComponent",
-      "type": "physics",
+      "javaPackage": "de.thb.paf.scrabblefactory.models.components.physics",
       "gravity": {
         "x": 0,
-        "y": 0
+        "y": -9.8
       }
     },
     {
       "name": "RigidBodyPhysicsComponent",
-      "type": "physics",
+      "javaPackage": "de.thb.paf.scrabblefactory.models.components.physics",
       "activeBodyName": "ground",
       "bodyKeys": [
         "ground"
