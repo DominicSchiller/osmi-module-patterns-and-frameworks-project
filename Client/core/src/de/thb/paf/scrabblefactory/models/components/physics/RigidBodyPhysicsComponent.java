@@ -1,5 +1,6 @@
 package de.thb.paf.scrabblefactory.models.components.physics;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.codeandweb.physicseditor.PhysicsShapeCache;
 
@@ -33,6 +34,16 @@ public class RigidBodyPhysicsComponent extends AbstractPhysicsComponent {
      * The LibGDX Box2D body instance
      */
     private Body body;
+
+    /**
+     * Movement velocity vector
+     */
+    private Vector2 velocity;
+
+    /**
+     * Viewing direction status (true: sprite looks to the left, false: sprite looks to the right)
+     */
+    private boolean isFlipped;
 
     /**
      * Constructor
@@ -75,12 +86,37 @@ public class RigidBodyPhysicsComponent extends AbstractPhysicsComponent {
     }
 
     /**
+     * Get the Box2D body instance.
+     * @return The Box2D body instance
+     */
+    public Body getBody() {
+        return this.body;
+    }
+
+    /**
+     * Get the rigid body's velocity.
+     * @return The rigid body's velocity vector
+     */
+    public Vector2 getVelocity() {
+        return this.velocity;
+    }
+
+    /**
+     * Get the viewing direction status.
+     * @return The current viewing direction status
+     */
+    public boolean isFlipped() {
+        return isFlipped;
+    }
+
+    /**
      * Set the active body's name.
      * @param bodyName The active body's name
      */
     public void setActiveBodyName(String bodyName) {
         this.activeBodyName = bodyName;
     }
+
     /**
      * The Box2D physics shape cache containing all body definitions
      * @param physicsShapeShapeCache The Box2D physics shape cache
@@ -97,5 +133,11 @@ public class RigidBodyPhysicsComponent extends AbstractPhysicsComponent {
         this.body = body;
     }
 
-
+    /**
+     * Set the Viewing direction status.
+     * @param isFlipped The new viewing direction status
+     */
+    public void setFlipped(boolean isFlipped) {
+        this.isFlipped = isFlipped;
+    }
 }
