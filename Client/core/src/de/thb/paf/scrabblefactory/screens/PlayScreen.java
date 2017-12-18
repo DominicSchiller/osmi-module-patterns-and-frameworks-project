@@ -10,6 +10,7 @@ import java.util.List;
 import de.thb.paf.scrabblefactory.ScrabbleFactory;
 import de.thb.paf.scrabblefactory.factories.EntityFactory;
 import de.thb.paf.scrabblefactory.factories.HUDSystemFactory;
+import de.thb.paf.scrabblefactory.io.UserInputProcessor;
 import de.thb.paf.scrabblefactory.models.IGameObject;
 import de.thb.paf.scrabblefactory.models.components.ComponentType;
 import de.thb.paf.scrabblefactory.models.components.IComponent;
@@ -36,6 +37,7 @@ import static de.thb.paf.scrabblefactory.settings.Settings.Game.VIRTUAL_WIDTH;
  */
 public class PlayScreen extends GameScreen {
 
+    private UserInputProcessor userInputProcessor;
     private VisualGameDebugger debugRenderer;
     private OrthographicCamera camera;
     private ILevel level;
@@ -79,6 +81,7 @@ public class PlayScreen extends GameScreen {
         this.player = new EntityFactory().getEntity(EntityType.PLAYER, 1);
         this.debugRenderer = new VisualGameDebugger();
 
+        this.userInputProcessor = new UserInputProcessor();
         this.isInitialized = true;
     }
 
