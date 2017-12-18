@@ -5,6 +5,8 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -14,6 +16,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import de.thb.paf.scrabblefactory.managers.GameScreenManager;
 
@@ -40,6 +45,12 @@ public class HomeScreen extends GameScreen {
     private Texture titleTexture;
     private Texture startPressTexture,startTexture;
     private Texture descriptionTexture,descriptionPressTexture;
+    private Texture highscoreTexture,highscorePressTexture;
+    private Music backgroundmusic;
+    private Sound tapsound;
+    private GlyphLayout layout = new GlyphLayout();
+    private SpriteBatch batch;
+    private BitmapFont bitmapFont;
 
     /**
      * Default Constructor
@@ -64,6 +75,15 @@ public class HomeScreen extends GameScreen {
         Gdx.input.setInputProcessor(stage);
 
         /*
+        * Background music & sound of interacitve elements
+         */
+        backgroundmusic = Gdx.audio.newMusic(Gdx.files.internal("data/alright.mp3"));
+        backgroundmusic.setLooping(true);
+        backgroundmusic.play();
+
+        tapsound = Gdx.audio.newSound(Gdx.files.internal("data/button click.mp3"));
+
+        /*
         * background texture on the stage
          */
         backgroundTexture = new Texture(Gdx.files.internal("home-background.png"));
@@ -76,73 +96,15 @@ public class HomeScreen extends GameScreen {
         titleTexture = new Texture(Gdx.files.internal("scrabblefactory-title.png"));
         Image title = new Image(titleTexture);
 
-        title.setPosition(WORLD_WIDTH /2, 2 * WORLD_HEIGHT / 4,    Align.center);
+        title.setPosition(WORLD_WIDTH /2, 2 * WORLD_HEIGHT / 4, Align.center);
 
         stage.addActor(title);
 
         /*
-        * Background music & sound of interacitve elements
-         */
-        //backgroundmusic.getAssetManager().load("data/alright.mp3", Music.class);
-        Music backgroundmusic = Gdx.audio.newMusic(Gdx.files.internal("data/alright.mp3"));
-        backgroundmusic.setLooping(true);
-        backgroundmusic.play();
+        *This Method sets all buttons and their listeners
+        */
+        setUpButtons();
 
-        Sound tapsound = Gdx.audio.newSound(Gdx.files.internal("data/button click.mp3"));
-
-        /*
-        * start button (tap) on the stage adds actor start
-        * */
-        startTexture = new Texture(Gdx.files.internal("tap.png"));
-        startPressTexture = new Texture(Gdx.files.internal("tapPressed.png"));
-
-        ImageButton start = new ImageButton(new TextureRegionDrawable(new TextureRegion(startTexture)), new TextureRegionDrawable(new TextureRegion(startPressTexture)));
-
-        stage.addActor(start);
-        start.setPosition(WORLD_WIDTH / 2, 8 * WORLD_HEIGHT / 16, Align.center);
-
-        /*
-        * adds the buttons listener an set it to the PlayScreen
-         */
-        start.addListener(new ActorGestureListener() {
-
-            @Override
-            public void tap(InputEvent event, float x, float y, int count, int button) {
-                super.tap(event, x, y, count, button);
-                backgroundmusic.stop();
-                backgroundmusic.dispose();
-                tapsound.play();
-                tapsound.dispose();
-                GameScreenManager.getInstance().setScreen(new PlayScreen());
-            }
-        });
-
-        /*
-        * game description button (tap) on the stage adds actor description (back button)
-        * */
-        descriptionTexture = new Texture(Gdx.files.internal("tap.png"));
-        descriptionPressTexture = new Texture(Gdx.files.internal("tapPressed.png"));
-
-        ImageButton description = new ImageButton(new TextureRegionDrawable(new TextureRegion(descriptionTexture)), new TextureRegionDrawable(new TextureRegion(descriptionPressTexture)));
-
-        stage.addActor(description);
-        description.setPosition(WORLD_WIDTH / 2, 5 * WORLD_HEIGHT / 16, Align.center);
-
-        /*
-        * adds the description buttons listener an set it to the GameDescriptionScreen
-         */
-        description.addListener(new ActorGestureListener() {
-
-            @Override
-            public void tap(InputEvent event, float x, float y, int count, int button) {
-                super.tap(event, x, y, count, button);
-                backgroundmusic.stop();
-                backgroundmusic.dispose();
-                tapsound.play();
-                tapsound.dispose();
-                GameScreenManager.getInstance().setScreen(new GameDescriptionScreen());
-            }
-        });
 
     }
 
@@ -183,5 +145,91 @@ public class HomeScreen extends GameScreen {
     @Override
     public void dispose() {
 
+    }
+
+    private void setUpButtons() {
+
+
+
+    /*
+    * game highscore button (tap) on the stage adds actor highscore (button)
+    */
+    highscoreTexture = new Texture(Gdx.files.internal("tap.png"));
+    highscorePressTexture = new Texture(Gdx.files.internal("tapPressed.png"));
+
+    ImageButton highscore = new ImageButton(new TextureRegionDrawable(new TextureRegion(highscoreTexture)), new TextureRegionDrawable(new TextureRegion(highscorePressTexture)));
+
+    stage.addActor(highscore);
+    highscore.setPosition(WORLD_WIDTH / 2, 10 * WORLD_HEIGHT / 32, Align.center);
+
+    /*
+    * adds the highscores buttons listener an set it to the GameHighscoreScreen
+    */
+    highscore.addListener(new ActorGestureListener() {
+
+    @Override
+        public void tap(InputEvent event, float x, float y, int count, int button) {
+            super.tap(event, x, y, count, button);
+            backgroundmusic.stop();
+            backgroundmusic.dispose();
+            tapsound.play();
+            tapsound.dispose();
+            GameScreenManager.getInstance().setScreen(new GameHighscoreScreen());
+        }
+    });
+
+        /*
+        * start button (tap) on the stage adds actor start
+        * */
+        startTexture = new Texture(Gdx.files.internal("tap.png"));
+        startPressTexture = new Texture(Gdx.files.internal("tapPressed.png"));
+
+        ImageButton start = new ImageButton(new TextureRegionDrawable(new TextureRegion(startTexture)), new TextureRegionDrawable(new TextureRegion(startPressTexture)));
+
+        stage.addActor(start);
+        start.setPosition(WORLD_WIDTH / 2, 18 * WORLD_HEIGHT / 32, Align.center);
+
+        /*
+        * adds the buttons listener an set it to the PlayScreen
+         */
+        start.addListener(new ActorGestureListener() {
+
+            @Override
+            public void tap(InputEvent event, float x, float y, int count, int button) {
+                super.tap(event, x, y, count, button);
+                backgroundmusic.stop();
+                backgroundmusic.dispose();
+                tapsound.play();
+                tapsound.dispose();
+                GameScreenManager.getInstance().setScreen(new PlayScreen());
+            }
+        });
+
+        /*
+        * game description button (tap) on the stage adds actor description (back button)
+        * */
+        descriptionTexture = new Texture(Gdx.files.internal("tap.png"));
+        descriptionPressTexture = new Texture(Gdx.files.internal("tapPressed.png"));
+
+        ImageButton description = new ImageButton(new TextureRegionDrawable(new TextureRegion(descriptionTexture)), new TextureRegionDrawable(new TextureRegion(descriptionPressTexture)));
+
+        stage.addActor(description);
+        description.setPosition(WORLD_WIDTH / 2, 14 * WORLD_HEIGHT / 32, Align.center);
+
+        /*
+        * adds the description buttons listener an set it to the GameDescriptionScreen
+         */
+        description.addListener(new ActorGestureListener() {
+
+            @Override
+            public void tap(InputEvent event, float x, float y, int count, int button) {
+                super.tap(event, x, y, count, button);
+                backgroundmusic.stop();
+                backgroundmusic.dispose();
+                tapsound.play();
+                tapsound.dispose();
+                GameScreenManager.getInstance().setScreen(new GameDescriptionScreen());
+            }
+        });
     }
 }

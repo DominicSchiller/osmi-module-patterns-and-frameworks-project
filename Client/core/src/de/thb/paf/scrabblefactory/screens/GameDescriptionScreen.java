@@ -1,11 +1,8 @@
 package de.thb.paf.scrabblefactory.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -19,16 +16,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 
-import de.thb.paf.scrabblefactory.ScrabbleFactory;
 import de.thb.paf.scrabblefactory.managers.GameScreenManager;
 
-import static java.awt.Color.green;
-import static java.awt.Color.red;
-
 /**
- * Represents the Game description screen within description of game, how to play, further information
+ * Represents the Game dialgo screen within progress dialog
  *
  * @author Melanie Steiner - Technische Hochschule Brandenburg
  * @version 1.0
@@ -36,6 +28,18 @@ import static java.awt.Color.red;
  */
 
 public class GameDescriptionScreen extends GameScreen {
+
+    /*
+    * Default Constructor
+    */
+    public GameDescriptionScreen() {
+        super(ScreenState.DIALOG);
+    }
+
+    /*
+    * Declaration of screen state
+    */
+    private ScreenState state = ScreenState.DIALOG;
 
     /**
      * Declaration of world with and height in pixel
@@ -49,30 +53,13 @@ public class GameDescriptionScreen extends GameScreen {
      */
     private Stage stage;
     private SpriteBatch batch;
+    private Sound tapsound;
     private Texture backgroundTexture;
-    private Texture backTexture;
-    private Texture backPressTexture;
-    private Texture playTexture;
-    private Texture playPressTexture;
+    private Texture playTexture, playPressTexture;
+    private Texture playAgainTexture, playAgainPressTexture;
+    private Texture backTexture, backPressTexture;
     private BitmapFont bitmapFont;
-    private GlyphLayout layout = new GlyphLayout();
-    private ScrabbleFactory game;
-
-    private Viewport viewport;
-    private Camera camera;
-
-    /*
-    * Default Constructor
-    */
-    public GameDescriptionScreen() {
-        super(ScreenState.DESCRIPTION);
-    }
-
-    /*
-    * Declaration of screen state
-    */
-    private ScreenState state = ScreenState.DESCRIPTION;
-
+    private GlyphLayout layout;
 
     @Override
     public void update(float deltaTime) {
@@ -98,70 +85,19 @@ public class GameDescriptionScreen extends GameScreen {
         /*
         * sound of interactive elements
          */
-        Sound tapsound = Gdx.audio.newSound(Gdx.files.internal("data/button click.mp3"));
-        //backgroundmusic.getAssetManager().load("data/alright.mp3", Music.class);
+        tapsound = Gdx.audio.newSound(Gdx.files.internal("data/button click.mp3"));
 
         /*
         * text to describe the game, set on the batch
         */
         batch = new SpriteBatch();
         bitmapFont = new BitmapFont();
+        drawText();
 
         /*
-        * game play button (tap) on the stage
-        */
-        playTexture = new Texture(Gdx.files.internal("tapPlay.png"));
-        playPressTexture = new Texture(Gdx.files.internal("tapPlayPressed.png"));
-        ImageButton play = new ImageButton(new TextureRegionDrawable(new TextureRegion(playTexture)), new TextureRegionDrawable(new TextureRegion(playPressTexture)));
-        stage.addActor(play);
-        play.setPosition(14 * WORLD_WIDTH / 16, 1 * WORLD_HEIGHT / 16, Align.center);
-
-        /*
-        * adds the play buttons listener an set it back to HomeScreen
-        */
-        play.addListener(new ActorGestureListener() {
-
-            @Override
-            public void tap(InputEvent event, float x, float y, int count, int button) {
-                super.tap(event, x, y, count, button);
-                tapsound.play();
-                tapsound.dispose();
-                GameScreenManager.getInstance().setScreen(new PlayScreen());
-            }
-        });
-
-
-        /*
-        * back button (tap) on the stage
-        */
-        backTexture = new Texture(Gdx.files.internal("tapBack.png"));
-        backPressTexture = new Texture(Gdx.files.internal("tapBackPressed.png"));
-        ImageButton back = new ImageButton(new TextureRegionDrawable(new TextureRegion(backTexture)), new TextureRegionDrawable(new TextureRegion(backPressTexture)));
-        stage.addActor(back);
-        back.setPosition(11 * WORLD_WIDTH / 16, 1 * WORLD_HEIGHT / 16, Align.center);
-
-        /*
-        * adds the back buttons listener an set it back to HomeScreen
-        */
-        back.addListener(new ActorGestureListener() {
-
-            @Override
-            public void tap(InputEvent event, float x, float y, int count, int button) {
-                super.tap(event, x, y, count, button);
-                tapsound.play();
-                tapsound.dispose();
-                GameScreenManager.getInstance().setScreen(new HomeScreen());
-            }
-        });
-
-    }
-
-    public void draw (){
-        batch.begin();
-        String text = "This will be the description text";
-        layout.setText(bitmapFont, text);
-        bitmapFont.draw(batch, text, 80 * layout.width/480, layout.height *28);
-        batch.end();
+        *This method sets all buttons and their listeners
+         */
+        setUpButtons();
     }
 
     @Override
@@ -173,18 +109,6 @@ public class GameDescriptionScreen extends GameScreen {
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        switch(state) {
-            case DESCRIPTION: {
-            }
-            break;
-            case PLAY: {
-            }
-            break;
-            case MAIN_MENU: {
-            }
-            break;
-        }
-
         /*
         * renders the stage
          */
@@ -192,10 +116,9 @@ public class GameDescriptionScreen extends GameScreen {
         stage.draw();
 
         /*
-        * renders everything out of render method
-        * batch, text
+        * renders text out of draw texxt method
          */
-        draw();
+        drawText();
     }
 
     @Override
@@ -223,5 +146,66 @@ public class GameDescriptionScreen extends GameScreen {
     @Override
     public void dispose() {
         // TODO: Implement here...
+    }
+
+    private void setUpButtons(){
+
+        /*
+        * game play button (tap) on the stage
+        */
+        playTexture = new Texture(Gdx.files.internal("tapPlay.png"));
+        playPressTexture = new Texture(Gdx.files.internal("tapPlayPressed.png"));
+        ImageButton play = new ImageButton(new TextureRegionDrawable(new TextureRegion(playTexture)), new TextureRegionDrawable(new TextureRegion(playPressTexture)));
+        stage.addActor(play);
+        play.setPosition(14 * WORLD_WIDTH / 16, 2 * WORLD_HEIGHT / 32, Align.center);
+
+        /*
+        * adds the play buttons listener an set it back to PlayScreen
+        */
+        play.addListener(new ActorGestureListener() {
+
+            @Override
+            public void tap(InputEvent event, float x, float y, int count, int button) {
+                super.tap(event, x, y, count, button);
+                tapsound.play();
+                tapsound.dispose();
+                GameScreenManager.getInstance().setScreen(new PlayScreen());
+            }
+        });
+
+         /*
+        * back button (tap) on the stage
+        */
+        backTexture = new Texture(Gdx.files.internal("tapBack.png"));
+        backPressTexture = new Texture(Gdx.files.internal("tapBackPressed.png"));
+        ImageButton back = new ImageButton(new TextureRegionDrawable(new TextureRegion(backTexture)), new TextureRegionDrawable(new TextureRegion(backPressTexture)));
+        stage.addActor(back);
+        back.setPosition(11 * WORLD_WIDTH / 16, 2 * WORLD_HEIGHT / 32, Align.center);
+
+        /*
+        * adds the back buttons listener an set it back to HomeScreen
+        */
+        back.addListener(new ActorGestureListener() {
+
+            @Override
+            public void tap(InputEvent event, float x, float y, int count, int button) {
+                super.tap(event, x, y, count, button);
+                tapsound.play();
+                tapsound.dispose();
+                GameScreenManager.getInstance().setScreen(new HomeScreen());
+            }
+        });
+    }
+
+    public void drawText (){
+        /*
+        * This method is able to draw text on the batch
+         */
+        batch.begin();
+        String text = "Spielbeschreibung";
+        layout = new GlyphLayout();
+        layout.setText(bitmapFont, text);
+        bitmapFont.draw(batch, text, 80 * layout.width/480, layout.height *28);
+        batch.end();
     }
 }
