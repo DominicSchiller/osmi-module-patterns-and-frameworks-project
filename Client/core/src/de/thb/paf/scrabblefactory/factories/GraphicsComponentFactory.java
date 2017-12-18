@@ -9,9 +9,10 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.List;
 import de.thb.paf.scrabblefactory.io.AssetLoader;
 import de.thb.paf.scrabblefactory.models.IGameObject;
 
+import de.thb.paf.scrabblefactory.models.actions.IGameAction;
 import de.thb.paf.scrabblefactory.models.components.IComponent;
 import de.thb.paf.scrabblefactory.models.components.graphics.Alignment;
 import de.thb.paf.scrabblefactory.models.components.graphics.BasicGraphicsComponent;
@@ -27,13 +29,11 @@ import de.thb.paf.scrabblefactory.models.components.graphics.LayeredTexturesGrap
 import de.thb.paf.scrabblefactory.models.components.graphics.SpriteAnimationGraphicsComponent;
 import de.thb.paf.scrabblefactory.models.components.graphics.TextureLayer;
 import de.thb.paf.scrabblefactory.utils.CloneComponentHelper;
+import de.thb.paf.scrabblefactory.utils.ScrabbleFactoryClassLoader;
 import de.thb.paf.scrabblefactory.utils.graphics.AlignmentHelper;
 
 import static de.thb.paf.scrabblefactory.settings.Constants.Files.HUD_ATLAS_NAME;
 import static de.thb.paf.scrabblefactory.settings.Constants.Files.LEVEL_ATLAS_NAME;
-import static de.thb.paf.scrabblefactory.settings.Constants.Java.COMPONENTS_PACKAGE;
-import static de.thb.paf.scrabblefactory.settings.Constants.Json.JSON_KEY_NAME;
-import static de.thb.paf.scrabblefactory.settings.Constants.Json.JSON_KEY_TYPE;
 import static de.thb.paf.scrabblefactory.settings.Settings.Game.PPM;
 import static de.thb.paf.scrabblefactory.settings.Settings.Game.RESOLUTION;
 import static de.thb.paf.scrabblefactory.settings.Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER;
@@ -75,28 +75,23 @@ public class GraphicsComponentFactory {
      * @param parent The parent game object
      * @return The requested graphic component instance
      */
-    public IComponent getGfxComponent(JsonObject componentDef, IGameObject parent) {
+    public IComponent getGfxComponent(Class<?> classType, JsonObject componentDef, IGameObject parent) {
         Gson gson = new GsonBuilder().create();
-        String componentName = componentDef.get(JSON_KEY_NAME).getAsString();
-        String componentType = componentDef.get(JSON_KEY_TYPE).getAsString();
 
-        try {
-            Class<?> componentClassType = Class
-                    .forName(COMPONENTS_PACKAGE + componentType + "." + componentName);
+        //TODO: implement id calculation
+        IComponent component = (IComponent) ScrabbleFactoryClassLoader.createInstance(classType, 1);
+        IComponent parsedComponent = gson.fromJson(componentDef, component.getClass());
 
-            //TODO: implement id calculation
-            IComponent component = (IComponent) componentClassType.getDeclaredConstructor(Integer.class).newInstance(1);
-            IComponent parsedComponent = gson.fromJson(componentDef, component.getClass());
+        CloneComponentHelper.cloneFieldValues(parsedComponent, component);
+        component.setParent(parent);
 
-            CloneComponentHelper.cloneFieldValues(component, parsedComponent);
-            component.setParent(parent);
+        // initialize the component's special content
+        this.initGfxComponent(component, parent);
 
-            this.initGfxComponent(component, parent);
-            return component;
-        } catch (InstantiationException | InvocationTargetException | NoSuchMethodException | IllegalAccessException | ClassNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        }
+        // initialize associated game actions
+        this.initActions(componentDef, component);
+
+        return component;
     }
 
     /**
@@ -289,5 +284,21 @@ public class GraphicsComponentFactory {
         // assign the layer's texture field
         texture.getTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         return texture;
+    }
+
+    /**
+     * Registers the component to listen for defined events.
+     * @param component The component to register for event observing
+     */
+    private void initActions(JsonObject componentDef, IComponent component) {
+        JsonArray actionDefs = componentDef.getAsJsonArray("actions");
+        ActionFactory actionFactory = new ActionFactory();
+        if(actionDefs != null) {
+            System.out.println();
+            for(JsonElement actionDef : actionDefs) {
+                IGameAction action = actionFactory.getGameAction(actionDef.getAsJsonObject(), component);
+                component.addAction(action);
+            }
+        }
     }
 }
