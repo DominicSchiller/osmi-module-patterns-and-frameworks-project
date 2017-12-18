@@ -55,12 +55,11 @@ public class HUDSystemFactory {
         HUDSystem hudSystem = new HUDSystem(hudSystemType);
 
         JsonObject hudSystemConfig = this.assetLoader.loadInitConfiguration(AssetTargetType.HUD, hudSystemType.id);
-        Gson gson = new GsonBuilder().create();
 
         JsonArray hudComponentConfigs = hudSystemConfig.get(JSON_KEY_COMPONENTS).getAsJsonArray();
         for(JsonElement hudComponentConfig : hudComponentConfigs) {
             String hudComponentType = hudComponentConfig.getAsJsonObject().get(JSON_KEY_TYPE).getAsString();
-            IHUDComponent hudComponent = this.initHUDComponent(gson, hudComponentType, hudComponentConfig.getAsJsonObject());
+            IHUDComponent hudComponent = this.initHUDComponent(hudComponentType, hudComponentConfig.getAsJsonObject());
 
             if(hudComponent != null) {
                 hudComponent.setHUDSystem(hudSystem);
@@ -72,12 +71,18 @@ public class HUDSystemFactory {
         return hudSystem;
     }
 
-    private IHUDComponent initHUDComponent(Gson gson, String hudComponentType, JsonObject hudComponentConfig) {
+    /**
+     * Initializes a HUD component given by it's type and JSON configuration.
+     * @param hudComponentType The HUD component type
+     * @param hudComponentConfig the HUD component's JSON config
+     * @return The requested HUD component instance
+     */
+    private IHUDComponent initHUDComponent(String hudComponentType, JsonObject hudComponentConfig) {
 
         IHUDComponent hudComponent;
         switch(hudComponentType) {
             case "health":
-                hudComponent = this.initHealthHUDComponent(gson, hudComponentConfig.getAsJsonObject());
+                hudComponent = this.initHealthHUDComponent(hudComponentConfig.getAsJsonObject());
                 break;
             default:
                 hudComponent = null;
@@ -88,7 +93,13 @@ public class HUDSystemFactory {
         return hudComponent;
     }
 
-    private IHUDComponent initHealthHUDComponent(Gson gson, JsonObject hudComponentConfig) {
+    /**
+     * Initializes a Health HUD Component.
+     * @param hudComponentConfig The HUD components JSON configuration
+     * @return The requested HUD component instance
+     */
+    private IHUDComponent initHealthHUDComponent(JsonObject hudComponentConfig) {
+        Gson gson = new GsonBuilder().create();
         HealthHUD hudComponent = gson.fromJson(hudComponentConfig, HealthHUD.class);
         Vector2 position = AlignmentHelper.getRelativePosition(
                 new Vector2 (
@@ -103,6 +114,11 @@ public class HUDSystemFactory {
         return hudComponent;
     }
 
+    /**
+     * Initializes all components associated with the HUD component.
+     * @param hudComponent The HUD component to init all components for
+     * @param hudComponentConfig The HUD component's JSON config.
+     */
     private void initAssociatedComponents(IHUDComponent hudComponent, JsonObject hudComponentConfig) {
         JsonArray associatedComponentConfigs = hudComponentConfig.getAsJsonObject()
                 .get(JSON_KEY_COMPONENTS).getAsJsonArray();
