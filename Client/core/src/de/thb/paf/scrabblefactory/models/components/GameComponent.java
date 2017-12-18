@@ -1,6 +1,10 @@
 package de.thb.paf.scrabblefactory.models.components;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.thb.paf.scrabblefactory.models.IGameObject;
+import de.thb.paf.scrabblefactory.models.actions.IGameAction;
 import de.thb.paf.scrabblefactory.models.entities.IEntity;
 
 /**
@@ -33,6 +37,11 @@ public abstract class GameComponent implements IComponent {
     private IGameObject parent;
 
     /**
+     * List of associated game actions
+     */
+    private List<IGameAction> gameActions;
+
+    /**
      * Constructor
      * @param id The game component's unique id
      * @param type The game component's type
@@ -40,6 +49,7 @@ public abstract class GameComponent implements IComponent {
     public GameComponent(int id, ComponentType type) {
         this.id = id;
         this.type = type;
+        this.gameActions = new ArrayList<>();
     }
 
     /**
@@ -49,8 +59,7 @@ public abstract class GameComponent implements IComponent {
      * @param parent The associated game entity holding this component
      */
     public GameComponent(int id, ComponentType type, IEntity parent) {
-        this.id = id;
-        this.type = type;
+        this(id, type);
         this.parent = parent;
     }
 
@@ -75,6 +84,11 @@ public abstract class GameComponent implements IComponent {
     }
 
     @Override
+    public List<IGameAction> getActions() {
+        return this.gameActions;
+    }
+
+    @Override
     public void setParent(IGameObject parent) {
         this.parent = parent;
     }
@@ -84,4 +98,18 @@ public abstract class GameComponent implements IComponent {
         this.type = type;
     }
 
+    @Override
+    public void setActions(List<IGameAction> gameActions) {
+        this.gameActions = gameActions;
+    }
+
+    @Override
+    public void addAction(IGameAction action) {
+        this.gameActions.add(action);
+    }
+
+    @Override
+    public boolean removeAction(IGameAction action) {
+        return this.gameActions.remove(action);
+    }
 }

@@ -1,6 +1,9 @@
 package de.thb.paf.scrabblefactory.models.components;
 
+import java.util.List;
+
 import de.thb.paf.scrabblefactory.models.IGameObject;
+import de.thb.paf.scrabblefactory.models.actions.IGameAction;
 
 /**
  * Interface that declares methods a dedicated  game component class must implement in order to work correctly as an ordinary game component .
@@ -41,6 +44,12 @@ public interface IComponent {
     ComponentType getType();
 
     /**
+     * Get the list all of associated actions.
+     * @return The list of associated actions
+     */
+    List<IGameAction> getActions();
+
+    /**
      * Set the game object the component belongs to.
      * @param parent The associated game entity
      */
@@ -51,5 +60,24 @@ public interface IComponent {
      * @param type The component's type
      */
     void setType(ComponentType type);
+
+    /**
+     * Set the list all of associated game gameActions.
+     * @param gameActions The list of associated gameActions.
+     */
+    void setActions(List<IGameAction> gameActions);
+
+    /**
+     * Add a game action to the list of associated game actions.
+     * @param action Te game action to add
+     */
+    void addAction(IGameAction action);
+
+    /**
+     * Remove a game action from the list of associated game actions.
+     * @param action Te game action to remove
+     * @return The success status
+     */
+    boolean removeAction(IGameAction action);
 
 }
