@@ -11,7 +11,7 @@ import java.util.Observer;
  * @since 1.0
  */
 
-abstract class AbstractGameEvent extends Observable implements IGameEvent {
+abstract class GameEvent extends Observable implements IGameEvent {
 
     /**
      * The associated game event type
@@ -22,7 +22,7 @@ abstract class AbstractGameEvent extends Observable implements IGameEvent {
      * Constructor.
      * @param eventType The associated game event type
      */
-    AbstractGameEvent(GameEventType eventType) {
+    GameEvent(GameEventType eventType) {
         this.eventType = eventType;
     }
 

@@ -13,7 +13,7 @@ import de.thb.paf.scrabblefactory.models.actions.MoveDirectionType;
  * @since 1.0
  */
 
-public class MoveEvent extends AbstractGameEvent {
+public class MoveEvent extends GameEvent {
 
     /**
      * The current move action type
