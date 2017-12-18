@@ -7,10 +7,13 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.Map;
+import java.util.Observable;
 
 import de.thb.paf.scrabblefactory.models.components.ComponentType;
 import de.thb.paf.scrabblefactory.models.components.GameComponent;
 import de.thb.paf.scrabblefactory.models.entities.IEntity;
+import de.thb.paf.scrabblefactory.models.events.IGameEvent;
+import de.thb.paf.scrabblefactory.models.events.MoveEvent;
 import de.thb.paf.scrabblefactory.settings.Settings;
 
 /**
@@ -62,6 +65,11 @@ public class SpriteAnimationGraphicsComponent extends GameComponent implements I
      * The elapsed time since the last rendering
      */
     private float elapsedTime;
+
+    /**
+     * Viewing direction status (true: sprite looks to the left, false: sprite looks to the right)
+     */
+    private boolean isFlipped;
 
     /**
      * Constructor
@@ -142,6 +150,22 @@ public class SpriteAnimationGraphicsComponent extends GameComponent implements I
     }
 
     /**
+     * Get the viewing direction status.
+     * @return The current viewing direction status
+     */
+    public boolean isFlipped() {
+        return isFlipped;
+    }
+
+    /**
+     * Set the Viewing direction status.
+     * @param isFlipped The new viewing direction status
+     */
+    public void setFlipped(boolean isFlipped) {
+        this.isFlipped = isFlipped;
+    }
+
+    /**
      * Set all texture atlases organized by animation key
      * @param textures Map containing all texture atlases organized by animation key
      */
@@ -196,6 +220,11 @@ public class SpriteAnimationGraphicsComponent extends GameComponent implements I
 
         Vector2 position = this.getParent().getPosition();
         TextureRegion texture = this.animation.getKeyFrame(this.elapsedTime, this.isInfiniteLoop);
+
+        if( (this.isFlipped && !texture.isFlipX()) || (!this.isFlipped && texture.isFlipX()) ) {
+            texture.flip(true, false);
+        }
+
         float width = texture.getRegionWidth()  * Settings.Game.VIRTUAL_SCALE;
         float height = texture.getRegionHeight() * Settings.Game.VIRTUAL_SCALE;
         batch.draw(
@@ -219,5 +248,4 @@ public class SpriteAnimationGraphicsComponent extends GameComponent implements I
                 textures.get(this.selectedAtlasName)
         );
     }
-
 }
