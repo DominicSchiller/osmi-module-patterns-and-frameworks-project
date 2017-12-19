@@ -77,18 +77,24 @@ public class DeviceDimensionsHelper {
      */
     public static float calculateVirtualScale() {
         float scaleFactor = 0;
+        float deviceAspectScale = 1;
 
         switch(ASPECT_RATIO) {
             case SIXTEEN_TO_NINE:
             case SIXTEEN_TO_TEN:
             case THREE_TO_TWO:
+                deviceAspectScale = DEVICE_SCREEN_WIDTH / (float)RESOLUTION.maxWidth;
                 scaleFactor = VIRTUAL_WIDTH / (DEVICE_SCREEN_WIDTH / PPM);
+                scaleFactor *= deviceAspectScale;
                 break;
             case FOUR_TO_THREE:
+                deviceAspectScale = DEVICE_SCREEN_HEIGHT / (float)RESOLUTION.maxHeight;
                 scaleFactor = VIRTUAL_WIDTH / (DEVICE_SCREEN_HEIGHT/ PPM);
+                scaleFactor *= deviceAspectScale;
                 break;
         }
-        return (scaleFactor * RESOLUTION.virtualScaleFactor) / PPM;
+
+        return scaleFactor / PPM;
     }
 
     /**

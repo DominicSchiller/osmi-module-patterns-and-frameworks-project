@@ -46,8 +46,8 @@ public class SettingsDebugger {
         System.out.println("--------------------------------------------");
         System.out.println("SCREEN WIDTH:\t" + DEVICE_SCREEN_WIDTH + "px");
         System.out.println("SCREEN HEIGHT:\t" + DEVICE_SCREEN_HEIGHT + "px");
-        System.out.println("ASPECT RATIO:\t" + ASPECT_RATIO.name);
-        System.out.println("SCREEN RESOLUTION:\t" + RESOLUTION);
+        System.out.println("ASPECT RATIO:\t" + ASPECT_RATIO.name + " (" + ASPECT_RATIO.value + ")");
+        System.out.println("SCREEN RESOLUTION:\t" + RESOLUTION  + " (" + RESOLUTION.virtualScaleFactor + ")");
         System.out.println("SCALE FACTOR:\t" + VIRTUAL_SCALE);
 
         System.out.println("--------------------------------------------");

@@ -130,7 +130,6 @@ public class HUDSystemFactory {
 
             IComponent component = null;
             if(IGraphicsComponent.class.isAssignableFrom(componentType)) {
-                System.out.println(componentType.getName());
                 component = new GraphicsComponentFactory(this.assetLoader)
                         .getGfxComponent(componentType, componentConfig.getAsJsonObject(), hudComponent);
             }

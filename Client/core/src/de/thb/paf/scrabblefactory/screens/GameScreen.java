@@ -33,6 +33,7 @@ public abstract class GameScreen implements IGameScreen {
         this.state = state;
     }
 
+
     @Override
     public void resize(int width, int height) {
         if(this.isActive && !this.isInitialized) {

@@ -73,7 +73,7 @@ public class CloneComponentHelper {
                 copyFieldValues(field, srcObject, destObject, srcSuperClass);
             }
         } catch(IllegalAccessException e) {
-            System.out.println("");
+            // ignore
         }
     }
 }

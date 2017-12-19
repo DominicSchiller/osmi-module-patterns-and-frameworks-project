@@ -294,7 +294,6 @@ public class GraphicsComponentFactory {
         JsonArray actionDefs = componentDef.getAsJsonArray("actions");
         ActionFactory actionFactory = new ActionFactory();
         if(actionDefs != null) {
-            System.out.println();
             for(JsonElement actionDef : actionDefs) {
                 IGameAction action = actionFactory.getGameAction(actionDef.getAsJsonObject(), component);
                 component.addAction(action);

@@ -4,14 +4,14 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import de.thb.paf.scrabblefactory.managers.GameScreenManager;
-import de.thb.paf.scrabblefactory.screens.PlayScreen;
+import de.thb.paf.scrabblefactory.screens.HomeScreen;
 import de.thb.paf.scrabblefactory.settings.Settings;
 import de.thb.paf.scrabblefactory.utils.debug.SettingsDebugger;
 
 /**
  * The global Scrabble Factory game class.
  *
- * @author Dominic Schiller - Technische Hochschule Brandenburg
+ * @author Dominic Schiller, Melanie Steiner - Technische Hochschule Brandenburg
  * @version 1.0
  * @since 1.0
  */
@@ -59,8 +59,7 @@ public class ScrabbleFactory extends Game {
 		batch = new SpriteBatch();
 		textBatch = new SpriteBatch();
 
-		// TODO: code to remove later on - just for dev demo purpose
-		GameScreenManager.getInstance().setScreen(new PlayScreen());
+		GameScreenManager.getInstance().setScreen(new HomeScreen());
 	}
 
 	@Override
