@@ -38,12 +38,6 @@ public interface IEntity extends IGameObject{
      Vector2 getScale();
 
     /**
-     * Get the entity's rotation.
-     * @return The entity's rotation
-     */
-     float getRotation();
-
-    /**
      * Get the entity's termination state.
      * @return The entity's termination state
      */
@@ -60,12 +54,6 @@ public interface IEntity extends IGameObject{
      * @param scale The new scale vector
      */
      void setScale(Vector2 scale);
-
-    /**
-     * Set the entity's rotation.
-     * @param rotation The new rotation angle
-     */
-     void setRotation(float rotation);
 
     /**
      * Set the entity's termination state.

@@ -11,33 +11,6 @@ package de.thb.paf.scrabblefactory.settings;
 public class Constants {
 
     /**
-     * Collection of global file's related constants.
-     *
-     * @author Dominic Schiller - Technische Hochschule Brandenburg
-     * @version 1.0
-     * @since 1.0
-     */
-    public static class Files {
-
-        /**
-         * The default name of a level's texture atlas file
-         */
-        public static final String LEVEL_ATLAS_NAME = "level";
-
-        /**
-         * The default name of a hud's texture atlas file
-         */
-        public static final String HUD_ATLAS_NAME = "hud";
-
-        /**
-         * Private Constructor
-         */
-        private Files() {
-            // this is a static class
-        }
-    }
-
-    /**
      * Private constructor
      */
     private Constants() {

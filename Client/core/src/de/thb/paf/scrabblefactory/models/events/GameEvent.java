@@ -16,7 +16,7 @@ abstract class GameEvent extends Observable implements IGameEvent {
     /**
      * The associated game event type
      */
-    GameEventType eventType;
+    private GameEventType eventType;
 
     /**
      * Constructor.
