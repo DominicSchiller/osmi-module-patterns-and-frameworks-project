@@ -25,15 +25,20 @@ import de.thb.paf.scrabblefactory.models.components.IComponent;
 import de.thb.paf.scrabblefactory.models.components.graphics.Alignment;
 import de.thb.paf.scrabblefactory.models.components.graphics.BasicGraphicsComponent;
 import de.thb.paf.scrabblefactory.models.components.graphics.FontGraphicsComponent;
+import de.thb.paf.scrabblefactory.models.components.graphics.GroupLayout;
+import de.thb.paf.scrabblefactory.models.components.graphics.GroupedGraphicsComponent;
+import de.thb.paf.scrabblefactory.models.components.graphics.IGraphicsComponent;
 import de.thb.paf.scrabblefactory.models.components.graphics.LayeredTexturesGraphicsComponent;
 import de.thb.paf.scrabblefactory.models.components.graphics.SpriteAnimationGraphicsComponent;
 import de.thb.paf.scrabblefactory.models.components.graphics.TextureLayer;
 import de.thb.paf.scrabblefactory.utils.CloneComponentHelper;
 import de.thb.paf.scrabblefactory.utils.ScrabbleFactoryClassLoader;
 import de.thb.paf.scrabblefactory.utils.graphics.AlignmentHelper;
+import de.thb.paf.scrabblefactory.utils.graphics.ColorRandomizer;
 
-import static de.thb.paf.scrabblefactory.settings.Constants.Files.HUD_ATLAS_NAME;
-import static de.thb.paf.scrabblefactory.settings.Constants.Files.LEVEL_ATLAS_NAME;
+import static de.thb.paf.scrabblefactory.settings.Constants.Json.JSON_KEY_COMPONENTS;
+import static de.thb.paf.scrabblefactory.settings.Constants.Json.JSON_KEY_JAVA_PACKAGE;
+import static de.thb.paf.scrabblefactory.settings.Constants.Json.JSON_KEY_NAME;
 import static de.thb.paf.scrabblefactory.settings.Settings.Game.PPM;
 import static de.thb.paf.scrabblefactory.settings.Settings.Game.RESOLUTION;
 import static de.thb.paf.scrabblefactory.settings.Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER;
@@ -86,7 +91,7 @@ public class GraphicsComponentFactory {
         component.setParent(parent);
 
         // initialize the component's special content
-        this.initGfxComponent(component, parent);
+        this.initGfxComponent(componentDef, component, parent);
 
         // initialize associated game actions
         this.initActions(componentDef, component);
@@ -99,7 +104,7 @@ public class GraphicsComponentFactory {
      * @param graphicsComponent The graphics component to setup
      * @param parent The parent game object
      */
-    private void initGfxComponent(IComponent graphicsComponent, IGameObject parent) {
+    private void initGfxComponent(JsonObject componentDef, IComponent graphicsComponent, IGameObject parent) {
         if(graphicsComponent instanceof BasicGraphicsComponent) {
             initBasicGraphicsComponent(graphicsComponent, parent);
         } else if(graphicsComponent instanceof LayeredTexturesGraphicsComponent) {
@@ -108,6 +113,8 @@ public class GraphicsComponentFactory {
             this.initSpriteAnimationGraphicsComponent(graphicsComponent, parent);
         } else if(graphicsComponent instanceof FontGraphicsComponent) {
             initFontGraphicsComponent(graphicsComponent, parent);
+        } else if(graphicsComponent instanceof GroupedGraphicsComponent) {
+            initGroupedGraphicsComponent(componentDef, graphicsComponent);
         }
     }
 
@@ -118,15 +125,11 @@ public class GraphicsComponentFactory {
      * @see BasicGraphicsComponent
      */
     private void initBasicGraphicsComponent(IComponent graphicsComponent, IGameObject parent) {
-        TextureAtlas textureAtlas;
-        switch(parent.getAssetTargetType()) {
-            case HUD:
-                textureAtlas = this.assetLoader.loadTextureAtlas(parent.getAssetTargetType(), HUD_ATLAS_NAME, parent.getID());
-                break;
-            default:
-                textureAtlas = null;
-                break;
-        }
+        TextureAtlas textureAtlas = this.assetLoader.loadTextureAtlas(
+                parent.getAssetTargetType(),
+                parent.getAssetTargetType().path,
+                parent.getID()
+        );
 
         if(textureAtlas != null) {
             BasicGraphicsComponent basicGraphicsComponent = (BasicGraphicsComponent)graphicsComponent;
@@ -169,18 +172,27 @@ public class GraphicsComponentFactory {
     private void initFontGraphicsComponent(IComponent graphicsComponent, IGameObject parent) {
         FontGraphicsComponent fontGraphicsComponent = (FontGraphicsComponent)graphicsComponent;
 
+        Color fillColor = Color.WHITE;
+        Color borderColor = Color.BLACK;
+        if(fontGraphicsComponent.fillColor.equals("random")) {
+            ColorRandomizer colorRandomizer = new ColorRandomizer();
+            fillColor = colorRandomizer.getNextColor(70);
+        } else {
+            fillColor = Color.WHITE;
+            borderColor = Color.BLACK;
+        }
+
         BitmapFont font = new AssetLoader().loadFont(
                 fontGraphicsComponent.fontAsset,
                 (int)(fontGraphicsComponent.fontSize * VIRTUAL_PIXEL_DENSITY_MULTIPLIER),
                 (int)(fontGraphicsComponent.borderWidth * VIRTUAL_PIXEL_DENSITY_MULTIPLIER),
-                Color.WHITE,
-                Color.BLACK
+                fillColor,
+                borderColor
         );
 
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         float scaleFactor = RESOLUTION.virtualScaleFactor * 1/VIRTUAL_PIXEL_DENSITY_MULTIPLIER;
         font.getData().setScale(scaleFactor);
-        fontGraphicsComponent.font = font;
 
         if(fontGraphicsComponent.isRelativeToParent) {
             GlyphLayout glyphLayout = new GlyphLayout();
@@ -204,6 +216,37 @@ public class GraphicsComponentFactory {
                     parent.getPosition().x + relativePosition.x,
                     parent.getPosition().y + relativePosition.y
             );
+
+            fontGraphicsComponent.setFont(font);
+        }
+    }
+
+    /**
+     * Initializes the content of a grouped graphics component.
+     * @param componentDef The graphics component's JSON definition object
+     * @param graphicsComponent The graphics component to assemble the content for
+     */
+    private void initGroupedGraphicsComponent(JsonObject componentDef, IComponent graphicsComponent) {
+
+        GroupedGraphicsComponent groupedGfxComponent = (GroupedGraphicsComponent)graphicsComponent;
+        GroupLayout grpLayout = groupedGfxComponent.getGroupLayout();
+
+
+        List<IGraphicsComponent> components = new ArrayList<>();
+        JsonArray componentDefinitions = componentDef.get(JSON_KEY_COMPONENTS).getAsJsonArray();
+
+        for(int i=0; i<componentDefinitions.size(); i++) {
+            JsonObject subComponentDef = componentDefinitions.get(i).getAsJsonObject();
+            String componentName = subComponentDef.get(JSON_KEY_NAME).getAsString();
+            String javaPackageName = subComponentDef.get(JSON_KEY_JAVA_PACKAGE).getAsString();
+            Class<?> subComponentType = ScrabbleFactoryClassLoader.getClassForName(javaPackageName, componentName);
+            IGraphicsComponent subGfxComponent = (IGraphicsComponent) this.getGfxComponent(subComponentType, subComponentDef, grpLayout);
+
+            if(subGfxComponent != null) {
+                components.add(subGfxComponent);
+            }
+
+            groupedGfxComponent.setGraphicsComponents(components);
         }
     }
 
@@ -215,7 +258,7 @@ public class GraphicsComponentFactory {
      */
     private void initLayeredGraphicsComponent(IComponent graphicsComponent, IGameObject parent) {
         //TODO: atlas name generalisieren!!!! <--- LEVEL_ATLAS_NAME schon spezialisiert
-        TextureAtlas textureAtlas = this.assetLoader.loadTextureAtlas(parent.getAssetTargetType(), LEVEL_ATLAS_NAME, parent.getID());
+        TextureAtlas textureAtlas = this.assetLoader.loadTextureAtlas(parent.getAssetTargetType(), parent.getAssetTargetType().path, parent.getID());
 
         List<TextureLayer> layers = new ArrayList<>();
         Collections.addAll(layers, ((LayeredTexturesGraphicsComponent) graphicsComponent).getStaticLayers());
