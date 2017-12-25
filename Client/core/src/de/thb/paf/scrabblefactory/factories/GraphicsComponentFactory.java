@@ -34,7 +34,7 @@ import de.thb.paf.scrabblefactory.models.components.graphics.TextureLayer;
 import de.thb.paf.scrabblefactory.utils.CloneComponentHelper;
 import de.thb.paf.scrabblefactory.utils.ScrabbleFactoryClassLoader;
 import de.thb.paf.scrabblefactory.utils.graphics.AlignmentHelper;
-import de.thb.paf.scrabblefactory.utils.graphics.ColorRandomizer;
+import de.thb.paf.scrabblefactory.utils.graphics.ColorRandom;
 
 import static de.thb.paf.scrabblefactory.settings.Constants.Json.JSON_KEY_COMPONENTS;
 import static de.thb.paf.scrabblefactory.settings.Constants.Json.JSON_KEY_JAVA_PACKAGE;
@@ -175,8 +175,8 @@ public class GraphicsComponentFactory {
         Color fillColor = Color.WHITE;
         Color borderColor = Color.BLACK;
         if(fontGraphicsComponent.fillColor.equals("random")) {
-            ColorRandomizer colorRandomizer = new ColorRandomizer();
-            fillColor = colorRandomizer.getNextColor(70);
+            ColorRandom colorRandom = new ColorRandom();
+            fillColor = colorRandom.getNextColor(70);
         } else {
             fillColor = Color.WHITE;
             borderColor = Color.BLACK;
