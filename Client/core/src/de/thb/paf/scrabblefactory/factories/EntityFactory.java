@@ -15,6 +15,7 @@ import de.thb.paf.scrabblefactory.models.assets.AssetTargetType;
 import de.thb.paf.scrabblefactory.models.components.IComponent;
 import de.thb.paf.scrabblefactory.models.components.graphics.IGraphicsComponent;
 import de.thb.paf.scrabblefactory.models.components.physics.IPhysicsComponent;
+import de.thb.paf.scrabblefactory.models.entities.Cheese;
 import de.thb.paf.scrabblefactory.models.entities.EntityType;
 import de.thb.paf.scrabblefactory.models.entities.IEntity;
 import de.thb.paf.scrabblefactory.models.entities.Player;
@@ -58,6 +59,10 @@ public class EntityFactory {
             case PLAYER:
                 assetTargetType = AssetTargetType.CHARACTER;
                 entityClass = Player.class;
+                break;
+            case CHEESE:
+                assetTargetType = AssetTargetType.ITEM;
+                entityClass = Cheese.class;
                 break;
             default:
                 //TODO: remove this case
