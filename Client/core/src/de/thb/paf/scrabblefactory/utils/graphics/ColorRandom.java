@@ -1,6 +1,5 @@
 package de.thb.paf.scrabblefactory.utils.graphics;
 
-
 import com.badlogic.gdx.graphics.Color;
 
 import java.util.HashMap;
@@ -8,23 +7,34 @@ import java.util.Map;
 import java.util.Random;
 
 /**
- * Utility class 
+ * Utility class help to randomly choose a color from a list of pre-defined colors.
  *
  * @author Dominic Schiller - Technische Hochschule Brandenburg
  * @version 1.0
  * @since 1.0
  */
 
-public class ColorRandomizer {
+public class ColorRandom {
 
-    private static final float DEFAULT_ALPHA = 1.0f;
-
+    /**
+     * Map of HEX alpha values organized by it's alpha intensity
+     * from 0 to 100 counted up in five steps
+     */
     private static final Map<Integer, String> ALPHA_HEX_STRINGS;
 
+    /**
+     * List of colors to randomly choose from
+     */
     private static final String[] COLORS;
 
+    /**
+     * The base random class
+     */
     private Random random;
 
+    /*
+     * Static initializer
+     */
     static {
         COLORS = new String[] {
                 "1AAD00FF", // green
@@ -64,13 +74,22 @@ public class ColorRandomizer {
         }};
     }
 
-    public ColorRandomizer() {
+    /**
+     * Constructor
+     */
+    public ColorRandom() {
         this.random = new Random();
     }
 
+    /**
+     * Randomly choose a color from the defined list of available colors.
+     * @param alpha The color's alpha value to set (optional)
+     * @return The randomly chosen color
+     */
     public Color getNextColor(int alpha) {
         int index = random.nextInt(COLORS.length);
-        String hexString = COLORS[index] + ((alpha % 5 == 0) ? ALPHA_HEX_STRINGS.get(alpha) : "");
+        String hexString = COLORS[index] + ((alpha % 5 == 0) ?
+                ALPHA_HEX_STRINGS.get(alpha) : ALPHA_HEX_STRINGS.get(100));
         long colorHex = Long.parseLong(hexString, 16);
 
         return new Color((int)colorHex);
