@@ -16,7 +16,9 @@ public enum AssetTargetType {
     @SerializedName("level")
     LEVEL("level"),
     @SerializedName("character")
-    CHARACTER("character");
+    CHARACTER("character"),
+    @SerializedName("item")
+    ITEM("item");
 
     /**
      * Private Constructor

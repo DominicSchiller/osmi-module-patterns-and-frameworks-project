@@ -19,6 +19,14 @@ public class Cheese extends GameEntity {
      */
     private char letter;
 
+
+    /**
+     * Default Constructor
+     */
+    public Cheese() {
+        super();
+    }
+
     /**
      * Constructor
      * @param id The entity's unique identifier
