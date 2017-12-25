@@ -21,11 +21,6 @@ public abstract class GameComponent implements IComponent {
      */
     private int id;
 
-    @Override
-    public IGameObject getParent() {
-        return this.parent;
-    }
-
     /**
      * The component's unique type
      */
@@ -81,6 +76,11 @@ public abstract class GameComponent implements IComponent {
     @Override
     public ComponentType getType() {
         return this.type;
+    }
+
+    @Override
+    public IGameObject getParent() {
+        return this.parent;
     }
 
     @Override
