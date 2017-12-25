@@ -82,6 +82,11 @@ abstract class HUDComponent implements IHUDComponent {
     }
 
     @Override
+    public float getRotation() {
+        return 0;
+    }
+
+    @Override
     public Vector2 getSize() {
         return this.size;
     }
@@ -116,6 +121,11 @@ abstract class HUDComponent implements IHUDComponent {
     @Override
     public void setPosition(Vector2 position) {
         this.position = position;
+    }
+
+    @Override
+    public void setRotation(float rotation) {
+        // ignore because a HUD does not need any rotation
     }
 
     @Override
