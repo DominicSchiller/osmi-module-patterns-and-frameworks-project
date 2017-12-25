@@ -2,6 +2,7 @@ package de.thb.paf.scrabblefactory.models.components.graphics;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Vector2;
 
 import de.thb.paf.scrabblefactory.models.components.ComponentType;
 import de.thb.paf.scrabblefactory.models.components.GameComponent;
@@ -79,7 +80,11 @@ public class BasicGraphicsComponent extends GameComponent implements IGraphicsCo
 
     @Override
     public void update(float deltaTime) {
-        // TODO implement here
+        Vector2 parentPosition = this.getParent().getPosition();
+        this.texture.setPosition(
+                parentPosition.x,
+                parentPosition.y
+        );
     }
 
     @Override
