@@ -43,6 +43,12 @@ public interface IGameObject {
     Vector2 getPosition();
 
     /**
+     * Get the entity's rotation.
+     * @return The entity's rotation
+     */
+    float getRotation();
+
+    /**
      * Get the game object's size.
      * @return The game object's size
      */
@@ -79,6 +85,12 @@ public interface IGameObject {
      * @param position The new position vector to set
      */
     void setPosition(Vector2 position);
+
+    /**
+     * Set the entity's rotation.
+     * @param rotation The new rotation angle
+     */
+    void setRotation(float rotation);
 
     /**
      * Set the game object's size.
