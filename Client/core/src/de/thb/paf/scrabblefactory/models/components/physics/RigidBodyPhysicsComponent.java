@@ -4,6 +4,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.codeandweb.physicseditor.PhysicsShapeCache;
 
+import de.thb.paf.scrabblefactory.models.IGameObject;
+
 /**
  * Represents a rigid body assembling all static or dynamic body characteristic like
  * friction, density etc. in relation to real world physics.
@@ -66,7 +68,11 @@ public class RigidBodyPhysicsComponent extends AbstractPhysicsComponent {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
-        this.getParent().setPosition(this.body.getPosition());
+        float rotation = (float) Math.toDegrees(this.body.getAngle());
+
+        IGameObject parent = this.getParent();
+        parent.setRotation(rotation);
+        parent.setPosition(this.body.getPosition());
     }
 
     /**
