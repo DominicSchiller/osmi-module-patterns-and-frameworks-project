@@ -85,6 +85,11 @@ abstract class GameLevel implements ILevel {
     }
 
     @Override
+    public float getRotation() {
+        return 0;
+    }
+
+    @Override
     public Vector2 getSize() {
         return this.size;
     }
@@ -129,6 +134,11 @@ abstract class GameLevel implements ILevel {
     @Override
     public void setPosition(Vector2 position) {
         this.position = position;
+    }
+
+    @Override
+    public void setRotation(float rotation) {
+        // ignore because the level does not any rotation
     }
 
     @Override
