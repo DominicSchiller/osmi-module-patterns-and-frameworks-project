@@ -66,6 +66,8 @@ public class PlayScreen extends GameScreen {
     private static final float WORLD_WIDTH = 480;
     private static final float WORLD_HEIGHT = 320;
 
+    private IEntity cheese;
+
     /**
      * Default Constructor
      */
@@ -92,6 +94,7 @@ public class PlayScreen extends GameScreen {
         // TODO: Implement here...
         if(this.isInitialized) {
             this.level.update(deltaTime);
+            this.cheese.update(deltaTime);
             this.player.update(deltaTime);
         }
     }
@@ -142,6 +145,11 @@ public class PlayScreen extends GameScreen {
             }
 
             components = this.player.getAllComponents(ComponentType.GFX_COMPONENT);
+            for(IComponent component : components) {
+                ((IGraphicsComponent) component).render(batch);
+            }
+
+            components = this.cheese.getAllComponents(ComponentType.GFX_COMPONENT);
             for(IComponent component : components) {
                 ((IGraphicsComponent) component).render(batch);
             }
