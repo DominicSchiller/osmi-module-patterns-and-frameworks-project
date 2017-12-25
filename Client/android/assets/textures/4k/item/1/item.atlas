@@ -1,0 +1,12 @@
+item.png
+size: 227, 226
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+cheese
+  rotate: false
+  xy: 1, 1
+  size: 225, 224
+  orig: 225, 224
+  offset: 0, 0
+  index: -1
