@@ -103,6 +103,7 @@ public class PlayScreen extends GameScreen {
     public void show() {
         this.level = new LevelFactory().getLevel(1);
         this.hud = new HUDSystemFactory().getHUDSystem(HUDSystemType.SINGLE_PLAYER_HUD);
+        this.cheese = new EntityFactory().getEntity(EntityType.CHEESE, 1);
         this.player = new EntityFactory().getEntity(EntityType.PLAYER, 1);
         this.debugRenderer = new VisualGameDebugger();
 
