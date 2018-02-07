@@ -34,7 +34,8 @@
           "name": "SpriteAnimationMoveAction",
           "javaPackage": "de.thb.paf.scrabblefactory.models.actions",
           "eventsToHandle": [
-            "move"
+            "move",
+            "ground-contact"
           ]
         }
       ]
@@ -57,7 +58,8 @@
           "name": "RigidBodyMoveAction",
           "javaPackage": "de.thb.paf.scrabblefactory.models.actions",
           "eventsToHandle": [
-            "move"
+            "move",
+            "ground-contact"
           ]
         }
       ]
