@@ -3,14 +3,17 @@ package de.thb.paf.scrabblefactory.models.actions;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
 
 import java.util.Observable;
 
 import de.thb.paf.scrabblefactory.models.components.physics.RigidBodyPhysicsComponent;
+import de.thb.paf.scrabblefactory.models.events.GroundContactEvent;
 import de.thb.paf.scrabblefactory.models.events.IGameEvent;
 import de.thb.paf.scrabblefactory.models.events.MoveEvent;
 
+import static de.thb.paf.scrabblefactory.models.actions.MoveActionType.IDLE;
 import static de.thb.paf.scrabblefactory.settings.Settings.Game.RESOLUTION;
 import static de.thb.paf.scrabblefactory.settings.Settings.Game.VIRTUAL_SCALE;
 
@@ -29,23 +32,31 @@ public class RigidBodyMoveAction extends GameAction {
      */
     private RigidBodyPhysicsComponent parent;
 
+    private MoveActionType moveActionType;
+
+    private boolean isSwitchingBody;
+
     /**
      * Constructor
      * @param parent The associated rigid body physics component
      */
     public RigidBodyMoveAction(RigidBodyPhysicsComponent parent) {
         super();
-        this.parent = (RigidBodyPhysicsComponent)parent;
+        this.parent = parent;
+        this.moveActionType = IDLE;
+        this.isSwitchingBody = false;
     }
 
     @Override
     public void update(Observable observable, Object o) {
-        this.resetVelocity();
         IGameEvent event = ((IGameEvent)observable);
 
         switch(event.getEventType()) {
             case MOVE:
-                this.handleMoveEvent((MoveEvent) event);
+                this.handleMoveEvent((MoveEvent)event);
+                break;
+            case GROUND_CONTACT:
+                this.handleGroundContactEvent((GroundContactEvent)event);
                 break;
             default:
                 // do nothing here...
@@ -54,10 +65,40 @@ public class RigidBodyMoveAction extends GameAction {
     }
 
     /**
-     * Handle the move event.
-     * @param event The current move event to handle
+     * Handle a ground contact event.
+     * @param event The triggered ground contact event to handle
+     * @see GroundContactEvent
+     */
+    private void handleGroundContactEvent(GroundContactEvent event) {
+        // if the event's contact is not equal the associated game object we will ignore this event,
+        // because this event is not dedicated to us.
+        if(this.parent.getParent() != event.getContact()) {
+            return;
+        }
+
+        switch(this.moveActionType) {
+            case JUMP:
+                System.out.println("ground contact happened");
+                this.switchPhysicsBody("idle");
+                break;
+            case JUMP_WALK:
+                System.out.println("ground contact happened");
+                this.switchPhysicsBody("walking");
+                break;
+            default:
+                // we ignore other move actions
+                break;
+        }
+    }
+
+    /**
+     * Handle a move event.
+     * @param event The triggered move event to handle
+     * @see MoveEvent
      */
     private void handleMoveEvent(MoveEvent event) {
+        this.moveActionType = event.getMoveActionType();
+
         switch(event.getMoveDirectionType()) {
             case LEFT:
             case LEFT_UP:
@@ -99,7 +140,7 @@ public class RigidBodyMoveAction extends GameAction {
      * @param xSign The movement direction sign on x-axis
      * @param ySign The movement direction sign on y-axis
      */
-    public void applyImpulse(float xImpulse, float yImpulse, int xSign, int ySign) {
+    private void applyImpulse(float xImpulse, float yImpulse, int xSign, int ySign) {
         Body body = this.parent.getBody();
         body.applyLinearImpulse(
                 new Vector2(
@@ -114,7 +155,7 @@ public class RigidBodyMoveAction extends GameAction {
     /**
      * Reset all the Bodx2D body's velocity and movement impulses.
      */
-    public void resetVelocity() {
+    private void resetVelocity() {
         this.parent.getBody().setLinearVelocity(new Vector2(0, 0));
     }
 
@@ -122,22 +163,35 @@ public class RigidBodyMoveAction extends GameAction {
      * Switches the Box2D body as a function of it's given key and flipped status.
      * @param bodyKey The body's key to load the body's Box2D shape definition from the physicsShapeCache
      */
-    public void switchPhysicsBody(String bodyKey) {
+    private void switchPhysicsBody(String bodyKey) {
         Body currentBody = this.parent.getBody();
-        String flippedSuffixKey = this.parent.isFlipped() ? "_flipped" : "";
-        float scale = VIRTUAL_SCALE * RESOLUTION.virtualScaleFactor;
         World world = currentBody.getWorld();
 
-        Body newBody = this.parent.getPhysicsShapeCache().createBody(
-                bodyKey + flippedSuffixKey,
-                world,
-                scale, scale
-        );
+        if(!world.isLocked() && !this.isSwitchingBody) {
+            this.isSwitchingBody = true;
+            String flippedSuffixKey = this.parent.isFlipped() ? "_flipped" : "";
+            float scale = VIRTUAL_SCALE * RESOLUTION.virtualScaleFactor;
 
-        Vector2 position = currentBody.getPosition();
-        newBody.setTransform(position.x, position.y, 0);
 
-        world.destroyBody(currentBody);
-        this.parent.setBody(newBody);
+            Body newBody = this.parent.getPhysicsShapeCache().createBody(
+                    bodyKey + flippedSuffixKey,
+                    world,
+                    scale, scale
+            );
+
+            // set fixtures user data
+            for(Fixture f : newBody.getFixtureList()) {
+                f.setUserData(this.parent);
+            }
+
+            Vector2 position = currentBody.getPosition();
+            newBody.setTransform(position.x, position.y, 0);
+
+            currentBody.setActive(false);
+            world.destroyBody(currentBody);
+            this.parent.setBody(newBody);
+            
+            this.isSwitchingBody = false;
+        }
     }
 }
