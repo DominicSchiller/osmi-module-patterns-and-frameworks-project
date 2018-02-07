@@ -27,6 +27,12 @@ abstract class GameEvent extends Observable implements IGameEvent {
     }
 
     @Override
+    public void invoke() {
+        this.setChanged();
+        this.notifyObservers();
+    }
+
+    @Override
     public GameEventType getEventType() {
         return eventType;
     }

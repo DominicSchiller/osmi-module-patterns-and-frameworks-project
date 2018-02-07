@@ -46,12 +46,6 @@ public class MoveEvent extends GameEvent {
         }
     }
 
-    @Override
-    public void invoke() {
-        this.setChanged();
-        this.notifyObservers();
-    }
-
     /**
      * Get the current move action type.
      * @return The current move action type
