@@ -2,7 +2,9 @@ package de.thb.paf.scrabblefactory.factories;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 import com.codeandweb.physicseditor.PhysicsShapeCache;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -10,11 +12,13 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import de.thb.paf.scrabblefactory.gameplay.GameContactListener;
 import de.thb.paf.scrabblefactory.io.AssetLoader;
 import de.thb.paf.scrabblefactory.managers.WorldPhysicsManager;
 import de.thb.paf.scrabblefactory.models.IGameObject;
 import de.thb.paf.scrabblefactory.models.actions.IGameAction;
 import de.thb.paf.scrabblefactory.models.components.IComponent;
+import de.thb.paf.scrabblefactory.models.components.physics.IPhysicsComponent;
 import de.thb.paf.scrabblefactory.models.components.physics.RigidBodyPhysicsComponent;
 import de.thb.paf.scrabblefactory.models.components.physics.WorldPhysicsComponent;
 import de.thb.paf.scrabblefactory.settings.Settings;
@@ -98,7 +102,11 @@ public class PhysicsComponentFactory {
      */
     private void initWorldPhysicsComponent(WorldPhysicsComponent physicsComponent) {
         WorldPhysicsManager worldPhysicsManager = WorldPhysicsManager.getInstance();
-        physicsComponent.setWorld(worldPhysicsManager.getPhysicalWorld());
+
+        World world = worldPhysicsManager.getPhysicalWorld();
+        world.setContactListener(new GameContactListener());
+
+        physicsComponent.setWorld(world);
         physicsComponent.setSPS(Settings.App.FPS);
     }
 
@@ -120,8 +128,8 @@ public class PhysicsComponentFactory {
                 physicsComponent.getActiveBodyName(),
                 world,
                 scale, scale);
-//        body.setUserData(name);
         body.setTransform(position.x, position.y, 0);
+        this.initFixtureWithUserData(body, physicsComponent);
 
         physicsComponent.setPhysicsShapeShapeCache(shapeCache);
         physicsComponent.setBody(body);
@@ -139,6 +147,20 @@ public class PhysicsComponentFactory {
                 IGameAction action = actionFactory.getGameAction(actionDef.getAsJsonObject(), component);
                 component.addAction(action);
             }
+        }
+    }
+
+    /**
+     * Initialize the body's fixtures with user data to uniquely characterize the Box2D body by it's
+     * physics component and hence it's devious associated game entity.
+     * @param body The body so set the user data for
+     * @param physicsComponent The physics component to set as user data
+     */
+    private void initFixtureWithUserData(Body body, IPhysicsComponent physicsComponent) {
+        Array<Fixture> fixtures = body.getFixtureList();
+
+        for(Fixture fixture : fixtures) {
+            fixture.setUserData(physicsComponent);
         }
     }
 }
