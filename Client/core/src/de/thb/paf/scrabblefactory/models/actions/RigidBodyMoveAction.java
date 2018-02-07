@@ -32,8 +32,14 @@ public class RigidBodyMoveAction extends GameAction {
      */
     private RigidBodyPhysicsComponent parent;
 
+    /**
+     * The current move action type.
+     */
     private MoveActionType moveActionType;
 
+    /**
+     * Semaphore access flag for securely switching the Box2D body
+     */
     private boolean isSwitchingBody;
 
     /**

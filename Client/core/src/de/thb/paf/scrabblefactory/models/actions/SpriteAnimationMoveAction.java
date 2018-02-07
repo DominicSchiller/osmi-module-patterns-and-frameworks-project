@@ -4,8 +4,11 @@ package de.thb.paf.scrabblefactory.models.actions;
 import java.util.Observable;
 
 import de.thb.paf.scrabblefactory.models.components.graphics.SpriteAnimationGraphicsComponent;
+import de.thb.paf.scrabblefactory.models.events.GroundContactEvent;
 import de.thb.paf.scrabblefactory.models.events.IGameEvent;
 import de.thb.paf.scrabblefactory.models.events.MoveEvent;
+
+import static de.thb.paf.scrabblefactory.models.actions.MoveActionType.IDLE;
 
 /**
  * Represents a basic move action dedicated for sprite animation graphics components.
@@ -23,12 +26,18 @@ public class SpriteAnimationMoveAction extends GameAction {
     private SpriteAnimationGraphicsComponent parent;
 
     /**
+     * The current move action type
+     */
+    private MoveActionType moveActionType;
+
+    /**
      * Constructor
      * @param parent The sprite animation graphics component to control
      */
     public SpriteAnimationMoveAction(SpriteAnimationGraphicsComponent parent) {
         super();
         this.parent = parent;
+        this.moveActionType = IDLE;
     }
 
     @Override
@@ -37,7 +46,10 @@ public class SpriteAnimationMoveAction extends GameAction {
 
         switch(event.getEventType()) {
             case MOVE:
-                this.handleMoveEvent((MoveEvent) event);
+                this.handleMoveEvent((MoveEvent)event);
+                break;
+            case GROUND_CONTACT:
+                this.handleGroundContactEvent((GroundContactEvent)event);
                 break;
             default:
                 // do nothing here...
@@ -46,10 +58,41 @@ public class SpriteAnimationMoveAction extends GameAction {
     }
 
     /**
-     * Handle the move event.
-     * @param event The move event to handle
+     * Handle a ground contact event.
+     * @param event The triggered ground contact event to handle
+     * @see GroundContactEvent
+     */
+    private void handleGroundContactEvent(GroundContactEvent event) {
+
+        // if the event's contact is not equal the associated game object we will ignore this event,
+        // because this event is not dedicated to us.
+        if(this.parent.getParent() != event.getContact()) {
+            return;
+        }
+
+        switch(this.moveActionType) {
+            case JUMP:
+                System.out.println("ground contact happened");
+                this.parent.switchToAnimation("idle");
+                break;
+            case JUMP_WALK:
+                System.out.println("ground contact happened");
+                this.parent.switchToAnimation("walking");
+                break;
+            default:
+                // we ignore other move actions
+                break;
+        }
+    }
+
+    /**
+     * Handle a move event.
+     * @param event The triggered move event to handle
+     * @see MoveEvent
      */
     private void handleMoveEvent(MoveEvent event) {
+        this.moveActionType = event.getMoveActionType();
+
         switch(event.getMoveDirectionType()) {
             case LEFT:
                 this.parent.setFlipped(true);
