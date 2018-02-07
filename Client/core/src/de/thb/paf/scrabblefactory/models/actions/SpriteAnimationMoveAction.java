@@ -72,11 +72,9 @@ public class SpriteAnimationMoveAction extends GameAction {
 
         switch(this.moveActionType) {
             case JUMP:
-                System.out.println("ground contact happened");
                 this.parent.switchToAnimation("idle");
                 break;
             case JUMP_WALK:
-                System.out.println("ground contact happened");
                 this.parent.switchToAnimation("walking");
                 break;
             default:
