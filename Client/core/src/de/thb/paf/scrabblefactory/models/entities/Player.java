@@ -1,5 +1,8 @@
 package de.thb.paf.scrabblefactory.models.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Represents a player entity.
  * 
@@ -8,6 +11,11 @@ package de.thb.paf.scrabblefactory.models.entities;
  * @since 1.0
  */
 public class Player extends GameEntity {
+
+    /**
+     * List of carrying cheese items
+     */
+    private List<Cheese> cheeseItems;
 
     /**
      * The player's name
@@ -19,6 +27,7 @@ public class Player extends GameEntity {
      */
     public Player() {
         super();
+        this.cheeseItems = new ArrayList<>();
     }
 
     /**
@@ -28,6 +37,7 @@ public class Player extends GameEntity {
      */
     public Player(int id, EntityType type) {
         super(id, type);
+        this.cheeseItems = new ArrayList<>();
     }
 
     /**
@@ -57,4 +67,32 @@ public class Player extends GameEntity {
         this.name = name;
     }
 
+    /**
+     * Get the list of carrying cheese items.
+     * @return The list of carrying cheese items
+     */
+    public List<Cheese> getCheeseItems() {
+        return this.cheeseItems;
+    }
+
+    /**
+     * Add a cheese item to the list of carrying cheese items.
+     * @param cheese The cheese item to add
+     */
+    public void addCheeseItem(Cheese cheese) {
+        if(!this.cheeseItems.contains(cheese)) {
+            cheese.setCarrier(this);
+            this.cheeseItems.add(cheese);
+        }
+    }
+
+    /**
+     * Remove a cheese item from the list of carrying cheese items.
+     * @param cheese The cheese item to remove
+     * @return The remove success status
+     */
+    public boolean removeCheeseItem(Cheese cheese) {
+        cheese.setCarrier(null);
+        return this.cheeseItems.remove(cheese);
+    }
 }

@@ -1,5 +1,13 @@
 package de.thb.paf.scrabblefactory.models.entities;
 
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+
+import de.thb.paf.scrabblefactory.models.components.IComponent;
+import de.thb.paf.scrabblefactory.models.components.physics.RigidBodyPhysicsComponent;
+
+import static de.thb.paf.scrabblefactory.settings.Settings.Game.PPM;
+
 /**
  * Represents a cheese entity.
  * 
@@ -8,6 +16,11 @@ package de.thb.paf.scrabblefactory.models.entities;
  * @since 1.0
  */
 public class Cheese extends GameEntity {
+
+    /**
+     * The carrying player
+     */
+    private Player carrier;
 
     /**
      * Quality characteristic whether the cheese is rotten or not
@@ -25,6 +38,7 @@ public class Cheese extends GameEntity {
      */
     public Cheese() {
         super();
+        this.carrier = null;
     }
 
     /**
@@ -34,6 +48,7 @@ public class Cheese extends GameEntity {
      */
     public Cheese(int id, EntityType type) {
         super(id, type);
+        this.carrier = null;
     }
 
     /**
@@ -91,4 +106,42 @@ public class Cheese extends GameEntity {
         this.letter = letter;
     }
 
+    /**
+     * Set the carrying player.
+     * @param carrier The carrying player
+     */
+    public void setCarrier(Player carrier) {
+        this.carrier = carrier;
+    }
+
+    /**
+     * Get the carrying player.
+     * @return The carrying player.
+     */
+    public Player getCarrier() {
+        return this.carrier;
+    }
+
+    @Override
+    public void update(float deltaTime) {
+        super.update(deltaTime);
+
+        // check if we're carried by a player and update our position relative to our carrier
+        if(this.carrier != null) {
+            for(IComponent component : this.components) {
+                if(component instanceof RigidBodyPhysicsComponent) {
+                    Body body = ((RigidBodyPhysicsComponent)component).getBody();
+                    Vector2 carrierPosition = this.carrier.getPosition();
+                    Vector2 carrierSize = this.carrier.getSize();
+                    float verticalOffset = ((this.carrier.getCheeseItems().indexOf(this) + 1) * (this.getSize().x / PPM)) - (7 / PPM);
+                    float horizontalOffset = 15 / PPM;
+                    body.setTransform(
+                            carrierPosition.x + (carrier.getSize().x / PPM) - horizontalOffset,
+                            carrierPosition.y + (carrierSize.y / PPM) + verticalOffset,
+                            0
+                    );
+                }
+            }
+        }
+    }
 }
