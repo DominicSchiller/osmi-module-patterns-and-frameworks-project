@@ -15,5 +15,7 @@ public enum GameEventType {
     @SerializedName("move")
     MOVE,
     @SerializedName("ground-contact")
-    GROUND_CONTACT
+    GROUND_CONTACT,
+    @SerializedName("item-contact")
+    ITEM_CONTACT
 }

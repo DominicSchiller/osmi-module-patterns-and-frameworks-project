@@ -13,6 +13,9 @@ import de.thb.paf.scrabblefactory.models.IGameObject;
 
 public class GroundContactEvent extends GameEvent {
 
+    /**
+     * The entity which has contact
+     */
     private IGameObject contact;
 
     /**
