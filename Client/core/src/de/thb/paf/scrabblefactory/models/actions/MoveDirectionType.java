@@ -17,7 +17,8 @@ public enum MoveDirectionType {
     LEFT_UP(-1, 1),
     RIGHT_UP(1, 1),
     LEFT_DOWN(-1, -1),
-    RIGHT_DOWN(1, -1);
+    RIGHT_DOWN(1, -1),
+    NONE(0, 0);
 
     /**
      * Constructor

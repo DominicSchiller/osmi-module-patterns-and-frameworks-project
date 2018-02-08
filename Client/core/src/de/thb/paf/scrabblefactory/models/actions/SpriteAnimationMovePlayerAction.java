@@ -13,7 +13,7 @@ import static de.thb.paf.scrabblefactory.models.actions.MoveActionType.IDLE;
 import static de.thb.paf.scrabblefactory.models.actions.MoveActionType.NONE;
 
 /**
- * Represents a basic move action dedicated for player's sprite animation graphics components.
+ * Represents a basic move action dedicated for a player's sprite animation graphics components.
  *
  * @author Dominic Schiller
  * @version 1.0

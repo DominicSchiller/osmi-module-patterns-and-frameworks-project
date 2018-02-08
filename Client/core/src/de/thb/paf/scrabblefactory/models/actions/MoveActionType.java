@@ -13,5 +13,6 @@ public enum MoveActionType {
     JUMP,
     WALK,
     JUMP_WALK,
-    IDLE
+    IDLE,
+    NONE
 }

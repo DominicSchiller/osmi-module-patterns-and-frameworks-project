@@ -29,7 +29,15 @@
       "bodyKeys": [
         "cheese"
       ],
-      "actions": []
+      "actions": [
+        {
+          "name": "RigidBodyDeactivateAction",
+          "javaPackage": "de.thb.paf.scrabblefactory.models.actions",
+          "eventsToHandle": [
+            "item-contact"
+          ]
+        }
+      ]
     },
     {
       "name": "GroupedGraphicsComponent",

@@ -18,7 +18,7 @@ import static de.thb.paf.scrabblefactory.settings.Settings.Game.RESOLUTION;
 import static de.thb.paf.scrabblefactory.settings.Settings.Game.VIRTUAL_SCALE;
 
 /**
- * Represents a basic move action dedicated for player's rigid body physics components.
+ * Represents a basic move action dedicated for a player's rigid body physics components.
  *
  * @author Dominic Schiller
  * @version 1.0
