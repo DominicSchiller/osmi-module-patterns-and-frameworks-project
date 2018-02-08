@@ -4,6 +4,7 @@ import de.thb.paf.scrabblefactory.managers.GameEventManager;
 import de.thb.paf.scrabblefactory.models.events.GameEventType;
 import de.thb.paf.scrabblefactory.models.events.GroundContactEvent;
 import de.thb.paf.scrabblefactory.models.events.IGameEvent;
+import de.thb.paf.scrabblefactory.models.events.ItemContactEvent;
 import de.thb.paf.scrabblefactory.models.events.MoveEvent;
 
 /**
@@ -32,6 +33,9 @@ public class EventFactory {
                 break;
             case GROUND_CONTACT:
                 event = new GroundContactEvent();
+                break;
+            case ITEM_CONTACT:
+                event = new ItemContactEvent();
                 break;
             default:
                 event = null;
