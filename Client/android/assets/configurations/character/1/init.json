@@ -23,15 +23,18 @@
       "javaPackage": "de.thb.paf.scrabblefactory.models.components.graphics",
       "atlasNames": [
         "idle",
+        "idle_carrying",
         "walking",
-        "jumping"
+        "walking_carrying",
+        "jumping",
+        "jumping_carrying"
       ],
       "selectedAtlasName": "idle",
       "isInfiniteLoop": true,
       "fps": "30",
       "actions": [
         {
-          "name": "SpriteAnimationMoveAction",
+          "name": "SpriteAnimationMovePlayerAction",
           "javaPackage": "de.thb.paf.scrabblefactory.models.actions",
           "eventsToHandle": [
             "move",
@@ -55,11 +58,18 @@
       ],
       "actions": [
         {
-          "name": "RigidBodyMoveAction",
+          "name": "RigidBodyMovePlayerAction",
           "javaPackage": "de.thb.paf.scrabblefactory.models.actions",
           "eventsToHandle": [
             "move",
             "ground-contact"
+          ]
+        },
+        {
+          "name": "CatchItemPlayerAction",
+          "javaPackage": "de.thb.paf.scrabblefactory.models.actions",
+          "eventsToHandle": [
+            "item-contact"
           ]
         }
       ]

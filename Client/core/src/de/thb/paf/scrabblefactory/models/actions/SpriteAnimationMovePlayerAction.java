@@ -4,21 +4,23 @@ package de.thb.paf.scrabblefactory.models.actions;
 import java.util.Observable;
 
 import de.thb.paf.scrabblefactory.models.components.graphics.SpriteAnimationGraphicsComponent;
+import de.thb.paf.scrabblefactory.models.entities.Player;
 import de.thb.paf.scrabblefactory.models.events.GroundContactEvent;
 import de.thb.paf.scrabblefactory.models.events.IGameEvent;
 import de.thb.paf.scrabblefactory.models.events.MoveEvent;
 
 import static de.thb.paf.scrabblefactory.models.actions.MoveActionType.IDLE;
+import static de.thb.paf.scrabblefactory.models.actions.MoveActionType.NONE;
 
 /**
- * Represents a basic move action dedicated for sprite animation graphics components.
+ * Represents a basic move action dedicated for player's sprite animation graphics components.
  *
  * @author Dominic Schiller
  * @version 1.0
  * @since 1.0
  */
 
-public class SpriteAnimationMoveAction extends GameAction {
+public class SpriteAnimationMovePlayerAction extends GameAction {
 
     /**
      * The sprite animation graphics component to control
@@ -34,7 +36,7 @@ public class SpriteAnimationMoveAction extends GameAction {
      * Constructor
      * @param parent The sprite animation graphics component to control
      */
-    public SpriteAnimationMoveAction(SpriteAnimationGraphicsComponent parent) {
+    public SpriteAnimationMovePlayerAction(SpriteAnimationGraphicsComponent parent) {
         super();
         this.parent = parent;
         this.moveActionType = IDLE;
@@ -70,12 +72,18 @@ public class SpriteAnimationMoveAction extends GameAction {
             return;
         }
 
+        String carryingSuffix = "";
+        int carryingItemsCount = ((Player)this.parent.getParent()).getCheeseItems().size();
+        if(carryingItemsCount > 0) {
+            carryingSuffix = "_carrying";
+        }
+
         switch(this.moveActionType) {
             case JUMP:
-                this.parent.switchToAnimation("idle");
+                this.parent.switchToAnimation("idle" + carryingSuffix);
                 break;
             case JUMP_WALK:
-                this.parent.switchToAnimation("walking");
+                this.parent.switchToAnimation("walking" + carryingSuffix);
                 break;
             default:
                 // we ignore other move actions
@@ -89,7 +97,12 @@ public class SpriteAnimationMoveAction extends GameAction {
      * @see MoveEvent
      */
     private void handleMoveEvent(MoveEvent event) {
-        this.moveActionType = event.getMoveActionType();
+        int carryingItemsCount = ((Player)this.parent.getParent()).getCheeseItems().size();
+        String carryingSuffix = "";
+
+        if(carryingItemsCount > 0) {
+            carryingSuffix = "_carrying";
+        }
 
         switch(event.getMoveDirectionType()) {
             case LEFT:
@@ -100,19 +113,30 @@ public class SpriteAnimationMoveAction extends GameAction {
                 break;
         }
 
-        switch(event.getMoveActionType()) {
+        MoveActionType actionType;
+        if(event.getMoveActionType() != NONE) {
+            this.moveActionType  = event.getMoveActionType();
+            actionType = this.moveActionType;
+        } else {
+            actionType = this.moveActionType;
+        }
+
+        switch(actionType) {
             case WALK:
                 this.parent.setInfiniteLoop(true);
-                this.parent.switchToAnimation("walking");
+                this.parent.switchToAnimation("walking" + carryingSuffix);
                 break;
             case JUMP:
             case JUMP_WALK:
                 this.parent.setInfiniteLoop(false);
-                this.parent.switchToAnimation("jumping");
+                this.parent.switchToAnimation("jumping" + carryingSuffix);
+                break;
+            case IDLE:
+                this.parent.setInfiniteLoop(true);
+                this.parent.switchToAnimation("idle" + carryingSuffix);
                 break;
             default:
-                this.parent.setInfiniteLoop(true);
-                this.parent.switchToAnimation("idle");
+                // we ignore other move actions
                 break;
         }
     }

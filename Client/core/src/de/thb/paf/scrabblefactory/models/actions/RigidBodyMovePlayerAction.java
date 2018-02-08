@@ -18,14 +18,14 @@ import static de.thb.paf.scrabblefactory.settings.Settings.Game.RESOLUTION;
 import static de.thb.paf.scrabblefactory.settings.Settings.Game.VIRTUAL_SCALE;
 
 /**
- * Represents a basic move action dedicated for rigid body physics components.
+ * Represents a basic move action dedicated for player's rigid body physics components.
  *
  * @author Dominic Schiller
  * @version 1.0
  * @since 1.0
  */
 
-public class RigidBodyMoveAction extends GameAction {
+public class RigidBodyMovePlayerAction extends GameAction {
 
     /**
      * The rigid body physics component to control
@@ -46,7 +46,7 @@ public class RigidBodyMoveAction extends GameAction {
      * Constructor
      * @param parent The associated rigid body physics component
      */
-    public RigidBodyMoveAction(RigidBodyPhysicsComponent parent) {
+    public RigidBodyMovePlayerAction(RigidBodyPhysicsComponent parent) {
         super();
         this.parent = parent;
         this.moveActionType = IDLE;
