@@ -23,7 +23,8 @@ public class RigidBodyDeactivateAction extends GameAction {
     private RigidBodyPhysicsComponent parent;
 
     /**
-     * Default Constructor
+     * Constructor
+     * @param parent The associated rigid body physics component
      */
     public RigidBodyDeactivateAction(RigidBodyPhysicsComponent parent) {
         super();
