@@ -10,11 +10,14 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 import de.thb.paf.scrabblefactory.managers.GameEventManager;
 import de.thb.paf.scrabblefactory.models.IGameObject;
 import de.thb.paf.scrabblefactory.models.components.IComponent;
+import de.thb.paf.scrabblefactory.models.entities.Cheese;
 import de.thb.paf.scrabblefactory.models.entities.Player;
 import de.thb.paf.scrabblefactory.models.events.GroundContactEvent;
+import de.thb.paf.scrabblefactory.models.events.ItemContactEvent;
 import de.thb.paf.scrabblefactory.models.level.ILevel;
 
 import static de.thb.paf.scrabblefactory.models.events.GameEventType.GROUND_CONTACT;
+import static de.thb.paf.scrabblefactory.models.events.GameEventType.ITEM_CONTACT;
 
 
 /**
@@ -46,6 +49,12 @@ public class GameContactListener implements ContactListener {
         if(this.isGroundContact(goA, goB)) {
             this.triggerGroundContactEventAsync(goB);
         }
+        else if(this.isItemContact(goA, goB)) {
+            this.triggerItemContactEventAsync(
+                    (goA instanceof Player) ? goA : goB,
+                    !(goB instanceof Player) ? goB : goA
+            );
+        }
     }
 
     @Override
@@ -63,7 +72,7 @@ public class GameContactListener implements ContactListener {
     }
 
     /**
-     * Verify if the the collided object hit the game world's ground.
+     * Verify if the collided object hit the game world's ground.
      * @param goA The first game object involved in the collision
      * @param goB The second game object involved in the collision
      * @return Status if ground contact happened
@@ -73,18 +82,42 @@ public class GameContactListener implements ContactListener {
     }
 
     /**
+     * Verify if a player collided with an game item.
+     * @param goA The first game object involved in the collision
+     * @param goB The second game object involved in the collision
+     * @return Status if ground contact happened
+     */
+    private boolean isItemContact(IGameObject goA, IGameObject goB) {
+        return (goA instanceof Player || goB instanceof Player)
+                && (goA instanceof Cheese || goB instanceof Cheese);
+    }
+
+    /**
      * Asynchronously trigger a ground contact event.
      * @param contact The game object which hit the ground
      */
     private void triggerGroundContactEventAsync(IGameObject contact) {
-        new Thread(
-                () -> Gdx.app.postRunnable(
-                        () -> {
-                            ((GroundContactEvent) GameEventManager.getInstance()
-                                    .getGameEvent(GROUND_CONTACT)).setContact(contact);
-                            GameEventManager.getInstance().triggerEvent(GROUND_CONTACT);
-                        }
-                )
+        new Thread(() -> Gdx.app.postRunnable(() -> {
+                ((GroundContactEvent) GameEventManager.getInstance()
+                        .getGameEvent(GROUND_CONTACT)).setContact(contact);
+                GameEventManager.getInstance().triggerEvent(GROUND_CONTACT);
+            })
+        ).start();
+    }
+
+    /**
+     * Asynchronously trigger a item contact event.
+     * @param contact The game object which hit the item
+     * @param item The item which got hit by the contact
+     */
+    private void triggerItemContactEventAsync(IGameObject contact, IGameObject item) {
+        new Thread(() -> Gdx.app.postRunnable(() -> {
+                ItemContactEvent event = ((ItemContactEvent) GameEventManager.getInstance()
+                        .getGameEvent(ITEM_CONTACT));
+                event.setContact(contact);
+                event.setItem(item);
+                GameEventManager.getInstance().triggerEvent(ITEM_CONTACT);
+            })
         ).start();
     }
 }
