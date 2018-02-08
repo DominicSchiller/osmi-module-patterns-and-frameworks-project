@@ -8,14 +8,14 @@ import de.thb.paf.scrabblefactory.models.events.IGameEvent;
 import de.thb.paf.scrabblefactory.models.events.ItemContactEvent;
 
 /**
- * Represents a basic action dedicated to deactivate Box2D bodies.
+ * Represents a basic action dedicated to deactivate a rigid Box2D bodies.
  *
  * @author Dominic Schiller - Technische Hochschule Brandenburg
  * @version 1.0
  * @since 1.0
  */
 
-public class RigidBodyDisableAction extends GameAction {
+public class RigidBodyDeactivateAction extends GameAction {
 
     /**
      * The rigid body physics component to control
@@ -25,7 +25,7 @@ public class RigidBodyDisableAction extends GameAction {
     /**
      * Default Constructor
      */
-    public RigidBodyDisableAction(RigidBodyPhysicsComponent parent) {
+    public RigidBodyDeactivateAction(RigidBodyPhysicsComponent parent) {
         super();
         this.parent = parent;
     }
