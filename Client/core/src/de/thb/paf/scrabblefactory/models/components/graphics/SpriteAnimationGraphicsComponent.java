@@ -212,6 +212,13 @@ public class SpriteAnimationGraphicsComponent extends GameComponent implements I
     @Override
     public void update(float deltaTime) {
         this.elapsedTime += deltaTime;
+
+        TextureRegion texture = this.animation.getKeyFrame(this.elapsedTime, this.isInfiniteLoop);
+        Vector2 size = new Vector2(
+                texture.getRegionWidth() * Settings.Game.VIRTUAL_SCALE,
+                texture.getRegionHeight() * Settings.Game.VIRTUAL_SCALE
+        );
+        this.getParent().setSize(size);
     }
 
     @Override
@@ -225,7 +232,7 @@ public class SpriteAnimationGraphicsComponent extends GameComponent implements I
             texture.flip(true, false);
         }
 
-        float width = texture.getRegionWidth()  * Settings.Game.VIRTUAL_SCALE;
+        float width = texture.getRegionWidth() * Settings.Game.VIRTUAL_SCALE;
         float height = texture.getRegionHeight() * Settings.Game.VIRTUAL_SCALE;
         batch.draw(
                 texture,

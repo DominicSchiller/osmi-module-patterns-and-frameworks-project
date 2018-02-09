@@ -3,9 +3,13 @@ package de.thb.paf.scrabblefactory.models.entities;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 
+import de.thb.paf.scrabblefactory.models.components.ComponentType;
 import de.thb.paf.scrabblefactory.models.components.IComponent;
+import de.thb.paf.scrabblefactory.models.components.graphics.IGraphicsComponent;
+import de.thb.paf.scrabblefactory.models.components.graphics.SpriteAnimationGraphicsComponent;
 import de.thb.paf.scrabblefactory.models.components.physics.RigidBodyPhysicsComponent;
 
+import static de.thb.paf.scrabblefactory.models.components.ComponentType.GFX_COMPONENT;
 import static de.thb.paf.scrabblefactory.settings.Settings.Game.PPM;
 
 /**
@@ -130,16 +134,22 @@ public class Cheese extends GameEntity {
         if(this.carrier != null) {
             for(IComponent component : this.components) {
                 if(component instanceof RigidBodyPhysicsComponent) {
-                    Body body = ((RigidBodyPhysicsComponent)component).getBody();
-                    Vector2 carrierPosition = this.carrier.getPosition();
-                    Vector2 carrierSize = this.carrier.getSize();
-                    float verticalOffset = ((this.carrier.getCheeseItems().indexOf(this) + 1) * (this.getSize().x / PPM)) - (7 / PPM);
-                    float horizontalOffset = 15 / PPM;
-                    body.setTransform(
-                            carrierPosition.x + (carrier.getSize().x / PPM) - horizontalOffset,
-                            carrierPosition.y + (carrierSize.y / PPM) + verticalOffset,
-                            0
-                    );
+                   for(IComponent gfxComponent : this.carrier.getAllComponents(GFX_COMPONENT)) {
+                       if(gfxComponent instanceof SpriteAnimationGraphicsComponent) {
+                           Body body = ((RigidBodyPhysicsComponent)component).getBody();
+                           Vector2 carrierPosition = this.carrier.getPosition();
+                           Vector2 carrierSize = this.carrier.getSize();
+                           float verticalOffset = ((this.carrier.getCheeseItems().indexOf(this)) * (this.getSize().x / PPM));
+                           float horizontalOffset = ((this.carrier.getSize().x / 2) - (this.getSize().x / PPM / 2))
+                                   + (((SpriteAnimationGraphicsComponent) gfxComponent).isFlipped() ? (-7 / PPM) : (7 / PPM));
+                           body.setTransform(
+                                   carrierPosition.x + horizontalOffset,
+                                   carrierPosition.y + carrierSize.y + verticalOffset,
+                                   0
+                           );
+                           break;
+                       }
+                   }
                 }
             }
         }
