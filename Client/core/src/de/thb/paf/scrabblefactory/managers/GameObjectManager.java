@@ -6,6 +6,8 @@ import java.util.List;
 import de.thb.paf.scrabblefactory.models.IGameObject;
 import de.thb.paf.scrabblefactory.models.components.ComponentType;
 import de.thb.paf.scrabblefactory.models.components.IComponent;
+import de.thb.paf.scrabblefactory.models.entities.EntityType;
+import de.thb.paf.scrabblefactory.models.entities.IEntity;
 
 /**
  * Manager class responsible managing all registered game objects.
@@ -64,6 +66,22 @@ public class GameObjectManager implements IGameManager {
      */
     public boolean removeGameObject(IGameObject gameObject) {
         return this.gameObjects.remove(gameObject);
+    }
+
+
+    /**
+     * Get list of specific registered entities.
+     * @param entityType The entities' type to look for
+     * @return List of found entities
+     */
+    public List<IGameObject> getGameObject(EntityType entityType) {
+        List<IGameObject> foundObjects = new ArrayList<>();
+        for(IGameObject gameObject : this.gameObjects) {
+            if(gameObject instanceof IEntity && ((IEntity) gameObject).getType().equals(entityType)) {
+                foundObjects.add(gameObject);
+            }
+        }
+        return foundObjects;
     }
 
     @Override
