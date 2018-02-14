@@ -1,6 +1,7 @@
 package de.thb.paf.scrabblefactory.factories;
 
 import de.thb.paf.scrabblefactory.managers.GameEventManager;
+import de.thb.paf.scrabblefactory.models.events.DiscardEvent;
 import de.thb.paf.scrabblefactory.models.events.GameEventType;
 import de.thb.paf.scrabblefactory.models.events.GroundContactEvent;
 import de.thb.paf.scrabblefactory.models.events.IGameEvent;
@@ -30,6 +31,9 @@ public class EventFactory {
         switch(eventType) {
             case MOVE:
                 event = new MoveEvent();
+                break;
+            case DISCARD:
+                event = new DiscardEvent();
                 break;
             case GROUND_CONTACT:
                 event = new GroundContactEvent();

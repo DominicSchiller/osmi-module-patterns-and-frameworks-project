@@ -14,8 +14,10 @@ import com.google.gson.annotations.SerializedName;
 public enum GameEventType {
     @SerializedName("move")
     MOVE,
+    @SerializedName("discard")
+    DISCARD,
     @SerializedName("ground-contact")
     GROUND_CONTACT,
     @SerializedName("item-contact")
-    ITEM_CONTACT
+    ITEM_CONTACT,
 }
