@@ -3,13 +3,21 @@ package de.thb.paf.scrabblefactory.io;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 
+import java.util.List;
+
 import de.thb.paf.scrabblefactory.managers.GameEventManager;
-import de.thb.paf.scrabblefactory.models.events.GameEventType;
+import de.thb.paf.scrabblefactory.managers.GameObjectManager;
+import de.thb.paf.scrabblefactory.models.IGameObject;
+import de.thb.paf.scrabblefactory.models.entities.Player;
+import de.thb.paf.scrabblefactory.models.events.DiscardEvent;
 import de.thb.paf.scrabblefactory.models.actions.MoveActionType;
 import de.thb.paf.scrabblefactory.models.actions.MoveDirectionType;
 import de.thb.paf.scrabblefactory.models.events.MoveEvent;
 
 import static com.badlogic.gdx.Input.Keys.*;
+import static de.thb.paf.scrabblefactory.models.entities.EntityType.PLAYER;
+import static de.thb.paf.scrabblefactory.models.events.GameEventType.DISCARD;
+import static de.thb.paf.scrabblefactory.models.events.GameEventType.MOVE;
 
 
 /**
@@ -32,17 +40,35 @@ public class UserInputProcessor implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
-        MoveEvent event = (MoveEvent)GameEventManager.getInstance().getGameEvent(GameEventType.MOVE);
-        if(event != null) {
-            this.applyMoveAction(keycode, event, this.applyMoveDirection(keycode, event));
-            GameEventManager.getInstance().triggerEvent(GameEventType.MOVE);
+        switch(keycode) {
+            case LEFT:
+            case RIGHT:
+            case UP:
+            case SPACE:
+            case DOWN:
+                MoveEvent moveEvent = (MoveEvent)GameEventManager.getInstance().getGameEvent(MOVE);
+                if(moveEvent != null) {
+                    this.applyMoveAction(keycode, moveEvent, this.applyMoveDirection(keycode, moveEvent));
+                    GameEventManager.getInstance().triggerEvent(MOVE);
+                }
+                break;
+            case X:
+                //TODO: handle the player entity
+                List<IGameObject> gameObjects = GameObjectManager.getInstance().getGameObject(PLAYER);
+                Player player = (Player)gameObjects.get(0);
+                if(player.getCheeseItems().size() > 0) {
+                    DiscardEvent discardEvent = (DiscardEvent)GameEventManager.getInstance().getGameEvent(DISCARD);
+                    discardEvent.setDiscardTarget(player);
+                    GameEventManager.getInstance().triggerEvent(DISCARD);
+                }
+                break;
         }
+
         return true;
     }
 
     @Override
     public boolean keyUp(int keycode) {
-        // pre-condition: if we
         if(Gdx.input.isKeyPressed(RIGHT) || Gdx.input.isKeyPressed(LEFT)) {
             return false;
         }
@@ -50,10 +76,10 @@ public class UserInputProcessor implements InputProcessor {
         switch(keycode) {
             case LEFT:
             case RIGHT:
-                MoveEvent event = (MoveEvent)GameEventManager.getInstance().getGameEvent(GameEventType.MOVE);
+                MoveEvent event = (MoveEvent)GameEventManager.getInstance().getGameEvent(MOVE);
                 if(event != null) {
                     event.setMoveActionType(MoveActionType.IDLE);
-                    GameEventManager.getInstance().triggerEvent(GameEventType.MOVE);
+                    GameEventManager.getInstance().triggerEvent(MOVE);
                 }
                 break;
         }
@@ -124,6 +150,7 @@ public class UserInputProcessor implements InputProcessor {
                 }
                 break;
             case UP:
+            case SPACE:
                 if(Gdx.input.isKeyPressed(LEFT)) {
                     event.setMoveDirectionType(MoveDirectionType.LEFT_UP);
                     isisMultiDirection = true;
@@ -166,6 +193,7 @@ public class UserInputProcessor implements InputProcessor {
                     event.setMoveActionType(MoveActionType.WALK);
                     break;
                 case UP:
+                case SPACE:
                 case DOWN:
                     event.setMoveActionType(MoveActionType.JUMP);
                     break;
