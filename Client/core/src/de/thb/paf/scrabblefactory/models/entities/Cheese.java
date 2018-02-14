@@ -3,9 +3,7 @@ package de.thb.paf.scrabblefactory.models.entities;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 
-import de.thb.paf.scrabblefactory.models.components.ComponentType;
 import de.thb.paf.scrabblefactory.models.components.IComponent;
-import de.thb.paf.scrabblefactory.models.components.graphics.IGraphicsComponent;
 import de.thb.paf.scrabblefactory.models.components.graphics.SpriteAnimationGraphicsComponent;
 import de.thb.paf.scrabblefactory.models.components.physics.RigidBodyPhysicsComponent;
 
@@ -32,10 +30,14 @@ public class Cheese extends GameEntity {
     private boolean isRotten;
 
     /**
+     * State if the cheese item has been caught
+     */
+    private boolean isCaught;
+
+    /**
      * The cheese's associated letter
      */
     private char letter;
-
 
     /**
      * Default Constructor
@@ -52,6 +54,7 @@ public class Cheese extends GameEntity {
      */
     public Cheese(int id, EntityType type) {
         super(id, type);
+        this.isCaught = false;
         this.carrier = null;
     }
 
@@ -92,6 +95,22 @@ public class Cheese extends GameEntity {
      */
     public void setRotten(boolean isRotten) {
         this.isRotten = isRotten;
+    }
+
+    /**
+     * Get the state if the cheese item has been caught
+     * @return The cheese's is-caught state
+     */
+    public boolean isCaught() {
+        return this.isCaught;
+    }
+
+    /**
+     * Set the state if the cheese item has been caught
+     * @param isCaught The cheese's is-caught state
+     */
+    public void setCaught(boolean isCaught) {
+        this.isCaught = isCaught;
     }
 
     /**
