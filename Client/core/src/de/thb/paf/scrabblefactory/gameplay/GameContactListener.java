@@ -49,7 +49,7 @@ public class GameContactListener implements ContactListener {
         if(this.isGroundContact(goA, goB)) {
             this.triggerGroundContactEventAsync(goB);
         }
-        else if(this.isItemContact(goA, goB)) {
+        else if(this.isItemContact(goA, goB) || this.isItemContact(goB, goA)) {
             this.triggerItemContactEventAsync(
                     (goA instanceof Player) ? goA : goB,
                     !(goB instanceof Player) ? goB : goA
@@ -78,7 +78,8 @@ public class GameContactListener implements ContactListener {
      * @return Status if ground contact happened
      */
     private boolean isGroundContact(IGameObject goA, IGameObject goB) {
-        return (goA instanceof ILevel && goB instanceof Player);
+        return (goA instanceof ILevel && goB instanceof Player)
+                || (goA instanceof ILevel && goB instanceof Cheese);
     }
 
     /**
@@ -88,8 +89,15 @@ public class GameContactListener implements ContactListener {
      * @return Status if ground contact happened
      */
     private boolean isItemContact(IGameObject goA, IGameObject goB) {
-        return (goA instanceof Player || goB instanceof Player)
-                && (goA instanceof Cheese || goB instanceof Cheese);
+         boolean isItemContact = false;
+
+        if(goA instanceof Player) {
+            if(goB instanceof Cheese && !((Cheese)goB).isCaught()) {
+                isItemContact = true;
+            }
+        }
+
+        return isItemContact;
     }
 
     /**
