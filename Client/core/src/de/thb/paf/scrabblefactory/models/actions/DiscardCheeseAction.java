@@ -1,24 +1,23 @@
 package de.thb.paf.scrabblefactory.models.actions;
 
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Fixture;
 
 import java.util.Observable;
 
 import de.thb.paf.scrabblefactory.models.components.physics.RigidBodyPhysicsComponent;
+import de.thb.paf.scrabblefactory.models.events.DiscardEvent;
 import de.thb.paf.scrabblefactory.models.events.IGameEvent;
-import de.thb.paf.scrabblefactory.models.events.ItemContactEvent;
-
-import static com.badlogic.gdx.physics.box2d.BodyDef.BodyType.DynamicBody;
 
 /**
- * Represents a basic action dedicated to deactivate a rigid Box2D bodies.
+ * Cheese action dedicated to handle the discard a cheese item.
  *
  * @author Dominic Schiller - Technische Hochschule Brandenburg
  * @version 1.0
  * @since 1.0
  */
 
-public class RigidBodyDeactivateAction extends GameAction {
+public class DiscardCheeseAction extends GameAction {
 
     /**
      * The rigid body physics component to control
@@ -29,7 +28,7 @@ public class RigidBodyDeactivateAction extends GameAction {
      * Constructor
      * @param parent The associated rigid body physics component
      */
-    public RigidBodyDeactivateAction(RigidBodyPhysicsComponent parent) {
+    public DiscardCheeseAction(RigidBodyPhysicsComponent parent) {
         super();
         this.parent = parent;
     }
@@ -39,8 +38,8 @@ public class RigidBodyDeactivateAction extends GameAction {
         IGameEvent event = ((IGameEvent) observable);
 
         switch(event.getEventType()) {
-            case ITEM_CONTACT:
-                this.handleItemContactEvent((ItemContactEvent)event);
+            case DISCARD:
+                this.handleDiscardEvent((DiscardEvent)event);
                 break;
             default:
                 // we ignore other events
@@ -49,15 +48,16 @@ public class RigidBodyDeactivateAction extends GameAction {
     }
 
     /**
-     * Handle a item contact event.
-     * @param event The triggered item contact event
-     * @see ItemContactEvent
+     * Handle a received discard event.
+     * @param event The triggered discard event to process
      */
-    private void handleItemContactEvent(ItemContactEvent event) {
-        if(event.getItem() == this.parent.getParent()) {
+    private void handleDiscardEvent(DiscardEvent event) {
+        if(event.getDiscardTarget() == this.parent.getParent()) {
             Body body = this.parent.getBody();
-            body.setType(DynamicBody);
-            body.setActive(false);
+            body.setActive(true);
+            for(Fixture fixture : body.getFixtureList()) {
+                fixture.setSensor(true);
+            }
         }
     }
 }

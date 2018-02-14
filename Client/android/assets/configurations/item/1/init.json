@@ -36,6 +36,20 @@
           "eventsToHandle": [
             "item-contact"
           ]
+        },
+        {
+          "name": "DiscardCheeseAction",
+          "javaPackage": "de.thb.paf.scrabblefactory.models.actions",
+          "eventsToHandle": [
+            "discard"
+          ]
+        },
+        {
+          "name": "GroundContactCheeseAction",
+          "javaPackage": "de.thb.paf.scrabblefactory.models.actions",
+          "eventsToHandle": [
+            "ground-contact"
+          ]
         }
       ]
     },

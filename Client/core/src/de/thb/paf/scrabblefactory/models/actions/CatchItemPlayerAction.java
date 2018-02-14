@@ -72,6 +72,7 @@ public class CatchItemPlayerAction extends GameAction {
      */
     private void handleCheeseItem(Cheese cheese) {
         Player player = (Player)this.parent.getParent();
+        cheese.setCaught(true);
         player.addCheeseItem(cheese);
         this.triggerMoveEventAsync();
     }

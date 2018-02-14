@@ -3,7 +3,7 @@ package de.thb.paf.scrabblefactory.models.events;
 import de.thb.paf.scrabblefactory.models.IGameObject;
 
 /**
- * Discard event dedicated to trigger a game object's discard action.
+ * Game event dedicated to trigger a game object's discard action.
  *
  * @author Dominic Schiller - Technische Hochschule Brandenburg
  * @version 1.0
