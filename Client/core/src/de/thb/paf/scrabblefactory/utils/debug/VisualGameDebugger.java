@@ -67,7 +67,6 @@ public class VisualGameDebugger {
         physicsDebugRenderer.SHAPE_AWAKE.g = 19/255f;
         physicsDebugRenderer.SHAPE_AWAKE.b = 49/255f;
         physicsDebugRenderer.SHAPE_AWAKE.a = 1.0f;
-
     }
 
     /**
@@ -78,8 +77,8 @@ public class VisualGameDebugger {
         Matrix4 projectionMatrix = batch.getProjectionMatrix();
 
         batch.begin();
-        float x = 5;
-        float y = (VIRTUAL_HEIGHT * PPM) - 12;
+        float x = 7;
+        float y = (VIRTUAL_HEIGHT * PPM) - 35;
 
         fpsDisplay.draw(batch, "fps: " + Gdx.graphics.getFramesPerSecond(), x, y);
         batch.end();

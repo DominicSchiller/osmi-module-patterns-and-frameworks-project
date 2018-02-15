@@ -1,5 +1,10 @@
 package de.thb.paf.scrabblefactory.models.hud;
 
+import java.util.Observable;
+
+import de.thb.paf.scrabblefactory.models.events.IGameEvent;
+import de.thb.paf.scrabblefactory.models.events.PlayerHealthChangedEvent;
+
 /**
  * Represents a HUD container dedicated to display a player's health.
  *
@@ -46,5 +51,16 @@ public class HealthHUD extends HUDComponent {
     @Override
     public void dispose() {
 
+    }
+
+    @Override
+    public void update(Observable observable, Object arg) {
+        IGameEvent event = ((IGameEvent) observable);
+
+        switch(event.getEventType()) {
+            case PLAYER_HEALTH_CHANGED:
+                this.setHealth(((PlayerHealthChangedEvent)event).getHealth());
+                break;
+        }
     }
 }

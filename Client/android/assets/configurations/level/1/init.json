@@ -10,7 +10,7 @@
   },
   "assetTargetType": "level",
   "title" : "Level 1",
-  "countdown" : 10000,
+  "countdown" : 180000,
 
   "wordPool" : [
     "Auto",
