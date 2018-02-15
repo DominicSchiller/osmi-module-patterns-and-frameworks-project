@@ -7,14 +7,19 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import java.util.Timer;
+
 import de.thb.paf.scrabblefactory.io.AssetLoader;
 import de.thb.paf.scrabblefactory.models.assets.AssetTargetType;
 import de.thb.paf.scrabblefactory.models.components.IComponent;
 import de.thb.paf.scrabblefactory.models.components.graphics.IGraphicsComponent;
+import de.thb.paf.scrabblefactory.models.hud.HUDComponent;
 import de.thb.paf.scrabblefactory.models.hud.HUDSystem;
 import de.thb.paf.scrabblefactory.models.hud.HUDSystemType;
 import de.thb.paf.scrabblefactory.models.hud.HealthHUD;
 import de.thb.paf.scrabblefactory.models.hud.IHUDComponent;
+import de.thb.paf.scrabblefactory.models.hud.SearchWordHUD;
+import de.thb.paf.scrabblefactory.models.hud.TimerHUD;
 import de.thb.paf.scrabblefactory.utils.ScrabbleFactoryClassLoader;
 import de.thb.paf.scrabblefactory.utils.graphics.AlignmentHelper;
 
@@ -52,8 +57,8 @@ public class HUDSystemFactory {
             this.assetLoader = new AssetLoader();
         }
 
+        ActionFactory actionFactory = new ActionFactory();
         HUDSystem hudSystem = new HUDSystem(hudSystemType);
-
         JsonObject hudSystemConfig = this.assetLoader.loadInitConfiguration(AssetTargetType.HUD, hudSystemType.id);
 
         JsonArray hudComponentConfigs = hudSystemConfig.get(JSON_KEY_COMPONENTS).getAsJsonArray();
@@ -63,6 +68,7 @@ public class HUDSystemFactory {
 
             if(hudComponent != null) {
                 hudComponent.setHUDSystem(hudSystem);
+                actionFactory.registerToEvents(hudComponent);
                 this.initAssociatedComponents(hudComponent, hudComponentConfig.getAsJsonObject());
                 hudSystem.addHUDComponent(hudComponent);
             }
@@ -84,6 +90,12 @@ public class HUDSystemFactory {
             case "health":
                 hudComponent = this.initHealthHUDComponent(hudComponentConfig.getAsJsonObject());
                 break;
+            case "timer":
+                hudComponent = this.initTimerHUDComponent(hudComponentConfig.getAsJsonObject());
+                break;
+            case "searchWord":
+                hudComponent = this.initSearchWordHUDComponent(hudComponentConfig.getAsJsonObject());
+                break;
             default:
                 hudComponent = null;
                 // we do nothing here
@@ -94,13 +106,51 @@ public class HUDSystemFactory {
     }
 
     /**
-     * Initializes a Health HUD Component.
+     * Initializes a health HUD Component.
      * @param hudComponentConfig The HUD components JSON configuration
-     * @return The requested HUD component instance
+     * @return The requested health HUD component instance
      */
     private IHUDComponent initHealthHUDComponent(JsonObject hudComponentConfig) {
         Gson gson = new GsonBuilder().create();
         HealthHUD hudComponent = gson.fromJson(hudComponentConfig, HealthHUD.class);
+
+        hudComponent.setPosition(this.getRelativePosition(hudComponent));
+        return hudComponent;
+    }
+
+    /**
+     * Initializes a timer HUD Component.
+     * @param hudComponentConfig The HUD components JSON configuration
+     * @return The requested timer HUD component instance
+     */
+    private IHUDComponent initTimerHUDComponent(JsonObject hudComponentConfig) {
+        Gson gson = new GsonBuilder().create();
+        TimerHUD hudComponent = gson.fromJson(hudComponentConfig, TimerHUD.class);
+
+        hudComponent.setPosition(this.getRelativePosition(hudComponent));
+        return hudComponent;
+    }
+
+    /**
+     * Initializes a search word HUD Component.
+     * @param hudComponentConfig The HUD components JSON configuration
+     * @return The requested search word HUD component instance
+     */
+    private IHUDComponent initSearchWordHUDComponent(JsonObject hudComponentConfig) {
+        Gson gson = new GsonBuilder().create();
+        SearchWordHUD hudComponent = gson.fromJson(hudComponentConfig, SearchWordHUD.class);
+
+        hudComponent.setPosition(this.getRelativePosition(hudComponent));
+        return hudComponent;
+    }
+
+    /**
+     * Calculate the HUD component's relative on screen position as a function on it's defined
+     * alignment and margin options.
+     * @param hudComponent The HUD component to calculate the relate position for
+     * @return The relative on screen position
+     */
+    private Vector2 getRelativePosition(HUDComponent hudComponent) {
         Vector2 position = AlignmentHelper.getRelativePosition(
                 new Vector2 (
                         hudComponent.getSize().x / PPM,
@@ -110,8 +160,8 @@ public class HUDSystemFactory {
                 hudComponent.alignment,
                 hudComponent.margin
         );
-        hudComponent.setPosition(position);
-        return hudComponent;
+
+        return position;
     }
 
     /**

@@ -48,11 +48,36 @@ public class HUDSystem {
         return this.type;
     }
 
+    /**
+     * Add HUD component to the HUD system.
+     * @param hudComponent The HUD component to add
+     */
     public void addHUDComponent(IHUDComponent hudComponent) {
         this.hudComponents.add(hudComponent);
     }
 
+    /**
+     * Get all associated HUD components.
+     * @return List of associated HUD components
+     */
     public List<IHUDComponent> getHUDComponents() {
         return this.hudComponents;
+    }
+
+    /**
+     * Get HUD component defined by it's type.
+     * @param type The requested HUD component's type
+     * @return The found HUD component
+     */
+    public IHUDComponent getHUDComponent(HUDComponentType type) {
+        IHUDComponent foundComponent = null;
+        for(IHUDComponent hudComponent : this.hudComponents) {
+            if(hudComponent.getHudComponentType() == type) {
+                foundComponent = hudComponent;
+                break;
+            }
+        }
+
+        return foundComponent;
     }
 }

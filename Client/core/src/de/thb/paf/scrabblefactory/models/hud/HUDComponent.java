@@ -1,7 +1,6 @@
 package de.thb.paf.scrabblefactory.models.hud;
 
 import com.badlogic.gdx.math.Vector2;
-import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +9,7 @@ import de.thb.paf.scrabblefactory.models.assets.AssetTargetType;
 import de.thb.paf.scrabblefactory.models.components.ComponentType;
 import de.thb.paf.scrabblefactory.models.components.IComponent;
 import de.thb.paf.scrabblefactory.models.components.graphics.Alignment;
+import de.thb.paf.scrabblefactory.models.events.GameEventType;
 
 /**
  * Abstract representation of a HUD component.
@@ -19,12 +19,17 @@ import de.thb.paf.scrabblefactory.models.components.graphics.Alignment;
  * @since 1.0
  */
 
-abstract class HUDComponent implements IHUDComponent {
+public abstract class HUDComponent implements IHUDComponent {
 
     /**
      * The parented HUD system
      */
     HUDSystem parentHUDSystem;
+
+    /**
+     * List of event types the action is registered to
+     */
+    private GameEventType[] eventsToHandle;
 
     /**
      * The pivot point position (default: left bottom corner)
@@ -62,13 +67,23 @@ abstract class HUDComponent implements IHUDComponent {
      */
     public Alignment alignment;
 
-
     /**
      * Default Constructor
      */
     HUDComponent() {
         this.assetTargetType = AssetTargetType.HUD;
+        this.eventsToHandle = new GameEventType[0];
         this.components = new ArrayList<>();
+    }
+
+    @Override
+    public HUDComponentType getHudComponentType() {
+        return this.type;
+    }
+
+    @Override
+    public void setEventTypesToHandle(GameEventType[] eventTypesToHandle) {
+        this.eventsToHandle = eventTypesToHandle;
     }
 
     @Override
@@ -169,7 +184,7 @@ abstract class HUDComponent implements IHUDComponent {
     }
 
     @Override
-    public HUDComponentType getHudComponentType() {
-        return null;
+    public GameEventType[] getEventTypesToHandle() {
+        return this.eventsToHandle;
     }
 }

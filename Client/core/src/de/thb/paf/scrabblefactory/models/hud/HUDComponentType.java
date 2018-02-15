@@ -16,5 +16,7 @@ public enum HUDComponentType {
     @SerializedName("points")
     POINT_DISPLAY,
     @SerializedName("timer")
-    TIMER_DISPLAY
+    TIMER_DISPLAY,
+    @SerializedName("searchWord")
+    SEARCH_WORD
 }

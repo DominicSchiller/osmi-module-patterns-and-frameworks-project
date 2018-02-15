@@ -1,6 +1,7 @@
 package de.thb.paf.scrabblefactory.models.hud;
 
 import de.thb.paf.scrabblefactory.models.IGameObject;
+import de.thb.paf.scrabblefactory.models.actions.IGameAction;
 
 /**
  * Interface that declares methods a dedicated HUD  class must implement
@@ -11,7 +12,7 @@ import de.thb.paf.scrabblefactory.models.IGameObject;
  * @since 1.0
  */
 
-public interface IHUDComponent extends IGameObject {
+public interface IHUDComponent extends IGameObject, IGameAction {
 
     /**
      * Get the parent HUD system.
