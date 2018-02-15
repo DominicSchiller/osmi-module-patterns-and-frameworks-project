@@ -22,7 +22,10 @@ import de.thb.paf.scrabblefactory.ScrabbleFactory;
 import de.thb.paf.scrabblefactory.factories.EntityFactory;
 import de.thb.paf.scrabblefactory.factories.HUDSystemFactory;
 import de.thb.paf.scrabblefactory.factories.LevelFactory;
+import de.thb.paf.scrabblefactory.gameplay.timer.CountdownTimer;
+import de.thb.paf.scrabblefactory.gameplay.timer.ICountdownListener;
 import de.thb.paf.scrabblefactory.io.UserInputProcessor;
+import de.thb.paf.scrabblefactory.managers.GameEventManager;
 import de.thb.paf.scrabblefactory.managers.GameScreenManager;
 import de.thb.paf.scrabblefactory.models.IGameObject;
 import de.thb.paf.scrabblefactory.models.components.ComponentType;
@@ -30,12 +33,17 @@ import de.thb.paf.scrabblefactory.models.components.IComponent;
 import de.thb.paf.scrabblefactory.models.components.graphics.IGraphicsComponent;
 import de.thb.paf.scrabblefactory.models.entities.EntityType;
 import de.thb.paf.scrabblefactory.models.entities.IEntity;
+import de.thb.paf.scrabblefactory.models.events.RemainingTimeUpdateEvent;
+import de.thb.paf.scrabblefactory.models.hud.HUDComponentType;
 import de.thb.paf.scrabblefactory.models.hud.HUDSystem;
 import de.thb.paf.scrabblefactory.models.hud.HUDSystemType;
 import de.thb.paf.scrabblefactory.models.hud.IHUDComponent;
+import de.thb.paf.scrabblefactory.models.hud.SearchWordHUD;
+import de.thb.paf.scrabblefactory.models.level.BasicLevel;
 import de.thb.paf.scrabblefactory.models.level.ILevel;
 import de.thb.paf.scrabblefactory.utils.debug.VisualGameDebugger;
 
+import static de.thb.paf.scrabblefactory.models.events.GameEventType.REMAINING_TIME_UPDATE;
 import static de.thb.paf.scrabblefactory.settings.Settings.Game.PPM;
 import static de.thb.paf.scrabblefactory.settings.Settings.Game.VIRTUAL_HEIGHT;
 import static de.thb.paf.scrabblefactory.settings.Settings.Game.VIRTUAL_WIDTH;
@@ -47,7 +55,7 @@ import static de.thb.paf.scrabblefactory.settings.Settings.Game.VIRTUAL_WIDTH;
  * @version 1.0
  * @since 1.0
  */
-public class PlayScreen extends GameScreen {
+public class PlayScreen extends GameScreen implements ICountdownListener {
 
     private UserInputProcessor userInputProcessor;
     private VisualGameDebugger debugRenderer;
@@ -67,12 +75,13 @@ public class PlayScreen extends GameScreen {
     private static final float WORLD_HEIGHT = 320;
 
     private IEntity cheese;
+    private CountdownTimer timer;
 
     /**
      * Default Constructor
      */
     public PlayScreen() {
-          super(ScreenState.PLAY);
+        super(ScreenState.PLAY);
 
         this.camera = new OrthographicCamera();
         this.camera.setToOrtho(
@@ -106,6 +115,16 @@ public class PlayScreen extends GameScreen {
         this.cheese = new EntityFactory().getEntity(EntityType.CHEESE, 1);
         this.player = new EntityFactory().getEntity(EntityType.PLAYER, 1);
         this.debugRenderer = new VisualGameDebugger();
+
+        // init search word
+        SearchWordHUD searchWordHUD = (SearchWordHUD) this.hud.getHUDComponent(HUDComponentType.SEARCH_WORD);
+        if(searchWordHUD != null && this.level instanceof BasicLevel) {
+            searchWordHUD.setSearchWord(((BasicLevel)this.level).getWordPool()[1]);
+        }
+
+        timer = new CountdownTimer(this.level.getCountdown());
+        timer.registerCountdownListener(this);
+        timer.start();
 
         /**
          * Level sound and music
@@ -167,7 +186,7 @@ public class PlayScreen extends GameScreen {
 //            stage.act(delta);
 //            stage.draw();
 
-            this.debugRenderer.render(textBatch);
+//            this.debugRenderer.render(textBatch);
         }
     }
 
@@ -252,5 +271,33 @@ public class PlayScreen extends GameScreen {
             }
         });
 
+    }
+
+    @Override
+    public void onCountdownStarted(long time) {
+        System.out.println("Game started");
+        this.triggerRemainingTimeUpdateEvent(time);
+    }
+
+    @Override
+    public void onCountdownTick(long time) {
+        this.triggerRemainingTimeUpdateEvent(time);
+    }
+
+    @Override
+    public void onCountdownFinished(long time) {
+        System.out.println("Game over");
+    }
+
+    /**
+     * Trigger a remaining time update event to update the timer HUD.
+     * @param time The remaining time in milliseconds
+     */
+    private void triggerRemainingTimeUpdateEvent(long time) {
+        GameEventManager gm = GameEventManager.getInstance();
+        RemainingTimeUpdateEvent event = (RemainingTimeUpdateEvent)
+                gm.getGameEvent(REMAINING_TIME_UPDATE);
+        event.setTime(time);
+        gm.triggerEvent(REMAINING_TIME_UPDATE);
     }
 }
