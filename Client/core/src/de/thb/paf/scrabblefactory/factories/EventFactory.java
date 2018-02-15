@@ -7,6 +7,8 @@ import de.thb.paf.scrabblefactory.models.events.GroundContactEvent;
 import de.thb.paf.scrabblefactory.models.events.IGameEvent;
 import de.thb.paf.scrabblefactory.models.events.ItemContactEvent;
 import de.thb.paf.scrabblefactory.models.events.MoveEvent;
+import de.thb.paf.scrabblefactory.models.events.PlayerHealthChangedEvent;
+import de.thb.paf.scrabblefactory.models.events.RemainingTimeUpdateEvent;
 
 /**
  * Factory class dedicated to create and assemble new game events.
@@ -40,6 +42,12 @@ public class EventFactory {
                 break;
             case ITEM_CONTACT:
                 event = new ItemContactEvent();
+                break;
+            case PLAYER_HEALTH_CHANGED:
+                event = new PlayerHealthChangedEvent();
+                break;
+            case REMAINING_TIME_UPDATE:
+                event = new RemainingTimeUpdateEvent();
                 break;
             default:
                 event = null;

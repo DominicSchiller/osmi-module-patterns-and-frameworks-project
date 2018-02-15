@@ -7,8 +7,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import java.util.Timer;
-
 import de.thb.paf.scrabblefactory.io.AssetLoader;
 import de.thb.paf.scrabblefactory.models.assets.AssetTargetType;
 import de.thb.paf.scrabblefactory.models.components.IComponent;
@@ -29,7 +27,6 @@ import static de.thb.paf.scrabblefactory.settings.Constants.Json.JSON_KEY_NAME;
 import static de.thb.paf.scrabblefactory.settings.Constants.Json.JSON_KEY_TYPE;
 import static de.thb.paf.scrabblefactory.settings.Settings.Game.PPM;
 import static de.thb.paf.scrabblefactory.settings.Settings.Game.VIRTUAL_HEIGHT;
-import static de.thb.paf.scrabblefactory.settings.Settings.Game.VIRTUAL_SCALE;
 import static de.thb.paf.scrabblefactory.settings.Settings.Game.VIRTUAL_WIDTH;
 
 /**

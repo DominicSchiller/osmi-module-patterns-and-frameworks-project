@@ -55,7 +55,7 @@ public class ActionFactory {
      * Register the game action to associated game events.
      * @param action The game action instance to register with game events
      */
-    private void registerToEvents(IGameAction action) {
+    public void registerToEvents(IGameAction action) {
         EventFactory eventFactory = new EventFactory();
         for(GameEventType eventType : action.getEventTypesToHandle()) {
             IGameEvent event = eventFactory.getGameEvent(eventType);

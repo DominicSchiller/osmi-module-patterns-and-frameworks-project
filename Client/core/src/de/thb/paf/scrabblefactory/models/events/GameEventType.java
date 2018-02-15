@@ -20,4 +20,8 @@ public enum GameEventType {
     GROUND_CONTACT,
     @SerializedName("item-contact")
     ITEM_CONTACT,
+    @SerializedName("player-health-changed")
+    PLAYER_HEALTH_CHANGED,
+    @SerializedName("remaining-time-update")
+    REMAINING_TIME_UPDATE
 }
