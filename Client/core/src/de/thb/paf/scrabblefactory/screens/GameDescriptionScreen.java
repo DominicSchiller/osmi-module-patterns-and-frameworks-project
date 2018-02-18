@@ -2,6 +2,8 @@ package de.thb.paf.scrabblefactory.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -202,10 +204,14 @@ public class GameDescriptionScreen extends GameScreen {
         * This method is able to draw text on the batch
          */
         batch.begin();
-        String text = "Spielbeschreibung";
+        bitmapFont = new BitmapFont(Gdx.files.internal("fonts/arial26-small.fnt"));
+        FileHandle file = Gdx.files.internal("files/gamedescription.txt");
+        String multilinetext = file.readString();
+
         layout = new GlyphLayout();
-        layout.setText(bitmapFont, text);
-        bitmapFont.draw(batch, text, 80 * layout.width/480, layout.height *28);
+        //layout.setText(bitmapFont, multilinetext, Color.WHITE, Gdx.graphics.getWidth() , Align.center,true);
+        layout.setText(bitmapFont, multilinetext);
+        bitmapFont.draw(batch, multilinetext, 5* (layout.width/100), layout.height+450);
         batch.end();
     }
 }

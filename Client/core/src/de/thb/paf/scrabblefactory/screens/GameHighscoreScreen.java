@@ -3,9 +3,12 @@ package de.thb.paf.scrabblefactory.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -56,6 +59,7 @@ public class GameHighscoreScreen extends GameScreen {
      * Declaration of Stage, Batch, Textures, Text, Table
      */
     private Stage stage;
+    private SpriteBatch batch;
     private Texture backgroundTexture;
     private Texture backTexture, backPressTexture;
     private Texture playTexture, playPressTexture;
@@ -63,6 +67,8 @@ public class GameHighscoreScreen extends GameScreen {
     private TextField nameText;
     private Table table;
     private Sound tapsound;
+    private BitmapFont bitmapFont;
+    private GlyphLayout layout;
 
     @Override
     public void update(float deltaTime) {
@@ -84,6 +90,11 @@ public class GameHighscoreScreen extends GameScreen {
         backgroundTexture = new Texture(Gdx.files.internal("images/backgrounds/background.png"));
         Image background = new Image(backgroundTexture);
         stage.addActor(background);
+
+        /* reads highscores out of file*/
+        batch = new SpriteBatch();
+        bitmapFont = new BitmapFont();
+        drawScores();
 
         /*
         * sound of interactive elements
@@ -144,7 +155,6 @@ public class GameHighscoreScreen extends GameScreen {
         stage.addActor(dateLabel);
 
         Label tableLabel = new Label("Tabelle",labelStyleDark);
-        // nameText = new TextField("vvv",labelStyle);
         tableLabel.setSize(Gdx.graphics.getWidth(),row_height);
         tableLabel.setPosition(Gdx.graphics.getWidth()-col_width*15,Gdx.graphics.getHeight()-row_height*4);
         tableLabel.setAlignment(Align.bottomLeft);
@@ -167,10 +177,10 @@ public class GameHighscoreScreen extends GameScreen {
         table.setFillParent(true);
 
         table.add(tableLabel);
-       //table.add(nameText).width(100);
+        table.add(nameText).width(100);
         table.row();
         table.add(tableLabel);
-       // table.add(nameText).width(100);
+        table.add(nameText).width(100);
         stage.addActor(table);
 
     }
@@ -184,6 +194,8 @@ public class GameHighscoreScreen extends GameScreen {
          */
         stage.act(delta);
         stage.draw();
+
+        drawScores();
 
     }
 
@@ -265,18 +277,34 @@ public class GameHighscoreScreen extends GameScreen {
 
     }
 
+    private void drawScores(){
+        /*
+        * This method is able to draw score on the batch
+         */
+            batch.begin();
+            bitmapFont = new BitmapFont(Gdx.files.internal("fonts/arial26-small.fnt"));
+            FileHandle file = Gdx.files.internal("files/highscoredata-min.json");
+
+            String text = file.readString();
+            layout = new GlyphLayout();
+            layout.setText(bitmapFont, text);
+            bitmapFont.draw(batch, text, 5*layout.width/100, layout.height +970);
+            batch.end();
+
+    }
+
     public void addBackgroundGuide(int columns){
 
-    Texture texture = new Texture(Gdx.files.internal("images/backgrounds/dialog.png"));
-    texture.setWrap(Texture.TextureWrap.MirroredRepeat, Texture.TextureWrap.MirroredRepeat);
+        Texture texture = new Texture(Gdx.files.internal("images/backgrounds/dialog.png"));
+        texture.setWrap(Texture.TextureWrap.MirroredRepeat, Texture.TextureWrap.MirroredRepeat);
 
-    TextureRegion textureRegion = new TextureRegion(texture);
-    textureRegion.setRegion(0,0,texture.getWidth()*columns,texture.getWidth()*columns);
-    Image background = new Image(textureRegion);
-    background.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getWidth());
-    background.setSize((Gdx.graphics.getWidth()/100)*80,(Gdx.graphics.getWidth()/100)*80);
-    background.setPosition( 20,20);
-    stage.addActor(background);
+        TextureRegion textureRegion = new TextureRegion(texture);
+        textureRegion.setRegion(0,0,texture.getWidth()*columns,texture.getWidth()*columns);
+        Image background = new Image(textureRegion);
+        background.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getWidth());
+        background.setSize((Gdx.graphics.getWidth()/100)*80,(Gdx.graphics.getWidth()/100)*80);
+        background.setPosition( 20,20);
+        stage.addActor(background);
     }
 
 }
