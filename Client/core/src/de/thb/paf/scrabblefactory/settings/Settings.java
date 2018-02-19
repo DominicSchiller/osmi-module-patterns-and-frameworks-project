@@ -154,4 +154,23 @@ public final class Settings {
             VIRTUAL_PIXEL_DENSITY_MULTIPLIER = DeviceDimensionsHelper.calculateScreenMultiplier();
         }
     }
+
+    /**
+     * Settings section embracing all database relevant settings.
+     *
+     * @author Dominic Schiller - Technische Hochschule Brandenburg
+     * @version 1.0
+     * @since 1.0
+     */
+    public static final class Database {
+        /**
+         * The game's main database name
+         */
+        public static final String DATABASE_NAME = "ScrabbleFactory.sqlite";
+
+        /**
+         * The game's main database version
+         */
+        public static final int DATABASE_VERSION = 1;
+    }
 }
