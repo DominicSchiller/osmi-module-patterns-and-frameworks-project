@@ -1,13 +1,13 @@
 apply plugin: "java"
-
 targetCompatibility = 1.8
 sourceCompatibility = 1.8
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
-
-sourceSets.main.java.srcDirs = [ "src/" ]
-sourceSets.test.java.srcDirs = [ "tests/" ]
-sourceSets.test.resources.srcDirs = [ "tests/res/" ]
-
+sourceSets.main.java.srcDirs = ["src/"]
+sourceSets.test.java.srcDirs = ["tests/"]
+sourceSets.test.resources.srcDirs = ["tests/res/"]
 eclipse.project {
     name = appName + "-core"
+}
+dependencies {
+    implementation files('libs/sqlite/sqlite-jdbc-3.21.0.jar')
 }
