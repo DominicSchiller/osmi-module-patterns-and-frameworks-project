@@ -13,5 +13,6 @@ public enum ScreenState {
     PLAY,
     DIALOG,
     DESCRIPTION,
-    HIGHSCORE
+    HIGHSCORE,
+    LOGIN
 }
