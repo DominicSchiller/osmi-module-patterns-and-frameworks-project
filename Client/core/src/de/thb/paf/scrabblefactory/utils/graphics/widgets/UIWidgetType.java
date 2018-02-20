@@ -12,5 +12,6 @@ package de.thb.paf.scrabblefactory.utils.graphics.widgets;
 public enum UIWidgetType {
     TEXT_FIELD,
     TEXT_LABEL,
-    TEXT_BUTTON
+    TEXT_BUTTON,
+    SELECT_BOX
 }

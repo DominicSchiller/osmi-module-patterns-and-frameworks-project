@@ -113,17 +113,17 @@ public class LoginScreen extends GameScreen implements ICountdownListener {
                 .title("Login")
                 .alignment(Alignment.MIDDLE)
                 .clickListener(
-                        new ClickListener() {
-                            @Override
-                            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                                super.touchUp(event, x, y, pointer, button);
-                                if(login()) {
-                                    gotoHomeScreen();
-                                } else {
-                                    showLoginError();
-                                }
+                    new ClickListener() {
+                        @Override
+                        public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                            super.touchUp(event, x, y, pointer, button);
+                            if(login()) {
+                                gotoHomeScreen();
+                            } else {
+                                showLoginError();
                             }
                         }
+                    }
                 )
                 .create();
 
@@ -231,7 +231,7 @@ public class LoginScreen extends GameScreen implements ICountdownListener {
      * Shows a error hint for a failed login attempt.
      */
     private void showLoginError() {
-        CountdownTimer displayErrorTimer;displayErrorTimer = new CountdownTimer(3000);
+        CountdownTimer displayErrorTimer = new CountdownTimer(3000);
         displayErrorTimer.registerCountdownListener(this);
         displayErrorTimer.start();
     }

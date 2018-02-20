@@ -14,5 +14,6 @@ public enum ScreenState {
     DIALOG,
     DESCRIPTION,
     HIGHSCORE,
-    LOGIN
+    LOGIN,
+    REGISTER_ACCOUNT
 }

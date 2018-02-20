@@ -52,6 +52,7 @@ public class User implements IDBEntity {
      * Default Constructor.
      */
     public User() {
+        this.userID = -1;
         this.name = "";
         this.firstName = "";
         this.nickname = "";
@@ -68,6 +69,7 @@ public class User implements IDBEntity {
      * @param gender The user's gender
      */
     public User(String name, String firstName, String nickname, Date dateOfBirth, Gender gender) {
+        this.userID = -1;
         this.name = name;
         this.firstName = firstName;
         this.nickname = nickname;

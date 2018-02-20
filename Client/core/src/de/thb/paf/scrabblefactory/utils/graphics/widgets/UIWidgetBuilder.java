@@ -7,7 +7,10 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.List;
+import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -79,12 +82,18 @@ public class UIWidgetBuilder {
     private TextField.TextFieldListener textFieldListener;
 
     /**
+     * A select box's items
+     */
+    private Object[] selectBoxItems;
+
+    /**
      * Constructor
      * @param widgetType The widget's type to create
      */
     public UIWidgetBuilder(UIWidgetType widgetType) {
         this.widgetType = widgetType;
 
+        this.title = "";
         this.alignment = Alignment.TOP_LEFT;
         this.margins = new int[] {0, 0, 0, 0};
         this.size = null;
@@ -155,6 +164,16 @@ public class UIWidgetBuilder {
     }
 
     /**
+     * Set a select box's items.
+     * @param items The list of items which to attach
+     * @return The current builder instance
+     */
+    public UIWidgetBuilder selectBoxItems(Object... items) {
+        this.selectBoxItems = items;
+        return this;
+    }
+
+    /**
      * Set The text input widget's text listener.
      * @param textFieldListener The text input widget's text listener to apply
      * @return The current builder instance
@@ -191,6 +210,10 @@ public class UIWidgetBuilder {
             case TEXT_LABEL:
                 this.widget = new Label(this.title, this.uiSkin);
                 break;
+            case SELECT_BOX:
+                this.widget = new SelectBox(this.uiSkin);
+                ((SelectBox)this.widget).setItems(this.selectBoxItems);
+                break;
         }
 
         this.applyBoundsAndPosition();
@@ -212,6 +235,11 @@ public class UIWidgetBuilder {
                 case TEXT_LABEL:
                     Label.LabelStyle labelStyle = this.uiSkin.get(Label.LabelStyle.class);
                     labelStyle.font = this.font;
+                    break;
+                case SELECT_BOX:
+                    SelectBox.SelectBoxStyle selectBoxStyle = this.uiSkin.get(SelectBox.SelectBoxStyle.class);
+                    selectBoxStyle.font = this.font;
+                    selectBoxStyle.listStyle.font = this.font;
                     break;
             }
         }
