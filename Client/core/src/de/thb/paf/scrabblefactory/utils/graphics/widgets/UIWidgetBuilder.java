@@ -3,17 +3,20 @@ package de.thb.paf.scrabblefactory.utils.graphics.widgets;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import de.thb.paf.scrabblefactory.io.AssetLoader;
 import de.thb.paf.scrabblefactory.models.assets.FontAsset;
@@ -47,6 +50,11 @@ public class UIWidgetBuilder {
     private UIWidgetType widgetType;
 
     /**
+     * The widget's identifier
+     */
+    private String identifier;
+
+    /**
      * The widget's title text
      */
     private String title;
@@ -77,6 +85,11 @@ public class UIWidgetBuilder {
     private ClickListener clickListener;
 
     /**
+     * A widget's actor gesture listener
+     */
+    private ActorGestureListener actorGestureListener;
+
+    /**
      * A text input widget's text listener
      */
     private TextField.TextFieldListener textFieldListener;
@@ -85,6 +98,11 @@ public class UIWidgetBuilder {
      * A select box's items
      */
     private Object[] selectBoxItems;
+
+    /**
+     * A image button's textures: (default, pressed)
+     */
+    private Texture[] imageButtonTextures;
 
     /**
      * Constructor
@@ -103,6 +121,16 @@ public class UIWidgetBuilder {
 
         this.widget = null;
         this.uiSkin = new Skin(Gdx.files.internal("ui/glassy-ui.json"));
+    }
+
+    /**
+     * Set the widget's identifier name
+     * @param identifier The widget's identifier to apply
+     * @return The current builder instance
+     */
+    public UIWidgetBuilder identifier(String identifier) {
+        this.identifier = identifier;
+        return this;
     }
 
     /**
@@ -174,6 +202,16 @@ public class UIWidgetBuilder {
     }
 
     /**
+     * Set a image button's textures: (default, pressed)
+     * @param imageButtonTextures Lis of textures to apply
+     * @return The current builder instance
+     */
+    public UIWidgetBuilder imageButtonTextures(Texture... imageButtonTextures) {
+        this.imageButtonTextures = imageButtonTextures;
+        return this;
+    }
+
+    /**
      * Set The text input widget's text listener.
      * @param textFieldListener The text input widget's text listener to apply
      * @return The current builder instance
@@ -194,6 +232,16 @@ public class UIWidgetBuilder {
     }
 
     /**
+     * Set a widget's actor gesture listener.
+     * @param actorGestureListener The widget's actor gesture listener to apply
+     * @return The current builder instance
+     */
+    public UIWidgetBuilder actorGestureListener(ActorGestureListener actorGestureListener) {
+        this.actorGestureListener = actorGestureListener;
+        return this;
+    }
+
+    /**
      * Create the requested UI widget with all applied configurations.
      * @return The requested UI widget
      */
@@ -201,6 +249,16 @@ public class UIWidgetBuilder {
         this.applyStyles();
 
         switch(this.widgetType) {
+            case IMAGE_BUTTON:
+                if(this.imageButtonTextures != null && this.imageButtonTextures.length > 1) {
+                    this.widget = new ImageButton(
+                        new TextureRegionDrawable(new TextureRegion(this.imageButtonTextures[0])),
+                            new TextureRegionDrawable(new TextureRegion(this.imageButtonTextures[1]))
+                    );
+                } else {
+                    this.widget = new ImageButton(this.uiSkin);
+                }
+                break;
             case TEXT_BUTTON:
                 this.widget = new TextButton(this.title, this.uiSkin);
                 break;
@@ -218,7 +276,7 @@ public class UIWidgetBuilder {
 
         this.applyBoundsAndPosition();
         this.applyListeners();
-
+        this.widget.setName(this.identifier);
         return this.widget;
     }
 
@@ -285,6 +343,10 @@ public class UIWidgetBuilder {
 
         if(this.clickListener != null) {
             this.widget.addListener(this.clickListener);
+        }
+
+        if(this.widgetType == UIWidgetType.IMAGE_BUTTON && this.actorGestureListener != null) {
+            ((ImageButton)this.widget).addListener(this.actorGestureListener);
         }
     }
 

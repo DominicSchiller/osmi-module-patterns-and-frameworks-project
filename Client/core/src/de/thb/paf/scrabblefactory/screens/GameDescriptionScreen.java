@@ -3,7 +3,6 @@ package de.thb.paf.scrabblefactory.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -185,7 +184,7 @@ public class GameDescriptionScreen extends GameScreen {
         back.setPosition(11 * WORLD_WIDTH / 16, 2 * WORLD_HEIGHT / 32, Align.center);
 
         /*
-        * adds the back buttons listener an set it back to HomeScreen
+        * adds the back buttons listener an set it back to MainMenuScreen
         */
         back.addListener(new ActorGestureListener() {
 
@@ -194,7 +193,7 @@ public class GameDescriptionScreen extends GameScreen {
                 super.tap(event, x, y, count, button);
                 tapsound.play();
                 tapsound.dispose();
-                GameScreenManager.getInstance().setScreen(new HomeScreen());
+                GameScreenManager.getInstance().setScreen(new MainMenuScreen());
             }
         });
     }

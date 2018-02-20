@@ -11,8 +11,6 @@ import de.thb.paf.scrabblefactory.managers.GameScreenManager;
 import de.thb.paf.scrabblefactory.persistence.DataStore;
 import de.thb.paf.scrabblefactory.persistence.entities.Gender;
 import de.thb.paf.scrabblefactory.persistence.entities.User;
-import de.thb.paf.scrabblefactory.screens.HomeScreen;
-import de.thb.paf.scrabblefactory.screens.LoginScreen;
 import de.thb.paf.scrabblefactory.screens.RegisterAccountScreen;
 import de.thb.paf.scrabblefactory.settings.Settings;
 import de.thb.paf.scrabblefactory.utils.debug.SettingsDebugger;

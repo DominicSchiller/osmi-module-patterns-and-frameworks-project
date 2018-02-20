@@ -240,7 +240,7 @@ public class PlayScreen extends GameScreen implements ICountdownListener {
         this.stage.addActor(stop);
 
         /*
-        * adds the buttons listener an set it to the HomeScreen
+        * adds the buttons listener an set it to the MainMenuScreen
          */
         stop.addListener(new ActorGestureListener() {
 
@@ -251,7 +251,7 @@ public class PlayScreen extends GameScreen implements ICountdownListener {
                 levelmusic.dispose();
                 tapsound.play();
                 tapsound.dispose();
-                GameScreenManager.getInstance().setScreen(new HomeScreen());
+                GameScreenManager.getInstance().setScreen(new MainMenuScreen());
             }
         });
 

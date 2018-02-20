@@ -160,7 +160,7 @@ public class GameDialogScreen extends GameScreen {
             playAgain.setPosition(8 * WORLD_WIDTH / 16, 18 * WORLD_HEIGHT / 32, Align.center);
 
         /*
-        * adds the play again buttons listener an set it back to HomeScreen
+        * adds the play again buttons listener an set it back to MainMenuScreen
         */
             playAgain.addListener(new ActorGestureListener() {
 

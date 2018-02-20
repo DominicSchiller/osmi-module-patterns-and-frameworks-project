@@ -13,5 +13,6 @@ public enum UIWidgetType {
     TEXT_FIELD,
     TEXT_LABEL,
     TEXT_BUTTON,
-    SELECT_BOX
+    IMAGE_BUTTON,
+    SELECT_BOX,
 }

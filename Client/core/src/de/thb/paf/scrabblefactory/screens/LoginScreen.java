@@ -105,6 +105,53 @@ public class LoginScreen extends GameScreen implements ICountdownListener {
 
     }
 
+    @Override
+    public void onCountdownStarted(long time) {
+        this.loginBtn.remove();
+        this.stage.addActor(this.loginErrorLabel);
+    }
+
+    @Override
+    public void onCountdownTick(long time) {
+
+    }
+
+    @Override
+    public void onCountdownFinished(long time) {
+        this.loginErrorLabel.remove();
+        this.stage.addActor(this.loginBtn);
+    }
+
+    /**
+     * Try to login with the current entered login credentials.
+     * @return The login success status
+     */
+    private boolean login() {
+        DataStore dataStore = DataStore.getInstance();
+        User user = dataStore.readUser(
+                this.nicknameInputField.getText(),
+                this.passwordInputField.getMessageText()
+        );
+
+        return user != null;
+    }
+
+    /**
+     * Shows a error hint for a failed login attempt.
+     */
+    private void showLoginError() {
+        CountdownTimer displayErrorTimer = new CountdownTimer(3000);
+        displayErrorTimer.registerCountdownListener(this);
+        displayErrorTimer.start();
+    }
+
+    /**
+     * Navigate to the game's home screen.
+     */
+    private void gotoHomeScreen() {
+        GameScreenManager.getInstance().setScreen(new MainMenuScreen());
+    }
+
     /**
      * Setup all UI widgets required to represent a login form.
      */
@@ -113,17 +160,17 @@ public class LoginScreen extends GameScreen implements ICountdownListener {
                 .title("Login")
                 .alignment(Alignment.MIDDLE)
                 .clickListener(
-                    new ClickListener() {
-                        @Override
-                        public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                            super.touchUp(event, x, y, pointer, button);
-                            if(login()) {
-                                gotoHomeScreen();
-                            } else {
-                                showLoginError();
+                        new ClickListener() {
+                            @Override
+                            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                                super.touchUp(event, x, y, pointer, button);
+                                if(login()) {
+                                    gotoHomeScreen();
+                                } else {
+                                    showLoginError();
+                                }
                             }
                         }
-                    }
                 )
                 .create();
 
@@ -194,52 +241,5 @@ public class LoginScreen extends GameScreen implements ICountdownListener {
         this.stage.addActor(this.nicknameInputField);
         this.stage.addActor(this.passwordInputField);
         this.stage.addActor(this.loginBtn);
-    }
-
-    @Override
-    public void onCountdownStarted(long time) {
-        this.loginBtn.remove();
-        this.stage.addActor(this.loginErrorLabel);
-    }
-
-    @Override
-    public void onCountdownTick(long time) {
-
-    }
-
-    @Override
-    public void onCountdownFinished(long time) {
-        this.loginErrorLabel.remove();
-        this.stage.addActor(this.loginBtn);
-    }
-
-    /**
-     * Try to login with the current entered login credentials.
-     * @return The login success status
-     */
-    private boolean login() {
-        DataStore dataStore = DataStore.getInstance();
-        User user = dataStore.readUser(
-                this.nicknameInputField.getText(),
-                this.passwordInputField.getMessageText()
-        );
-
-        return user != null;
-    }
-
-    /**
-     * Shows a error hint for a failed login attempt.
-     */
-    private void showLoginError() {
-        CountdownTimer displayErrorTimer = new CountdownTimer(3000);
-        displayErrorTimer.registerCountdownListener(this);
-        displayErrorTimer.start();
-    }
-
-    /**
-     * Navigate to the game's home screen.
-     */
-    private void gotoHomeScreen() {
-        GameScreenManager.getInstance().setScreen(new HomeScreen());
     }
 }
