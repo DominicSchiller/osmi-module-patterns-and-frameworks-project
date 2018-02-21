@@ -34,13 +34,13 @@ public class GameDialogScreen extends GameScreen {
         * Default Constructor
         */
         public GameDialogScreen() {
-            super(ScreenState.DESCRIPTION);
+            super(ScreenState.GAME_MANUAL);
         }
 
         /*
         * Declaration of screen state
         */
-        private ScreenState state = ScreenState.DESCRIPTION;
+        private ScreenState state = ScreenState.GAME_MANUAL;
 
         /**
          * Declaration of world with and height in pixel

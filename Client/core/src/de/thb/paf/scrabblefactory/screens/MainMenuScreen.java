@@ -24,8 +24,6 @@ import de.thb.paf.scrabblefactory.utils.graphics.AlignmentHelper;
 import de.thb.paf.scrabblefactory.utils.graphics.widgets.UIWidgetBuilder;
 import de.thb.paf.scrabblefactory.utils.graphics.widgets.UIWidgetType;
 
-import static de.thb.paf.scrabblefactory.settings.Settings.Game.VIRTUAL_SCALE;
-
 /**
  * Represents the home screen where all screen navigation options for player will be presented.
  *
@@ -46,9 +44,7 @@ public class MainMenuScreen extends GameScreen {
      */
     private Music backgroundMusic;
 
-    /**
-     * The button pressed audio resource
-     */
+
     private Sound buttonPressedSound;
 
     /**
@@ -247,7 +243,7 @@ public class MainMenuScreen extends GameScreen {
                 GameScreenManager.getInstance().setScreen(new GameHighscoreScreen());
                 break;
             case "description":
-                GameScreenManager.getInstance().setScreen(new GameDescriptionScreen());
+                GameScreenManager.getInstance().setScreen(new GameManualScreen());
                 break;
         }
     }

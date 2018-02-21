@@ -267,6 +267,7 @@ public class UIWidgetBuilder {
                 break;
             case TEXT_LABEL:
                 this.widget = new Label(this.title, this.uiSkin);
+                ((Label)this.widget).setWrap(true);
                 break;
             case SELECT_BOX:
                 this.widget = new SelectBox(this.uiSkin);

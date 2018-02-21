@@ -11,8 +11,7 @@ package de.thb.paf.scrabblefactory.screens;
 public enum ScreenState {
     MAIN_MENU,
     PLAY,
-    DIALOG,
-    DESCRIPTION,
+    GAME_MANUAL,
     HIGHSCORE,
     LOGIN,
     REGISTER_ACCOUNT
