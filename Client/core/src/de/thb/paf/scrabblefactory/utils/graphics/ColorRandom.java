@@ -37,16 +37,16 @@ public class ColorRandom {
      */
     static {
         COLORS = new String[] {
-                "1AAD00FF", // green
-                "23B7E5FF", // blue
-                "FF0000FF", // red
-                "8E0058FF", // violet
-                "4B0093FF", // purple
-                "000000FF", // black
-                "8B8D8EFF", // gray
-                "FF00E7FF", // pink
-                "00C181FF", // cyan
-                "351500FF" // brown
+                "1AAD00", // green
+                "23B7E5", // blue
+                "FF0000", // red
+                "8E0058", // violet
+                "4B0093", // purple
+                "000000", // black
+                "8B8D8E", // gray
+                "FF00E7", // pink
+                "00C181", // cyan
+                "351500" // brown
         };
 
         ALPHA_HEX_STRINGS = new HashMap<Integer, String>() {{

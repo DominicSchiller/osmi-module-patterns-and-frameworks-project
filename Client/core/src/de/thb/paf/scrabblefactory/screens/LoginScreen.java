@@ -18,6 +18,7 @@ import de.thb.paf.scrabblefactory.models.assets.FontAsset;
 import de.thb.paf.scrabblefactory.models.components.graphics.Alignment;
 import de.thb.paf.scrabblefactory.persistence.DataStore;
 import de.thb.paf.scrabblefactory.persistence.entities.User;
+import de.thb.paf.scrabblefactory.settings.Settings;
 import de.thb.paf.scrabblefactory.utils.graphics.widgets.UIWidgetBuilder;
 import de.thb.paf.scrabblefactory.utils.graphics.widgets.UIWidgetType;
 
@@ -64,6 +65,7 @@ public class LoginScreen extends GameScreen implements ICountdownListener {
         this.stage = new Stage();
         Gdx.input.setInputProcessor(stage);
 
+        this.stage.addActor(DEFAULT_BACKGROUND);
         this.setupUIWidgets();
     }
 
@@ -156,9 +158,16 @@ public class LoginScreen extends GameScreen implements ICountdownListener {
      * Setup all UI widgets required to represent a login form.
      */
     private void setupUIWidgets() {
+        this.nicknameInputField = this.addLabelInputGroup("Nickname", 40);
+        this.passwordInputField = this.addLabelInputGroup("Password", 90);
+        this.passwordInputField.setPasswordMode(true);
+        this.passwordInputField.setPasswordCharacter('*');
+
         this.loginBtn = (TextButton)new UIWidgetBuilder(UIWidgetType.TEXT_BUTTON)
                 .title("Login")
-                .alignment(Alignment.MIDDLE)
+                .size(DEFAULT_WIDGET_WIDTH, DEFAULT_INPUT_HEIGHT)
+                .alignment(Alignment.TOP_CENTER)
+                .margins((int)(135* Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER), 0, 0, 0)
                 .clickListener(
                         new ClickListener() {
                             @Override
@@ -174,72 +183,43 @@ public class LoginScreen extends GameScreen implements ICountdownListener {
                 )
                 .create();
 
-        this.nicknameInputField = (TextField)new UIWidgetBuilder(UIWidgetType.TEXT_FIELD)
-                .title("Please insert your nickname...")
-                .size(500, 75)
-                .alignment(Alignment.TOP_CENTER)
-                .margins(300, 0, 0, 0)
-                .font(FontAsset.OPEN_SANS, 28, Color.BLACK)
-                .clickListener(
-                        new ClickListener() {
-                            @Override
-                            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                                super.touchUp(event, x, y, pointer, button);
-                                nicknameInputField.setText("");
-                            }
-                        }
-                )
-                .create();
-
-        this.passwordInputField = (TextField)new UIWidgetBuilder(UIWidgetType.TEXT_FIELD)
-                .title("")
-                .size(500, 75)
-                .alignment(Alignment.TOP_CENTER)
-                .margins(500, 0, 0, 0)
-                .font(FontAsset.OPEN_SANS, 28, Color.BLACK)
-                .clickListener(
-                        new ClickListener() {
-                            @Override
-                            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                                super.touchUp(event, x, y, pointer, button);
-                                if(nicknameInputField.getText().equals("")) {
-                                    nicknameInputField.setText("Please insert your nickname...");
-                                }
-                            }
-                        }
-                )
-                .create();
-        this.passwordInputField.setPasswordMode(true);
-        this.passwordInputField.setPasswordCharacter('*');
-
         this.loginErrorLabel = (Label)new UIWidgetBuilder(UIWidgetType.TEXT_LABEL)
                 .title("Ihr Konto wurde nicht gefunden.\nBitte überprüfen Sie Ihre eingaben.")
-                .size(500, 50)
+                .size(DEFAULT_WIDGET_WIDTH, DEFAULT_LABEL_HEIGHT)
                 .alignment(Alignment.TOP_CENTER)
-                .margins(650, 0, 0, 0)
-                .font(FontAsset.OPEN_SANS, 28, Color.RED)
+                .margins((int)(135* Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER), 0, 0, 0)
+                .font(FontAsset.OPEN_SANS, DEFAULT_FONT_SIZE, Color.RED)
                 .create();
 
-        Label userNameLabel = (Label)new UIWidgetBuilder(UIWidgetType.TEXT_LABEL)
-                .title("Nickname")
-                .size(500, 50)
-                .alignment(Alignment.TOP_CENTER)
-                .margins(250, 0, 0, 0)
-                .font(FontAsset.OPEN_SANS, 28, Color.WHITE)
-                .create();
-
-        Label passwordLabel = (Label)new UIWidgetBuilder(UIWidgetType.TEXT_LABEL)
-                .title("Password")
-                .size(500, 50)
-                .alignment(Alignment.TOP_CENTER)
-                .margins(450, 0, 0, 0)
-                .font(FontAsset.OPEN_SANS, 28, Color.WHITE)
-                .create();
-
-        this.stage.addActor(userNameLabel);
-        this.stage.addActor(passwordLabel);
-        this.stage.addActor(this.nicknameInputField);
-        this.stage.addActor(this.passwordInputField);
         this.stage.addActor(this.loginBtn);
+    }
+
+    /**
+     * Setup a UI label-input widget group.
+     * @param labelName The label's name to display
+     * @param yPos The y-on-screen position of the widget group
+     * @return The created input field instance
+     */
+    private TextField addLabelInputGroup(String labelName, int yPos) {
+        int topPosition = (int)(yPos*Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER);
+        Label label = (Label)new UIWidgetBuilder(UIWidgetType.TEXT_LABEL)
+                .title(labelName)
+                .size(DEFAULT_WIDGET_WIDTH, DEFAULT_LABEL_HEIGHT)
+                .alignment(Alignment.TOP_CENTER)
+                .margins(topPosition- DEFAULT_LABEL_HEIGHT, 0, 0, 0)
+                .font(FontAsset.OPEN_SANS, DEFAULT_FONT_SIZE, Color.BLACK)
+                .create();
+
+        TextField textField = (TextField)new UIWidgetBuilder(UIWidgetType.TEXT_FIELD)
+                .size(DEFAULT_WIDGET_WIDTH, DEFAULT_INPUT_HEIGHT)
+                .alignment(Alignment.TOP_CENTER)
+                .margins(topPosition, 0, 0, 0)
+                .font(FontAsset.OPEN_SANS, DEFAULT_FONT_SIZE, Color.BLACK)
+                .create();
+
+        this.stage.addActor(label);
+        this.stage.addActor(textField);
+
+        return textField;
     }
 }

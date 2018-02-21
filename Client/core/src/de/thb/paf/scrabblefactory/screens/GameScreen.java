@@ -1,6 +1,15 @@
 package de.thb.paf.scrabblefactory.screens;
 
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+
+import de.thb.paf.scrabblefactory.models.components.graphics.Alignment;
+import de.thb.paf.scrabblefactory.settings.Settings;
+import de.thb.paf.scrabblefactory.utils.graphics.AlignmentHelper;
+
 /**
  * Abstract representation of a game screen.
  *
@@ -11,6 +20,48 @@ package de.thb.paf.scrabblefactory.screens;
 
 public abstract class GameScreen implements IGameScreen {
 
+    /**
+     * A game screen's default font size
+     */
+    static int DEFAULT_FONT_SIZE;
+
+    /**
+     * A game screen's default label widget's height
+     */
+    static int DEFAULT_LABEL_HEIGHT;
+
+    /**
+     * A game screen's default input widget's height
+     */
+    static int DEFAULT_INPUT_HEIGHT;
+
+    /**
+     * A game screen's default widget's width
+     */
+    static int DEFAULT_WIDGET_WIDTH;
+
+    /**
+     * A game screen's default label background  image
+     */
+    static Image DEFAULT_BACKGROUND;
+
+    static {
+        float multiplier = Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER;
+        DEFAULT_FONT_SIZE = (int)(12 * multiplier);
+        DEFAULT_LABEL_HEIGHT = (int)(15 * multiplier);
+        DEFAULT_INPUT_HEIGHT = (int)(25 * multiplier);
+        DEFAULT_WIDGET_WIDTH = (int)(Settings.App.DEVICE_SCREEN_WIDTH * 0.6);
+
+        DEFAULT_BACKGROUND = new Image(new Texture(
+                Gdx.files.internal("images/" + Settings.Game.RESOLUTION.name +"/backgrounds/background.png")
+        ));
+        Vector2 backgroundPosition = AlignmentHelper.getRelativePosition(
+                new Vector2(DEFAULT_BACKGROUND.getWidth(), DEFAULT_BACKGROUND.getHeight()),
+                new Vector2(Settings.App.DEVICE_SCREEN_WIDTH, Settings.App.DEVICE_SCREEN_HEIGHT),
+                Alignment.TOP_CENTER,
+                new int[] {0, 0, 0 ,0});
+        DEFAULT_BACKGROUND.setPosition(backgroundPosition.x, backgroundPosition.y);
+    }
     /**
      * The screen's state type
      */
