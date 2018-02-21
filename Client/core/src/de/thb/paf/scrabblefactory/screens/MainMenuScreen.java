@@ -24,6 +24,8 @@ import de.thb.paf.scrabblefactory.utils.graphics.AlignmentHelper;
 import de.thb.paf.scrabblefactory.utils.graphics.widgets.UIWidgetBuilder;
 import de.thb.paf.scrabblefactory.utils.graphics.widgets.UIWidgetType;
 
+import static de.thb.paf.scrabblefactory.settings.Settings.Game.VIRTUAL_SCALE;
+
 /**
  * Represents the home screen where all screen navigation options for player will be presented.
  *
@@ -111,20 +113,36 @@ public class MainMenuScreen extends GameScreen {
      */
     private void initBackgroundScene() {
         Image background = new Image(new Texture(
-                Gdx.files.internal("images/backgrounds/home-background.png")
+                Gdx.files.internal("images/" + Settings.Game.RESOLUTION.name + "/backgrounds/home-background.png")
         ));
 
         Image titleImage = new Image(new Texture(
-                Gdx.files.internal("images/backgrounds/scrabblefactory-title.png")
+                Gdx.files.internal("images/" + Settings.Game.RESOLUTION.name + "/backgrounds/scrabblefactory-title.png")
         ));
-        Vector2 titlePosition = AlignmentHelper.getRelativePosition(
-                new Vector2(titleImage.getWidth(), titleImage.getHeight()),
-                new Vector2(Settings.App.DEVICE_SCREEN_WIDTH, Settings.App.DEVICE_SCREEN_HEIGHT),
-                Alignment.TOP_CENTER,
-                new int[] {100, 0, 0 ,0}
-        );
-        titleImage.setPosition(titlePosition.x, titlePosition.y);
 
+        float backgroundScaling = (Settings.App.DEVICE_SCREEN_WIDTH / background.getWidth());
+        float titleScaling = backgroundScaling * .4f;
+        background.setScale(backgroundScaling);
+        titleImage.setScale(titleScaling);
+
+        Vector2 backgroundPosition = AlignmentHelper.getRelativePosition(
+                new Vector2(background.getWidth() * backgroundScaling, background.getHeight() * backgroundScaling),
+                new Vector2(Settings.App.DEVICE_SCREEN_WIDTH, Settings.App.DEVICE_SCREEN_HEIGHT),
+                Alignment.MIDDLE,
+                new int[] {0, 0, 0 ,0}
+        );
+
+        Vector2 titlePosition = AlignmentHelper.getRelativePosition(
+                new Vector2(titleImage.getWidth() * titleScaling, titleImage.getHeight() * titleScaling),
+                new Vector2(Settings.App.DEVICE_SCREEN_WIDTH, Settings.App.DEVICE_SCREEN_HEIGHT),
+                Alignment.TOP_RIGHT,
+                new int[] {0, 0, 0, 0}
+        );
+        titleImage.setPosition(
+                titlePosition.x - (int)(15 * Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER),
+                titlePosition.y - (int)(5 * Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER));
+
+        background.setPosition(backgroundPosition.x, backgroundPosition.y);
         this.stage.addActor(background);
         this.stage.addActor(titleImage);
     }
@@ -133,12 +151,17 @@ public class MainMenuScreen extends GameScreen {
      * Setup all UI widgets required to represent the main menu.
      */
     private void setupUIWidgets() {
-        Texture buttonDefaultTexture = new Texture(Gdx.files.internal("images/buttons/tap.png"));
-        Texture buttonPressedTexture = new Texture(Gdx.files.internal("images/buttons/tapPressed.png"));
+        Texture buttonDefaultTexture = new Texture(Gdx.files.internal("images/" + Settings.Game.RESOLUTION.name + "/buttons/tap.png"));
+        Texture buttonPressedTexture = new Texture(Gdx.files.internal("images/" + Settings.Game.RESOLUTION.name + "/buttons/tapPressed.png"));
 
-        this.addLabelImageButtonGroup("Play", "play", 200, buttonDefaultTexture, buttonPressedTexture);
-        this.addLabelImageButtonGroup("Highscores", "highScore", 260, buttonDefaultTexture, buttonPressedTexture);
-        this.addLabelImageButtonGroup("Game Description", "description", 320, buttonDefaultTexture, buttonPressedTexture);
+        this.addLabelImageButtonGroup("PLAY", "play",
+                new Color((int)Long.parseLong("e000cbFF", 16)), 75,
+                buttonDefaultTexture, buttonPressedTexture);
+        this.addLabelImageButtonGroup("HIGHSCORES", "highScore",
+                new Color((int)Long.parseLong("23B7E5FF", 16)), 135,
+                buttonDefaultTexture, buttonPressedTexture);
+        this.addLabelImageButtonGroup("MANUAL", "description",
+                new Color((int)Long.parseLong("4B0093FF", 16)), 195, buttonDefaultTexture, buttonPressedTexture);
     }
 
     /**
@@ -158,11 +181,13 @@ public class MainMenuScreen extends GameScreen {
      * @param marginTop The image button's top margin
      * @param buttonTextures The button textures to apply
      */
-    private void addLabelImageButtonGroup(String labelTitle, String identifier, int marginTop, Texture... buttonTextures) {
+    private void addLabelImageButtonGroup(String labelTitle, String identifier, Color labelColor, int marginTop, Texture... buttonTextures) {
+        int multiplier = (int)Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER;
+        int topPosition = (int)(marginTop * multiplier);
         ImageButton imaegButton = (ImageButton)new UIWidgetBuilder(UIWidgetType.IMAGE_BUTTON)
                 .identifier(identifier)
                 .alignment(Alignment.TOP_CENTER)
-                .margins(marginTop, 0, 0, 0)
+                .margins(topPosition, 0, 0, 0)
                 .imageButtonTextures(buttonTextures)
                 .actorGestureListener(
                     new ActorGestureListener() {
@@ -175,12 +200,17 @@ public class MainMenuScreen extends GameScreen {
                 )
                 .create();
 
+        imaegButton.setPosition(
+                imaegButton.getX() - (25 * multiplier),
+                imaegButton.getY()
+        );
+
         Label label = (Label)new UIWidgetBuilder(UIWidgetType.TEXT_LABEL)
                 .title(labelTitle)
                 .identifier(identifier)
                 .alignment(Alignment.TOP_CENTER)
-                .margins(marginTop, 0, 0, 0)
-                .font(FontAsset.OPEN_SANS, 28, Color.WHITE)
+                .margins(topPosition, 0, 0, 0)
+                .font(FontAsset.PORKY, 28 * multiplier, labelColor)
                 .clickListener(new ClickListener() {
                     @Override
                     public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
@@ -191,8 +221,8 @@ public class MainMenuScreen extends GameScreen {
                 .create();
 
         label.setPosition(
-            imaegButton.getX() + 75,
-                imaegButton.getY()
+            imaegButton.getX() + (50 * multiplier),
+            imaegButton.getY() + (5 * multiplier)
         );
 
         this.stage.addActor(imaegButton);
