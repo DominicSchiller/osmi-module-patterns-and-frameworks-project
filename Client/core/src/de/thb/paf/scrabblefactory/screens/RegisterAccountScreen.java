@@ -24,6 +24,7 @@ import de.thb.paf.scrabblefactory.models.components.graphics.Alignment;
 import de.thb.paf.scrabblefactory.persistence.DataStore;
 import de.thb.paf.scrabblefactory.persistence.entities.Gender;
 import de.thb.paf.scrabblefactory.persistence.entities.User;
+import de.thb.paf.scrabblefactory.settings.Settings;
 import de.thb.paf.scrabblefactory.utils.graphics.widgets.UIWidgetBuilder;
 import de.thb.paf.scrabblefactory.utils.graphics.widgets.UIWidgetType;
 
@@ -77,7 +78,6 @@ public class RegisterAccountScreen extends GameScreen implements ICountdownListe
      */
     private Label errorMessageLabel;
 
-
     /**
      * Default Constructor
      */
@@ -86,6 +86,8 @@ public class RegisterAccountScreen extends GameScreen implements ICountdownListe
 
         this.stage = new Stage();
         Gdx.input.setInputProcessor(stage);
+
+        this.stage.addActor(DEFAULT_BACKGROUND);
         this.setupUIWidgets();
     }
 
@@ -211,16 +213,16 @@ public class RegisterAccountScreen extends GameScreen implements ICountdownListe
     private boolean areInputsValid() {
         StringBuilder stringBuilder = new StringBuilder("The following input fields must be filled:\n");
         if(this.nicknameTextField.getText().isEmpty()) {
-            stringBuilder.append("- Name\n");
+            stringBuilder.append("- Name -");
         }
         if(this.firstNameTextField.getText().isEmpty()) {
-            stringBuilder.append("- First Name\n");
+            stringBuilder.append("- First Name -");
         }
         if(this.nicknameTextField.getText().isEmpty()) {
-            stringBuilder.append("- Nickname\n");
+            stringBuilder.append("- Nickname -");
         }
         if(this.passwordTextField.getText().isEmpty()) {
-            stringBuilder.append("- Password\n");
+            stringBuilder.append("- Password -");
         }
 
         String errorMsg = stringBuilder.toString();
@@ -238,26 +240,27 @@ public class RegisterAccountScreen extends GameScreen implements ICountdownListe
      */
     private void setupUIWidgets() {
 
-        this.nameTextField = this.addLabelInputGroup("Name", 200);
-        this.firstNameTextField = this.addLabelInputGroup("First Name", 400);
-        this.nicknameTextField = this.addLabelInputGroup("Nickname", 600);
-        this.passwordTextField = this.addLabelInputGroup("Password", 800);
+        this.nameTextField = this.addLabelInputGroup("Name", 20);
+        this.firstNameTextField = this.addLabelInputGroup("First Name", 70);
+        this.nicknameTextField = this.addLabelInputGroup("Nickname", 120);
+        this.passwordTextField = this.addLabelInputGroup("Password", 170);
         this.passwordTextField.setPasswordMode(true);
         this.passwordTextField.setPasswordCharacter('*');
 
-        this.genderSelectBox = this.addLabelSelectBoxGroup("Gender", 1000, "Male", "Female");
+        this.genderSelectBox = this.addLabelSelectBoxGroup("Gender", 220, "Male", "Female");
 
         this.errorMessageLabel = (Label)new UIWidgetBuilder(UIWidgetType.TEXT_LABEL)
-                .size(500, 75)
+                .size(DEFAULT_WIDGET_WIDTH, DEFAULT_LABEL_HEIGHT)
                 .alignment(Alignment.TOP_CENTER)
-                .margins(1200, 0, 0, 0)
-                .font(FontAsset.OPEN_SANS, 28, Color.RED)
+                .margins((int)(265*Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER), 0, 0, 0)
+                .font(FontAsset.OPEN_SANS, DEFAULT_FONT_SIZE, Color.RED)
                 .create();
 
         this.createUserButton = (TextButton)new UIWidgetBuilder(UIWidgetType.TEXT_BUTTON)
                 .title("Login")
+                .size(DEFAULT_WIDGET_WIDTH, DEFAULT_INPUT_HEIGHT)
                 .alignment(Alignment.TOP_CENTER)
-                .margins(1200, 0, 0, 0)
+                .margins((int)(265*Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER), 0, 0, 0)
                 .clickListener(
                         new ClickListener() {
                             @Override
@@ -282,19 +285,20 @@ public class RegisterAccountScreen extends GameScreen implements ICountdownListe
      * @return The created input field instance
      */
     private TextField addLabelInputGroup(String labelName, int yPos) {
+        int topPosition = (int)(yPos*Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER);
         Label label = (Label)new UIWidgetBuilder(UIWidgetType.TEXT_LABEL)
                 .title(labelName)
-                .size(500, 50)
+                .size(DEFAULT_WIDGET_WIDTH, DEFAULT_LABEL_HEIGHT)
                 .alignment(Alignment.TOP_CENTER)
-                .margins(yPos-50, 0, 0, 0)
-                .font(FontAsset.OPEN_SANS, 28, Color.WHITE)
+                .margins(topPosition- DEFAULT_LABEL_HEIGHT, 0, 0, 0)
+                .font(FontAsset.OPEN_SANS, DEFAULT_FONT_SIZE, Color.BLACK)
                 .create();
 
         TextField textField = (TextField)new UIWidgetBuilder(UIWidgetType.TEXT_FIELD)
-                .size(500, 75)
+                .size(DEFAULT_WIDGET_WIDTH, DEFAULT_INPUT_HEIGHT)
                 .alignment(Alignment.TOP_CENTER)
-                .margins(yPos, 0, 0, 0)
-                .font(FontAsset.OPEN_SANS, 28, Color.BLACK)
+                .margins(topPosition, 0, 0, 0)
+                .font(FontAsset.OPEN_SANS, DEFAULT_FONT_SIZE, Color.BLACK)
                 .create();
 
         this.stage.addActor(label);
@@ -311,20 +315,21 @@ public class RegisterAccountScreen extends GameScreen implements ICountdownListe
      * @return The created select box instance
      */
     private SelectBox addLabelSelectBoxGroup(String labelName, int yPos, Object... items) {
+        int topPosition = (int)(yPos*Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER);
         Label label = (Label)new UIWidgetBuilder(UIWidgetType.TEXT_LABEL)
                 .title(labelName)
-                .size(500, 50)
+                .size(DEFAULT_WIDGET_WIDTH, DEFAULT_LABEL_HEIGHT)
                 .alignment(Alignment.TOP_CENTER)
-                .margins(yPos-50, 0, 0, 0)
-                .font(FontAsset.OPEN_SANS, 28, Color.WHITE)
+                .margins(topPosition- DEFAULT_LABEL_HEIGHT, 0, 0, 0)
+                .font(FontAsset.OPEN_SANS, DEFAULT_FONT_SIZE, Color.BLACK)
                 .create();
 
         SelectBox selectBox = (SelectBox)new UIWidgetBuilder(UIWidgetType.SELECT_BOX)
-                .size(500, 75)
+                .size(DEFAULT_WIDGET_WIDTH, DEFAULT_INPUT_HEIGHT)
                 .alignment(Alignment.TOP_CENTER)
-                .margins(1000, 0, 0, 0)
+                .margins(topPosition, 0, 0, 0)
                 .selectBoxItems(items)
-                .font(FontAsset.OPEN_SANS, 28, Color.BLACK)
+                .font(FontAsset.OPEN_SANS, DEFAULT_FONT_SIZE, Color.BLACK)
                 .create();
 
         this.stage.addActor(label);
