@@ -19,6 +19,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import de.thb.paf.scrabblefactory.managers.GameScreenManager;
+import de.thb.paf.scrabblefactory.settings.Settings;
 
 /**
  * Represents the Game dialgo screen within progress dialog
@@ -79,7 +80,7 @@ public class GameDescriptionScreen extends GameScreen {
         /*
         * background texture on the stage of description screen
         */
-        backgroundTexture = new Texture(Gdx.files.internal("images/backgrounds/background.png"));
+        backgroundTexture = new Texture(Gdx.files.internal("images/" + Settings.Game.RESOLUTION.name + "/backgrounds/background.png"));
         Image background = new Image(backgroundTexture);
         stage.addActor(background);
 
@@ -154,8 +155,8 @@ public class GameDescriptionScreen extends GameScreen {
         /*
         * game play button (tap) on the stage
         */
-        playTexture = new Texture(Gdx.files.internal("images/buttons/tapPlay.png"));
-        playPressTexture = new Texture(Gdx.files.internal("images/buttons/tapPlayPressed.png"));
+        playTexture = new Texture(Gdx.files.internal("images/" + Settings.Game.RESOLUTION.name + "/buttons/tapPlay.png"));
+        playPressTexture = new Texture(Gdx.files.internal("images/" + Settings.Game.RESOLUTION.name + "/buttons/tapPlayPressed.png"));
         ImageButton play = new ImageButton(new TextureRegionDrawable(new TextureRegion(playTexture)), new TextureRegionDrawable(new TextureRegion(playPressTexture)));
         stage.addActor(play);
         play.setPosition(14 * WORLD_WIDTH / 16, 2 * WORLD_HEIGHT / 32, Align.center);
@@ -177,8 +178,8 @@ public class GameDescriptionScreen extends GameScreen {
          /*
         * back button (tap) on the stage
         */
-        backTexture = new Texture(Gdx.files.internal("images/buttons/tapBack.png"));
-        backPressTexture = new Texture(Gdx.files.internal("images/buttons/tapBackPressed.png"));
+        backTexture = new Texture(Gdx.files.internal("images/" + Settings.Game.RESOLUTION.name + "/buttons/tapBack.png"));
+        backPressTexture = new Texture(Gdx.files.internal("images/" + Settings.Game.RESOLUTION.name + "/buttons/tapBackPressed.png"));
         ImageButton back = new ImageButton(new TextureRegionDrawable(new TextureRegion(backTexture)), new TextureRegionDrawable(new TextureRegion(backPressTexture)));
         stage.addActor(back);
         back.setPosition(11 * WORLD_WIDTH / 16, 2 * WORLD_HEIGHT / 32, Align.center);

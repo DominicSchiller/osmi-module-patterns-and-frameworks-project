@@ -41,7 +41,7 @@ public abstract class GameScreen implements IGameScreen {
     static int DEFAULT_WIDGET_WIDTH;
 
     /**
-     * A game screen's default label background  image
+     * A game screen's default label background image
      */
     static Image DEFAULT_BACKGROUND;
 
