@@ -12,7 +12,7 @@ public enum ScreenState {
     MAIN_MENU,
     PLAY,
     GAME_MANUAL,
-    HIGHSCORE,
+    HIGH_SCORES,
     LOGIN,
     REGISTER_ACCOUNT
 }

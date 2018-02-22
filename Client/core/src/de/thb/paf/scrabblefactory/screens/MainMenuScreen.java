@@ -174,6 +174,7 @@ public class MainMenuScreen extends GameScreen {
      * Create and add a new label-image button group to the stage.
      * @param labelTitle The label's title
      * @param identifier The image button's identifier
+     * @param labelColor The label's color to apply
      * @param marginTop The image button's top margin
      * @param buttonTextures The button textures to apply
      */
@@ -240,7 +241,7 @@ public class MainMenuScreen extends GameScreen {
                 GameScreenManager.getInstance().setScreen(new PlayScreen());
                 break;
             case "highScore":
-                GameScreenManager.getInstance().setScreen(new GameHighscoreScreen());
+                GameScreenManager.getInstance().setScreen(new GameHighScoreScreen());
                 break;
             case "description":
                 GameScreenManager.getInstance().setScreen(new GameManualScreen());

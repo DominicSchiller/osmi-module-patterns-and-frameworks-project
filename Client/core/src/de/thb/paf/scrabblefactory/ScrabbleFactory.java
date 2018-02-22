@@ -4,7 +4,6 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import de.thb.paf.scrabblefactory.managers.GameScreenManager;
-import de.thb.paf.scrabblefactory.screens.LoginScreen;
 import de.thb.paf.scrabblefactory.screens.MainMenuScreen;
 import de.thb.paf.scrabblefactory.settings.Settings;
 import de.thb.paf.scrabblefactory.utils.debug.SettingsDebugger;
