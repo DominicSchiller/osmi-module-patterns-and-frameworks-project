@@ -20,9 +20,20 @@ public class SQLiteDatabaseFactory {
     private static final String DESKTOP_PACKAGE_NAME = "de.thb.paf.scrabblefactory.desktop.persistence.sqlite.";
 
     /**
+     * The package name from Android's SQLite database manager
+     */
+    private static final String ANDROID_PACKAGE_NAME = "de.thb.paf.scrabblefactory.android.persistence.sqlite.";
+
+
+    /**
      * The class name from the desktop's SQLite database manager
      */
     private static final String DESKTOP_CLASS_NAME = "SQLiteDesktopDatabaseManager";
+
+    /**
+     * The class name from Android's SQLite database manager
+     */
+    private static final String ANDROID_CLASS_NAME = "SQLiteAndroidDatabaseManager";
 
     /**
      * The game's database manager
@@ -56,6 +67,11 @@ public class SQLiteDatabaseFactory {
                     }
                     break;
                 case Android:
+                    try {
+                        databaseManager = (ISQLiteDatabaseManager)Class.forName(ANDROID_PACKAGE_NAME + ANDROID_CLASS_NAME).newInstance();
+                    } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+                        e.printStackTrace();
+                    }
                     break;
             }
         }

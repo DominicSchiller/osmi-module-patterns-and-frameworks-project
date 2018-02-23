@@ -378,7 +378,7 @@ public class SQLSelectQueryBuilder implements ISQLQueryBuilder {
 
         @Override
         public String create() {
-            return " join " + this.destJoinKey.getTableName() +
+            return " left join " + this.destJoinKey.getTableName() +
                     " on " + this.srcJoinKey.create() + " = " + this.destJoinKey.create();
         }
     }

@@ -26,7 +26,7 @@ public class User implements IDBEntity {
     /**
      * The user's first name
      */
-    private String firstName;
+    private String firstname;
 
     /**
      * The user's nickname
@@ -54,7 +54,7 @@ public class User implements IDBEntity {
     public User() {
         this.userID = -1;
         this.name = "";
-        this.firstName = "";
+        this.firstname = "";
         this.nickname = "";
         this.dateOfBirth = null;
         this.gender = null;
@@ -63,15 +63,15 @@ public class User implements IDBEntity {
     /**
      * Constructor.
      * @param name The user's name
-     * @param firstName The user's first name
+     * @param firstname The user's first name
      * @param nickname The user's nickname
      * @param dateOfBirth The user's date of birth
      * @param gender The user's gender
      */
-    public User(String name, String firstName, String nickname, Date dateOfBirth, Gender gender) {
+    public User(String name, String firstname, String nickname, Date dateOfBirth, Gender gender) {
         this.userID = -1;
         this.name = name;
-        this.firstName = firstName;
+        this.firstname = firstname;
         this.nickname = nickname;
         this.dateOfBirth = dateOfBirth;
         this.gender = gender;
@@ -89,8 +89,8 @@ public class User implements IDBEntity {
      * Get the user's first name.
      * @return The user's first name.
      */
-    public String getFirstName() {
-        return firstName;
+    public String getFirstname() {
+        return firstname;
     }
 
     /**

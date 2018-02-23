@@ -18,10 +18,10 @@ public class SQLiteORMapper {
 
     /**
      * Loop over a SQLite result set and fill a specified instance with the retrieved data.
-     * @param resultSet The SQLite result set
+     * @param sqlQueryResult The SQLite query's result
      * @param instance The instance to fill with the retrieved data
      */
-    public static synchronized void applyResultSet(ResultSet resultSet, Object instance) {
+    public static synchronized void applyResultSet(ISQLiteQueryResult sqlQueryResult, Object instance) {
         Field[] instanceFields = instance.getClass().getDeclaredFields();
         for(Field field : instanceFields) {
             field.setAccessible(true);
@@ -30,16 +30,16 @@ public class SQLiteORMapper {
 
             try {
                 if(fieldType.contains("int")) {
-                    field.set(instance, resultSet.getInt(fieldName));
+                    field.set(instance, sqlQueryResult.getInt(fieldName));
                 } else if(fieldType.contains("String")) {
-                    field.set(instance, resultSet.getString(fieldName));
+                    field.set(instance, sqlQueryResult.getString(fieldName));
                 } else if(fieldType.contains("Date")) {
-                    Date date = new Date(resultSet.getLong(fieldName));
+                    Date date = new Date(sqlQueryResult.getLong(fieldName));
                     field.set(instance, date);
                 } else {
                     Object customPropertyInstance = createInstanceFromClassType(Class.forName(fieldType));
                     if(customPropertyInstance != null) {
-                        applyResultSet(resultSet, customPropertyInstance);
+                        applyResultSet(sqlQueryResult, customPropertyInstance);
                         field.set(instance, customPropertyInstance);
                     }
                 }

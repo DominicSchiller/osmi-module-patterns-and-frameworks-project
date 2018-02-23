@@ -15,7 +15,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -189,7 +188,7 @@ public class GameHighScoreScreen extends GameScreen {
         for(UserScore userScore : this.userScores) {
             String createdAt = dateFormatter.format(userScore.getCreatedAt());
 
-            table.add(this.createLabel(FontAsset.OPEN_SANS, userScore.getUser().getFirstName()))
+            table.add(this.createLabel(FontAsset.OPEN_SANS, userScore.getUser().getFirstname()))
                     .width(width);
             table.add(this.createLabel(FontAsset.OPEN_SANS, new Integer(userScore.getScore().getScore()).toString()))
                     .width(width);

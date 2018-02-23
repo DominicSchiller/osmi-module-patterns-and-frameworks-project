@@ -33,6 +33,7 @@ class DBInfo {
          * @since 1.0
          */
         static class Columns {
+            static final String ALL_COLUMNS = "*";
             static final String USER_ID = "userID";
             static final String NAME = "name";
             static final String FIRST_NAME = "firstname";
@@ -63,6 +64,7 @@ class DBInfo {
          * @since 1.0
          */
         static class Columns {
+            static final String ALL_COLUMNS = "*";
             static final String GENDER_ID = "genderID";
             static final String SHORTCUT = "shortcut";
             static final String DESCRIPTION = "description";
@@ -90,6 +92,7 @@ class DBInfo {
          * @since 1.0
          */
         static class Columns {
+            static final String ALL_COLUMNS = "*";
             static final String SCORE_ID = "scoreID";
             static final String SCORE = "score";
         }
@@ -116,6 +119,7 @@ class DBInfo {
          * @since 1.0
          */
         static class Columns {
+            static final String ALL_COLUMNS = "*";
             static final String USER_ID = "userID";
             static final String SCORE_ID = "scoreID";
             static final String CREATED_AT = "createdAt";
@@ -144,6 +148,7 @@ class DBInfo {
          * @since 1.0
          */
         static class Columns {
+            static final String ALL_COLUMNS = "*";
             static final String SAVEGAME_ID = "saveGameID";
             static final String USER_ID = "userID";
             static final String SNAPSHOT_DATA = "snapshotData";

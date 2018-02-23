@@ -31,16 +31,15 @@ public class SQLDDLHelper {
                 .withColumn(DBInfo.Users.Columns.FIRST_NAME, TEXT, NOT_NULL)
                 .withColumn(DBInfo.Users.Columns.NICKNAME, TEXT, UNIQUE, NOT_NULL)
                 .withColumn(DBInfo.Users.Columns.DATE_OF_BIRTH, REAL)
-                .withColumn(DBInfo.Users.Columns.GENDER_ID, INTEGER, NOT_NULL)
-                .withForeignKey(DBInfo.Users.Columns.GENDER_ID, DBInfo.Gender.TABLE_NAME, DBInfo.Gender.Columns.GENDER_ID)
+                .withColumn(DBInfo.Users.Columns.GENDER_ID, TEXT, NOT_NULL)
+//                .withForeignKey(DBInfo.Users.Columns.GENDER_ID, DBInfo.Gender.TABLE_NAME, DBInfo.Gender.Columns.GENDER_ID)
                 .create() + "; ";
 
         String createGenderTable = SQLQuery.createTable(DBInfo.Gender.TABLE_NAME)
                 .ifNotExisting()
                 .withColumn(DBInfo.Gender.Columns.GENDER_ID, INTEGER, UNIQUE, PRIMARY_KEY)
-                .withColumn(DBInfo.Gender.Columns.SHORTCUT, TEXT, UNIQUE)
-                .withColumn(DBInfo.Gender.Columns.DESCRIPTION, TEXT)
-                .withForeignKey(DBInfo.Users.Columns.GENDER_ID, DBInfo.Gender.TABLE_NAME, DBInfo.Gender.Columns.GENDER_ID)
+                .withColumn(DBInfo.Gender.Columns.SHORTCUT, TEXT, UNIQUE, NOT_NULL)
+                .withColumn(DBInfo.Gender.Columns.DESCRIPTION, TEXT, NOT_NULL)
                 .create() + "; ";
 
         String createScoreTable = SQLQuery.createTable(DBInfo.Scores.TABLE_NAME)

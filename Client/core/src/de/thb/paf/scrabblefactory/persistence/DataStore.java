@@ -2,6 +2,7 @@ package de.thb.paf.scrabblefactory.persistence;
 
 import java.util.List;
 
+import de.thb.paf.scrabblefactory.persistence.entities.Gender;
 import de.thb.paf.scrabblefactory.persistence.entities.IDBEntity;
 import de.thb.paf.scrabblefactory.persistence.entities.User;
 import de.thb.paf.scrabblefactory.persistence.sql.builder.SQLQuery;
@@ -19,7 +20,7 @@ import static de.thb.paf.scrabblefactory.persistence.sql.builder.SQLRelationalOp
  * @since 1.0
  */
 
-public class DataStore implements IUserCRUDOperations {
+public class DataStore implements IUserCRUDOperations, IGenderCRUDOperations {
 
     /**
      * The singleton instance of the DataStore
@@ -58,17 +59,14 @@ public class DataStore implements IUserCRUDOperations {
 
     @Override
     public User createUser(User user) {
-        String selectGenderQuery = SQLQuery.select(DBInfo.Gender.Columns.GENDER_ID)
-                .from(DBInfo.Gender.TABLE_NAME)
-                .where(DBInfo.Gender.Columns.SHORTCUT, EQUAL_TO, user.getGender().getShortcut())
-                .create();
+        Gender gender = this.readGender(user.getGender().getShortcut());
 
         String insertUserQuery = SQLQuery.insertInto(DBInfo.Users.TABLE_NAME)
                 .insertValue(DBInfo.Users.Columns.NAME, user.getName())
-                .insertValue(DBInfo.Users.Columns.FIRST_NAME, user.getFirstName())
+                .insertValue(DBInfo.Users.Columns.FIRST_NAME, user.getFirstname())
                 .insertValue(DBInfo.Users.Columns.NICKNAME, user.getNickname())
                 .insertValue(DBInfo.Users.Columns.DATE_OF_BIRTH, "" + (user.getDateOfBirth().getTime()))
-                .insertValue(DBInfo.Users.Columns.GENDER_ID, selectGenderQuery)
+                .insertValue(DBInfo.Users.Columns.GENDER_ID, "" + gender.getID())
                 .create();
         user = (User)this.database.executeInsertOrUpdate(insertUserQuery, user);
         return user;
@@ -89,6 +87,33 @@ public class DataStore implements IUserCRUDOperations {
         if(readUsers.size() > 0) {
             return (User)readUsers.get(0);
         }
+
+        return null;
+    }
+
+    @Override
+    public Gender createGender(Gender gender) {
+        String insertQuery = SQLQuery.insertInto(DBInfo.Gender.TABLE_NAME)
+                .insertValue(DBInfo.Gender.Columns.SHORTCUT, gender.getShortcut())
+                .insertValue(DBInfo.Gender.Columns.DESCRIPTION, gender.getDescription())
+                .create();
+
+        gender = (Gender)this.database.executeInsertOrUpdate(insertQuery, gender);
+        return gender;
+    }
+
+    @Override
+    public Gender readGender(String shortcut) {
+        String selectQuery = SQLQuery.select(DBInfo.Gender.Columns.ALL_COLUMNS)
+                .from(DBInfo.Gender.TABLE_NAME)
+                .where(DBInfo.Gender.Columns.SHORTCUT, EQUAL_TO, shortcut)
+                .create();
+
+        List<IDBEntity> readGenders = this.database.executeSelect(selectQuery, Gender.class);
+        if(readGenders.size() > 0) {
+            return (Gender)readGenders.get(0);
+        }
+
         return null;
     }
 }

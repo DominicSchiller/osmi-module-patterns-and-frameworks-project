@@ -143,17 +143,20 @@ public class SQLiteDesktopDatabase implements ISQLiteDatabase {
 
         try {
             PreparedStatement preparedStatement = this.connection.prepareStatement(sql);
-            ResultSet rs = preparedStatement.executeQuery();
+            SQLiteDesktopQueryResult queryResult = new SQLiteDesktopQueryResult(
+                    preparedStatement.executeQuery()
+            );
 
-            while(rs.next()) {
+            while(queryResult.hasNext()) {
                 Object entityInstance = SQLiteORMapper.createInstanceFromClassType(entityType);
-                SQLiteORMapper.applyResultSet(rs, entityInstance);
+                SQLiteORMapper.applyResultSet(queryResult, entityInstance);
                 selectedEntities.add((IDBEntity)entityInstance);
             }
+
+            queryResult.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         this.close();
 
         return selectedEntities;
