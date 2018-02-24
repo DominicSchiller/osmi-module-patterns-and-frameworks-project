@@ -1,13 +1,16 @@
 package de.thb.paf.scrabblefactory.models.actions;
 
+import com.badlogic.gdx.math.Vector2;
 
 import java.util.Observable;
 
 import de.thb.paf.scrabblefactory.models.components.graphics.SpriteAnimationGraphicsComponent;
 import de.thb.paf.scrabblefactory.models.entities.Player;
+import de.thb.paf.scrabblefactory.models.events.DiscardEvent;
 import de.thb.paf.scrabblefactory.models.events.GroundContactEvent;
 import de.thb.paf.scrabblefactory.models.events.IGameEvent;
 import de.thb.paf.scrabblefactory.models.events.MoveEvent;
+import de.thb.paf.scrabblefactory.models.events.MoveToEvent;
 
 import static de.thb.paf.scrabblefactory.models.actions.MoveActionType.IDLE;
 import static de.thb.paf.scrabblefactory.models.actions.MoveActionType.NONE;
@@ -50,8 +53,14 @@ public class SpriteAnimationMovePlayerAction extends GameAction {
             case MOVE:
                 this.handleMoveEvent((MoveEvent)event);
                 break;
+            case MOVE_TO:
+                this.handleMoveToEvent((MoveToEvent)event);
+                break;
             case GROUND_CONTACT:
                 this.handleGroundContactEvent((GroundContactEvent)event);
+                break;
+            case DISCARD:
+                this.handleDiscardEvent((DiscardEvent)event);
                 break;
             default:
                 // do nothing here...
@@ -138,6 +147,31 @@ public class SpriteAnimationMovePlayerAction extends GameAction {
             default:
                 // we ignore other move actions
                 break;
+        }
+    }
+
+    /**
+     * Handle a move-to event.
+     * @param event The triggered move-to event to handle
+     */
+    private void handleMoveToEvent(MoveToEvent event) {
+        Vector2 currentPosition = this.parent.getParent().getPosition();
+        event.setMoveDirectionType(
+                currentPosition.x > event.getTargetPosition().x ?
+                        MoveDirectionType.LEFT : MoveDirectionType.RIGHT
+        );
+        this.handleMoveEvent(event);
+    }
+
+    /**
+     * Handle a discard event.
+     * @param event The triggered discard event to handle
+     */
+    private void handleDiscardEvent(DiscardEvent event) {
+        String atlasName = this.parent.getSelectedAtlasName();
+        if(((Player)this.parent.getParent()).getCheeseItems().size() == 0
+                && this.parent.getSelectedAtlasName().contains("_carrying")) {
+            this.parent.switchToAnimation(atlasName.replace("_carrying", ""));
         }
     }
 }
