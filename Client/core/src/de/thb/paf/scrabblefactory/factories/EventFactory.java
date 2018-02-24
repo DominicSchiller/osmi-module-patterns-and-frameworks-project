@@ -7,6 +7,7 @@ import de.thb.paf.scrabblefactory.models.events.GroundContactEvent;
 import de.thb.paf.scrabblefactory.models.events.IGameEvent;
 import de.thb.paf.scrabblefactory.models.events.ItemContactEvent;
 import de.thb.paf.scrabblefactory.models.events.MoveEvent;
+import de.thb.paf.scrabblefactory.models.events.MoveToEvent;
 import de.thb.paf.scrabblefactory.models.events.PlayerHealthChangedEvent;
 import de.thb.paf.scrabblefactory.models.events.RemainingTimeUpdateEvent;
 
@@ -33,6 +34,9 @@ public class EventFactory {
         switch(eventType) {
             case MOVE:
                 event = new MoveEvent();
+                break;
+            case MOVE_TO:
+                event = new MoveToEvent();
                 break;
             case DISCARD:
                 event = new DiscardEvent();

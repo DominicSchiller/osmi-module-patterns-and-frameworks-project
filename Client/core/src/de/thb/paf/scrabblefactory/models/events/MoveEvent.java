@@ -29,7 +29,15 @@ public class MoveEvent extends GameEvent {
      * Default Constructor
      */
     public MoveEvent() {
-        super(GameEventType.MOVE);
+        this(GameEventType.MOVE);
+    }
+
+    /**
+     * Constructor.
+     * @param eventType The associated event type
+     */
+    MoveEvent(GameEventType eventType) {
+        super(eventType);
         this.moveDirectionType = MoveDirectionType.RIGHT;
         this.moveActionType = MoveActionType.IDLE;
     }

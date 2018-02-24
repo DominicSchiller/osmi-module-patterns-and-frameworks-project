@@ -38,7 +38,9 @@
           "javaPackage": "de.thb.paf.scrabblefactory.models.actions",
           "eventsToHandle": [
             "move",
-            "ground-contact"
+            "move-to",
+            "ground-contact",
+            "discard"
           ]
         }
       ]
@@ -62,6 +64,7 @@
           "javaPackage": "de.thb.paf.scrabblefactory.models.actions",
           "eventsToHandle": [
             "move",
+            "move-to",
             "ground-contact"
           ]
         },
