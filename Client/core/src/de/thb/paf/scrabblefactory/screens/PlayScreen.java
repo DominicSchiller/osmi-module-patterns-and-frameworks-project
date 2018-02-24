@@ -1,6 +1,7 @@
 package de.thb.paf.scrabblefactory.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
@@ -9,14 +10,17 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
 import java.util.List;
+import java.util.Set;
 
 import de.thb.paf.scrabblefactory.ScrabbleFactory;
 import de.thb.paf.scrabblefactory.factories.EntityFactory;
@@ -24,7 +28,8 @@ import de.thb.paf.scrabblefactory.factories.HUDSystemFactory;
 import de.thb.paf.scrabblefactory.factories.LevelFactory;
 import de.thb.paf.scrabblefactory.gameplay.timer.CountdownTimer;
 import de.thb.paf.scrabblefactory.gameplay.timer.ICountdownListener;
-import de.thb.paf.scrabblefactory.io.UserInputProcessor;
+import de.thb.paf.scrabblefactory.io.KeyboardInputProcessor;
+import de.thb.paf.scrabblefactory.io.TouchInputProcessor;
 import de.thb.paf.scrabblefactory.managers.GameEventManager;
 import de.thb.paf.scrabblefactory.managers.GameScreenManager;
 import de.thb.paf.scrabblefactory.models.IGameObject;
@@ -41,6 +46,7 @@ import de.thb.paf.scrabblefactory.models.hud.IHUDComponent;
 import de.thb.paf.scrabblefactory.models.hud.SearchWordHUD;
 import de.thb.paf.scrabblefactory.models.level.BasicLevel;
 import de.thb.paf.scrabblefactory.models.level.ILevel;
+import de.thb.paf.scrabblefactory.settings.Settings;
 import de.thb.paf.scrabblefactory.utils.debug.VisualGameDebugger;
 
 import static de.thb.paf.scrabblefactory.models.events.GameEventType.REMAINING_TIME_UPDATE;
@@ -57,7 +63,6 @@ import static de.thb.paf.scrabblefactory.settings.Settings.Game.VIRTUAL_WIDTH;
  */
 public class PlayScreen extends GameScreen implements ICountdownListener {
 
-    private UserInputProcessor userInputProcessor;
     private VisualGameDebugger debugRenderer;
     private OrthographicCamera camera;
     private ILevel level;
@@ -141,7 +146,20 @@ public class PlayScreen extends GameScreen implements ICountdownListener {
 //        Gdx.input.setInputProcessor(stage);
 //        setUpButtons();
 
-        this.userInputProcessor = new UserInputProcessor();
+//        ExtendViewport mViewPort = new ExtendViewport(Settings.Game.VIRTUAL_WIDTH, Settings.Game.VIRTUAL_HEIGHT, this.camera);
+//        mViewPort.setScreenWidth(Settings.App.DEVICE_SCREEN_WIDTH);
+//        mViewPort.setScreenHeight(Settings.App.DEVICE_SCREEN_WIDTH);
+//        mViewPort.setWorldWidth(Settings.Game.VIRTUAL_WIDTH);
+//        mViewPort.setWorldHeight(Settings.Game.VIRTUAL_HEIGHT);
+//        mViewPort.apply(true);
+//
+//        this.stage = new Stage(mViewPort);
+
+        // init input processors
+        InputMultiplexer im = new InputMultiplexer();
+        im.addProcessor(new KeyboardInputProcessor());
+        im.addProcessor(new GestureDetector(new TouchInputProcessor()));
+        Gdx.input.setInputProcessor(im);
         this.isInitialized = true;
     }
 
@@ -186,7 +204,7 @@ public class PlayScreen extends GameScreen implements ICountdownListener {
 //            stage.act(delta);
 //            stage.draw();
 
-//            this.debugRenderer.render(textBatch);
+            this.debugRenderer.render(textBatch);
         }
     }
 
