@@ -200,6 +200,14 @@ public class SpriteAnimationGraphicsComponent extends GameComponent implements I
     }
 
     /**
+     * Get the selected texture atlas' name.
+     * @return the selected texture atlas' name.
+     */
+    public String getSelectedAtlasName() {
+        return this.selectedAtlasName;
+    }
+
+    /**
      * Switch the animation's texture atlas.
      * @param atlasName The name of the texture atlas to switch to
      */
