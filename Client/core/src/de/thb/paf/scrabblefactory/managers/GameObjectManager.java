@@ -84,6 +84,10 @@ public class GameObjectManager implements IGameManager {
         return foundObjects;
     }
 
+    /**
+     * Update all game objects.
+     * @param deltaTime The time passed between the last and the current frame in seconds
+     */
     public void updateGameObjects(float deltaTime) {
         for(IGameObject gameObject : this.gameObjects) {
             gameObject.update(deltaTime);
