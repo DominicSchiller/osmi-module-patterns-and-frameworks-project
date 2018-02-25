@@ -111,6 +111,7 @@ public class EntityFactory {
             }
         }
 
+        entity.setActive(true);
         entity.addComponents(components);
         GameObjectManager.getInstance().addGameObject(entity);
         return entity;

@@ -24,6 +24,11 @@ public class CountdownTimer extends Thread {
     private final long MILLISECONDS;
 
     /**
+     * Status indicating if the countdown timer has been stopped
+     */
+    private boolean isStopped;
+
+    /**
      * Status indicating if the timer has been paused or not
      */
     private boolean isPaused;
@@ -43,9 +48,10 @@ public class CountdownTimer extends Thread {
      * @param milliseconds The time interval in milliseconds the timer is count down from
      */
     public CountdownTimer(long milliseconds) {
-        MILLISECONDS = milliseconds;
-        isPaused = false;
-        countdownListeners = new ArrayList<ICountdownListener>();
+        this.MILLISECONDS = milliseconds;
+        this.isPaused = false;
+        this.isStopped = false;
+        this.countdownListeners = new ArrayList<ICountdownListener>();
     }
 
     @Override
@@ -53,55 +59,65 @@ public class CountdownTimer extends Thread {
         super.run();
         long passedMilliseconds = 0;
 
-        notifyListeners(CountdownEvent.STARTED, (MILLISECONDS - passedMilliseconds));
-        while(passedMilliseconds < MILLISECONDS && !isRestartRequested) {
-            if(!isPaused) {
+        notifyListeners(CountdownEvent.STARTED, (this.MILLISECONDS - passedMilliseconds));
+        while(passedMilliseconds < this.MILLISECONDS && !this.isRestartRequested && !this.isStopped) {
+            if(!this.isPaused) {
                 try {
                     Thread.sleep(SLEEP_INTERVAL);
                     passedMilliseconds += SLEEP_INTERVAL;
-                    notifyListeners(CountdownEvent.TICKED, (MILLISECONDS - passedMilliseconds));
+                    notifyListeners(CountdownEvent.TICKED, (this.MILLISECONDS - passedMilliseconds));
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
         }
-        notifyListeners(CountdownEvent.FINISHED, (MILLISECONDS - passedMilliseconds));
+        notifyListeners(CountdownEvent.FINISHED, (this.MILLISECONDS - passedMilliseconds));
 
         // restart our self if requested
-        if(isRestartRequested) {
-            isRestartRequested = false;
+        if(this.isRestartRequested) {
+            this.isRestartRequested = false;
             this.start();
         }
     }
 
     /**
-     * Pauses the timer
+     * Stop the timer.
+     */
+    public void stopTimer() {
+        this.isStopped = true;
+    }
+
+    /**
+     * Pause the timer.
      */
     public void pauseTimer() {
         isPaused = true;
     }
 
     /**
-     * Resumes the timer
+     * Resume the timer.
      */
     public void resumeTimer() {
         isPaused = false;
     }
 
-    public void restart() {
+    /**
+     * Restart the timer.
+     */
+    public void restartTimer() {
         isRestartRequested = true;
     }
 
     /**
-     * Registers a new listener to get notified.
+     * Register a new listener to get notified.
      * @param listener The new listener to register
      */
-    public void registerCountdownListener(ICountdownListener listener) {
+    public void addCountdownListener(ICountdownListener listener) {
         countdownListeners.add(listener);
     }
 
     /**
-     * Removes a listener.
+     * Remove a listener.
      * @param listener The listener which will be removed from the list of listeners
      */
     public boolean removeCountdownListener(ICountdownListener listener) {
