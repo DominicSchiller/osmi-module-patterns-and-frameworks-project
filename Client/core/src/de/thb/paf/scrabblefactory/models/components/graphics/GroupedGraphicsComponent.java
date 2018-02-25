@@ -87,6 +87,14 @@ public class GroupedGraphicsComponent extends GameComponent implements IGraphics
     }
 
     /**
+     * Get all grouped graphics components.
+     * @return List of grouped graphics components
+     */
+    public List<IGraphicsComponent> getGraphicsComponents() {
+        return this.components;
+    }
+
+    /**
      * Initialize the group layout required to render all associated graphics components.
      */
     private void initGroupLayout() {

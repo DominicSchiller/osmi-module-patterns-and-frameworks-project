@@ -5,6 +5,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.codeandweb.physicseditor.PhysicsShapeCache;
 
 import de.thb.paf.scrabblefactory.models.IGameObject;
+import de.thb.paf.scrabblefactory.models.entities.IEntity;
 
 /**
  * Represents a rigid body assembling all static or dynamic body characteristic like
@@ -67,6 +68,8 @@ public class RigidBodyPhysicsComponent extends AbstractPhysicsComponent {
 
     @Override
     public void update(float deltaTime) {
+
+        // apply activation state
         super.update(deltaTime);
         float rotation = (float) Math.toDegrees(this.body.getAngle());
 

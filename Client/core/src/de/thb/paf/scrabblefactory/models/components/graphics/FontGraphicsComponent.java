@@ -104,7 +104,7 @@ public class FontGraphicsComponent extends GameComponent implements IGraphicsCom
             textBatch.begin();
             this.font.draw(
                     textBatch,
-                    this.text,
+                    this.text.toUpperCase(),
                     this.position.x * PPM,
                     (this.position.y * PPM) + this.font.getCapHeight()
             );
@@ -163,7 +163,8 @@ public class FontGraphicsComponent extends GameComponent implements IGraphicsCom
     public void setFont(BitmapFont font) {
         this.font = font;
 
-        BitmapFont.Glyph glyph = this.font.getData().getGlyph('A');
+        char letter = this.text.toUpperCase().charAt(0);
+        BitmapFont.Glyph glyph = this.font.getData().getGlyph(letter);
         int srcX = glyph.srcX + this.font.getRegion().getRegionX();
         int srcY = glyph.srcY+ this.font.getRegion().getRegionY();
         this.fontSprite = new Sprite(this.font.getRegion().getTexture(), srcX, srcY, glyph.width, glyph.height);
