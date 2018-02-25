@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/dominicSchiller/ScrabbleFactory-Server#readme",
   "dependencies": {
+    "body-parser": "^1.18.2",
     "express": "^4.15.4",
     "socket.io": "^2.0.3",
     "sqlite3": "^3.1.11"
