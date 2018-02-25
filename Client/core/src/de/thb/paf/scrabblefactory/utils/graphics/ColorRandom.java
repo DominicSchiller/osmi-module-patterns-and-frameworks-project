@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import de.thb.paf.scrabblefactory.utils.Randomizer;
+
 /**
  * Utility class help to randomly choose a color from a list of pre-defined colors.
  *
@@ -26,11 +28,6 @@ public class ColorRandom {
      * List of colors to randomly choose from
      */
     private static final String[] COLORS;
-
-    /**
-     * The base random class
-     */
-    private Random random;
 
     /*
      * Static initializer
@@ -75,11 +72,9 @@ public class ColorRandom {
     }
 
     /**
-     * Constructor
+     * Constructor.
      */
-    public ColorRandom() {
-        this.random = new Random();
-    }
+    public ColorRandom() {}
 
     /**
      * Randomly choose a color from the defined list of available colors.
@@ -87,7 +82,7 @@ public class ColorRandom {
      * @return The randomly chosen color
      */
     public Color getNextColor(int alpha) {
-        int index = random.nextInt(COLORS.length);
+        int index = Randomizer.nextRandomInt(0, COLORS.length - 1);
         String hexString = COLORS[index] + ((alpha % 5 == 0) ?
                 ALPHA_HEX_STRINGS.get(alpha) : ALPHA_HEX_STRINGS.get(100));
         long colorHex = Long.parseLong(hexString, 16);
