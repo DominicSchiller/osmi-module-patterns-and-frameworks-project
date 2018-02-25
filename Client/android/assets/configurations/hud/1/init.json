@@ -130,7 +130,7 @@
           "name": "FontGraphicsComponent",
           "javaPackage": "de.thb.paf.scrabblefactory.models.components.graphics",
           "fontAsset": "porkys",
-          "fontSize": 20,
+          "fontSize": 26,
           "borderWidth": 1,
           "fillColor": "ffffff",
           "borderColor": "000000",
