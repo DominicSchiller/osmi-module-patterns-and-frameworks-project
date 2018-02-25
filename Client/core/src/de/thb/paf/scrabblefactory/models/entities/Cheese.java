@@ -4,6 +4,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 
 import de.thb.paf.scrabblefactory.models.components.IComponent;
+import de.thb.paf.scrabblefactory.models.components.graphics.FontGraphicsComponent;
+import de.thb.paf.scrabblefactory.models.components.graphics.GroupedGraphicsComponent;
+import de.thb.paf.scrabblefactory.models.components.graphics.IGraphicsComponent;
 import de.thb.paf.scrabblefactory.models.components.graphics.SpriteAnimationGraphicsComponent;
 import de.thb.paf.scrabblefactory.models.components.physics.RigidBodyPhysicsComponent;
 
@@ -127,6 +130,17 @@ public class Cheese extends GameEntity {
      */
     public void setLetter(char letter) {
         this.letter = letter;
+        for(IComponent component : this.components) {
+            if(component instanceof GroupedGraphicsComponent) {
+               for(IGraphicsComponent subComponent : ((GroupedGraphicsComponent)component).getGraphicsComponents()) {
+                   if(subComponent instanceof FontGraphicsComponent) {
+                       FontGraphicsComponent fontGfxComponent = ((FontGraphicsComponent)subComponent);
+                       fontGfxComponent.text = "" + this.letter;
+                       fontGfxComponent.setFont(fontGfxComponent.font);
+                   }
+               }
+            }
+        }
     }
 
     /**

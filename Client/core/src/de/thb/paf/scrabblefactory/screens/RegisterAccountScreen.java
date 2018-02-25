@@ -202,7 +202,7 @@ public class RegisterAccountScreen extends GameScreen implements ICountdownListe
      */
     private void showErrorMessage() {
         CountdownTimer displayErrorTimer = new CountdownTimer(3000);
-        displayErrorTimer.registerCountdownListener(this);
+        displayErrorTimer.addCountdownListener(this);
         displayErrorTimer.start();
     }
 

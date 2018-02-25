@@ -143,7 +143,7 @@ public class LoginScreen extends GameScreen implements ICountdownListener {
      */
     private void showLoginError() {
         CountdownTimer displayErrorTimer = new CountdownTimer(3000);
-        displayErrorTimer.registerCountdownListener(this);
+        displayErrorTimer.addCountdownListener(this);
         displayErrorTimer.start();
     }
 

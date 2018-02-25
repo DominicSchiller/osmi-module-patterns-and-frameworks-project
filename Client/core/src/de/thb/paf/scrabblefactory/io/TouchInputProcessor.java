@@ -56,7 +56,7 @@ public class TouchInputProcessor implements GestureDetector.GestureListener {
         if(velocityY < 0) {
             this.triggerMoveEvent(JUMP);
         } else {
-            List<IGameObject> gameObjects = GameObjectManager.getInstance().getGameObject(PLAYER);
+            List<IGameObject> gameObjects = GameObjectManager.getInstance().getGameEntity(PLAYER);
             Player player = (Player)gameObjects.get(0);
             if(player.getCheeseItems().size() > 0) {
                 DiscardEvent discardEvent = (DiscardEvent)GameEventManager.getInstance().getGameEvent(DISCARD);
