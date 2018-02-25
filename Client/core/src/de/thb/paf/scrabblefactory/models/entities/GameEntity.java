@@ -8,6 +8,7 @@ import java.util.List;
 import de.thb.paf.scrabblefactory.models.assets.AssetTargetType;
 import de.thb.paf.scrabblefactory.models.components.ComponentType;
 import de.thb.paf.scrabblefactory.models.components.IComponent;
+import de.thb.paf.scrabblefactory.models.components.physics.RigidBodyPhysicsComponent;
 
 /**
  * Abstract representation of a game entity.
@@ -47,6 +48,11 @@ abstract class GameEntity implements IEntity {
      * The game entity's indicator whether it can be destroyed and removed or not
      */
     private boolean isTerminated;
+
+    /**
+     * Status if the entity is active and can be used within the game
+     */
+    private boolean isActive;
 
     /**
      * The game entity's unique type
@@ -159,6 +165,11 @@ abstract class GameEntity implements IEntity {
     }
 
     @Override
+    public boolean isActive() {
+        return this.isActive;
+    }
+
+    @Override
     public void setPosition(Vector2 position) {
         this.position = position;
     }
@@ -181,6 +192,16 @@ abstract class GameEntity implements IEntity {
     @Override
     public void setTerminated(boolean isTerminated) {
         this.isTerminated = isTerminated;
+    }
+
+    @Override
+    public void setActive(boolean isActive) {
+        this.isActive = isActive;
+        for(IComponent component : this.components) {
+            if(component instanceof RigidBodyPhysicsComponent) {
+                ((RigidBodyPhysicsComponent)component).getBody().setActive(isActive);
+            }
+        }
     }
 
     @Override

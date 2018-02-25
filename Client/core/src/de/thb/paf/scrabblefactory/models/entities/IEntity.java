@@ -61,4 +61,16 @@ public interface IEntity extends IGameObject{
      */
      void setTerminated(boolean isTerminated);
 
+    /**
+     * Get the status if the entity is active and can be used within the game.
+     * @return The status if the entity is active
+     */
+     boolean isActive();
+
+    /**
+     * Set the status if the entity is active and can be used within the game.
+     * @param isActive the status if the entity is active
+     */
+     void setActive(boolean isActive);
+
 }
