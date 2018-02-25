@@ -124,7 +124,7 @@ public class GameItemSpawnPool {
 
         int xPosition = Randomizer.nextRandomInt(
                 0, (int)(Settings.Game.VIRTUAL_WIDTH - gameItem.getSize().x / PPM));
-        int yPosition = (int)(Settings.Game.VIRTUAL_HEIGHT + gameItem.getSize().y / PPM);
+        int yPosition = (int)(Settings.Game.VIRTUAL_HEIGHT + 10 * (gameItem.getSize().y / PPM));
 
         for(IComponent component : gameItem.getAllComponents(ComponentType.PHYS_COMPONENT)) {
             if(component instanceof RigidBodyPhysicsComponent) {

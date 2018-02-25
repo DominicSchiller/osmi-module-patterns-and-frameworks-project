@@ -3,8 +3,16 @@ package de.thb.paf.scrabblefactory;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import de.thb.paf.scrabblefactory.managers.GameScreenManager;
+import de.thb.paf.scrabblefactory.persistence.DataStore;
+import de.thb.paf.scrabblefactory.persistence.entities.Gender;
+import de.thb.paf.scrabblefactory.persistence.entities.User;
 import de.thb.paf.scrabblefactory.screens.MainMenuScreen;
+import de.thb.paf.scrabblefactory.screens.PlayScreen;
 import de.thb.paf.scrabblefactory.settings.Settings;
 import de.thb.paf.scrabblefactory.utils.debug.SettingsDebugger;
 
@@ -59,8 +67,8 @@ public class ScrabbleFactory extends Game {
 		batch = new SpriteBatch();
 		textBatch = new SpriteBatch();
 
-		GameScreenManager.getInstance().setScreen(new MainMenuScreen());
-
+		GameScreenManager.getInstance().setScreen(new PlayScreen());
+//
 //		DataStore ds = DataStore.getInstance();
 //		Date date = null;
 //		try {
@@ -69,8 +77,11 @@ public class ScrabbleFactory extends Game {
 //			e.printStackTrace();
 //		}
 //		User usr = new User("Maus", "Mickey",
-//				"Mickey", date, new Gender("m", "male"));
+//				"Mickey", date, new Gender("f", "female"));
 //		ds.createUser(usr);
+//
+//		User usr2 = ds.readUser("Mickey", "113434");
+//		System.out.println("");
 	}
 
 	@Override
