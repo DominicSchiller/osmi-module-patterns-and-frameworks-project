@@ -173,4 +173,19 @@ public final class Settings {
          */
         public static final int DATABASE_VERSION = 1;
     }
+
+    /**
+     * Settings section embracing all debug relevant settings.
+     *
+     * @author Dominic Schiller - Technische Hochschule Brandenburg
+     * @version 1.0
+     * @since 1.0
+     */
+    public static final class Debug {
+
+        /**
+         * Status if enable the game's overall debug mode
+         */
+        public static final boolean isDebugModeEnabled = false;
+    }
 }
