@@ -24,6 +24,10 @@ import de.thb.paf.scrabblefactory.models.components.graphics.Alignment;
 import de.thb.paf.scrabblefactory.settings.Settings;
 import de.thb.paf.scrabblefactory.utils.graphics.AlignmentHelper;
 
+import static de.thb.paf.scrabblefactory.settings.Settings.Game.PPM;
+import static de.thb.paf.scrabblefactory.settings.Settings.Game.RESOLUTION;
+import static de.thb.paf.scrabblefactory.settings.Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER;
+
 /**
  * A basic builder for creating several UI widgets.
  *
@@ -33,6 +37,11 @@ import de.thb.paf.scrabblefactory.utils.graphics.AlignmentHelper;
  */
 
 public class UIWidgetBuilder {
+
+    /**
+     * Status whether to use virtual or screen sizes
+     */
+    private boolean isVirtualScale;
 
     /**
      * The ui element's style definition
@@ -121,6 +130,18 @@ public class UIWidgetBuilder {
 
         this.widget = null;
         this.uiSkin = new Skin(Gdx.files.internal("ui/glassy-ui.json"));
+
+        this.isVirtualScale = false;
+    }
+
+    /**
+     * Set the status whether to use virtual or screen sizes.
+     * @param isVirtualScale The status whether to use virtual or screen sizes
+     * @return The current builder instance
+     */
+    public UIWidgetBuilder useVirtualScale(boolean isVirtualScale) {
+        this.isVirtualScale = isVirtualScale;
+        return this;
     }
 
     /**
@@ -178,15 +199,16 @@ public class UIWidgetBuilder {
      * @param font The font to apply
      * @param fontSize The font's size to apply
      * @param textColor The font's color to apply
+*      @param outlineColor The font's outline color
      * @return The current builder instance
      */
-    public UIWidgetBuilder font(FontAsset font, int fontSize, Color textColor) {
+    public UIWidgetBuilder font(FontAsset font, int fontSize, Color textColor, Color... outlineColor) {
         this.font = new AssetLoader().loadFont(
                 font,
                 fontSize,
-                0,
+                outlineColor.length == 0 ? 0: (1 * (int)Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER),
                 textColor,
-                Color.BLACK
+                outlineColor.length == 0 ? Color.BLACK : outlineColor[0]
         );
         return this;
     }
@@ -308,28 +330,35 @@ public class UIWidgetBuilder {
      * Apply all position and size configurations.
      */
     private void applyBoundsAndPosition() {
+        float virtualResolutionMultiplier = this.isVirtualScale ?
+                RESOLUTION.virtualScaleFactor * 1/VIRTUAL_PIXEL_DENSITY_MULTIPLIER : 1;
+        float virtualScaleFactor = this.isVirtualScale ? PPM : 1;
+
         if(this.size != null) {
             switch(this.size.length) {
                 case 2:
-                    this.widget.setHeight(this.size[1]);
+                    this.widget.setHeight((this.size[1] * virtualResolutionMultiplier) / virtualScaleFactor);
                 case 1:
-                    this.widget.setWidth(this.size[0]);
+                    this.widget.setWidth((this.size[0] * virtualResolutionMultiplier) / virtualScaleFactor);
                     break;
             }
         }
 
-        Vector2 screenPosition = AlignmentHelper.getRelativePosition(
+        int canvasWidth = this.isVirtualScale ? Settings.Game.VIRTUAL_WIDTH : Settings.App.DEVICE_SCREEN_WIDTH;
+        int canvasHeight = this.isVirtualScale ? Settings.Game.VIRTUAL_HEIGHT : Settings.App.DEVICE_SCREEN_HEIGHT;
+
+                Vector2 screenPosition = AlignmentHelper.getRelativePosition(
                 new Vector2(this.widget.getWidth(), this.widget.getHeight()),
-                new Vector2(Settings.App.DEVICE_SCREEN_WIDTH, Settings.App.DEVICE_SCREEN_HEIGHT),
+                new Vector2(canvasWidth, canvasHeight),
                 alignment,
                 new int[] {0, 0, 0 ,0}
         );
 
         // apply margins
-        screenPosition.x += this.margins[3];
-        screenPosition.x -= this.margins[1];
-        screenPosition.y -= this.margins[0];
-        screenPosition.y += this.margins[2];
+        screenPosition.x += this.margins[3] / virtualScaleFactor;
+        screenPosition.x -= this.margins[1] / virtualScaleFactor;
+        screenPosition.y -= this.margins[0] / virtualScaleFactor;
+        screenPosition.y += this.margins[2] / virtualScaleFactor;
 
         this.widget.setPosition(screenPosition.x, screenPosition.y);
     }
@@ -347,7 +376,7 @@ public class UIWidgetBuilder {
         }
 
         if(this.widgetType == UIWidgetType.IMAGE_BUTTON && this.actorGestureListener != null) {
-            ((ImageButton)this.widget).addListener(this.actorGestureListener);
+            this.widget.addListener(this.actorGestureListener);
         }
     }
 
