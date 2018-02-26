@@ -243,9 +243,30 @@ public class PauseDialogScreen extends GameScreen {
                 GameScreenManager.getInstance().showLastScreen();
                 break;
             case "stopGame":
-                GameScreenManager.getInstance().showScreen(new MainMenuScreen());
+                this.goToScreen(ScreenState.MAIN_MENU);
+                GameScreenManager gsm = GameScreenManager.getInstance();
+                gsm.dismissScreen(ScreenState.PLAY);
+                gsm.clearHistory();
                 break;
         }
+    }
+
+    /**
+     * Navigate to a specific screen.
+     * @param screenState The screen's state to navigate to
+     */
+    private void goToScreen(ScreenState screenState) {
+        GameScreenManager gsm = GameScreenManager.getInstance();
+        IGameScreen screen = gsm.getScreen(screenState);
+
+        if(screen == null) {
+            switch(screenState) {
+                case MAIN_MENU:
+                    screen = new MainMenuScreen();
+                    break;
+            }
+        }
+        gsm.showScreen(screen);
     }
  }
 
