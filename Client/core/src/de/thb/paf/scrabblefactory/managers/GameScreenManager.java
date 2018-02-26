@@ -1,6 +1,8 @@
 package de.thb.paf.scrabblefactory.managers;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 import de.thb.paf.scrabblefactory.ScrabbleFactory;
 import de.thb.paf.scrabblefactory.screens.IGameScreen;
@@ -16,14 +18,19 @@ import de.thb.paf.scrabblefactory.screens.ScreenState;
 public class GameScreenManager implements IGameManager {
 
     /**
+     * The singleton instance of the GameScreenManager
+     */
+    private static final GameScreenManager instance;
+
+    /**
      * Collection of active screens
      */
     private final HashMap<ScreenState, IGameScreen> screens;
 
     /**
-     * The singleton instance of the GameScreenManager
+     * History of already navigated screens
      */
-    private static final GameScreenManager instance;
+    private List<ScreenState> screenHistory;
 
     /**
      * static initializer: called when the class is loaded by the JVM
@@ -44,15 +51,68 @@ public class GameScreenManager implements IGameManager {
      * Private singleton constructor
      */
     private GameScreenManager() {
-        this.screens = new HashMap<ScreenState, IGameScreen>();
+        this.screens = new HashMap<>();
+        this.screenHistory = new LinkedList<>();
     }
 
     /**
      * Set next screen to be active.
      * @param screen The screen to set as active
      */
-    public void setScreen(IGameScreen screen) {
+    public void showScreen(IGameScreen screen) {
+        this.screens.put(screen.getState(), screen);
+        this.screenHistory.add(screen.getState());
         ScrabbleFactory.getInstance().setScreen(screen);
+    }
+
+    /**
+     * Get a specific screen.
+     * @param screenState The screen's state to identify the requested screen
+     */
+    public IGameScreen getScreen(ScreenState screenState) {
+        IGameScreen screen = this.screens.get(screenState);
+        return screen;
+    }
+
+    /**
+     * Navigate to the last screen.
+     * @return Status if there was a last screen to navigate to
+     */
+    public boolean showLastScreen() {
+        if(this.screenHistory.size() <= 1) {
+            return false;
+        }
+        IGameScreen lastScreen = this.screens.get(
+                this.screenHistory.get(this.screenHistory.size() - 2)
+        );
+
+        ScrabbleFactory.getInstance().setScreen(lastScreen);
+        lastScreen.resume();
+        this.screenHistory.remove(this.screenHistory.size()-1);
+
+        return true;
+    }
+
+    /**
+     * Clear the screen history.
+     */
+    public void clearHistory() {
+        this.screenHistory.clear();
+    }
+
+    /**
+     * Dismiss a stored screen.
+     * @param screenState The identifier from the screen to dismiss
+     * @return The dismiss success state
+     */
+    public boolean dismissScreen(ScreenState screenState) {
+        IGameScreen screen = this.screens.remove(screenState);
+        if(screen != null) {
+            screen.dispose();
+            return true;
+        }
+
+        return false;
     }
 
     @Override
