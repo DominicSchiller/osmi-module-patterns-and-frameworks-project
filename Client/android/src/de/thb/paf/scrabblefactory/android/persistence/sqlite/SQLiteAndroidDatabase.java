@@ -71,6 +71,7 @@ public class SQLiteAndroidDatabase implements ISQLiteDatabase {
     public void setup() {
         this.open();
 
+        // check database version: if database version = 0 we need to create the initial db structure
         if(this.database.getVersion() == 0) {
             this.database.setVersion(this.databaseVersion);
             this.executeDDL(onCreateQuery);

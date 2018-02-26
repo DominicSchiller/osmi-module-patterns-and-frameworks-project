@@ -1,5 +1,6 @@
 package de.thb.paf.scrabblefactory.persistence;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.thb.paf.scrabblefactory.persistence.entities.Gender;
@@ -86,6 +87,28 @@ public class DataStore implements IUserCRUDOperations, IGenderCRUDOperations {
         List<IDBEntity> readUsers = database.executeSelect(selectUserQuery, User.class);
         if(readUsers.size() > 0) {
             return (User)readUsers.get(0);
+        }
+
+        return null;
+    }
+
+    @Override
+    public List<User> readAllUsers() {
+        String selectUserQuery = SQLQuery.select("*")
+                .from(DBInfo.Users.TABLE_NAME)
+                .join(
+                        DBInfo.Users.TABLE_NAME, DBInfo.Users.Columns.GENDER_ID,
+                        DBInfo.Gender.TABLE_NAME, DBInfo.Gender.Columns.GENDER_ID
+                )
+                .create();
+
+        List<IDBEntity> readUsers = database.executeSelect(selectUserQuery, User.class);
+        if(readUsers != null) {
+            List<User> users = new ArrayList<>();
+            for(IDBEntity entity : readUsers) {
+                users.add((User)entity);
+            }
+            return users;
         }
 
         return null;

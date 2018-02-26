@@ -72,7 +72,27 @@ public class SQLiteDesktopDatabase implements ISQLiteDatabase {
     public void setup() {
         try {
             Class.forName("org.sqlite.JDBC");
-            this.executeDDL(this.onCreateQuery);
+            this.open();
+            try(Statement statement = this.connection.createStatement()) {
+                // check database version
+                try(ResultSet rs = statement.executeQuery("PRAGMA user_version;")) {
+                    int currentDatabaseVersion = rs.getInt(1);
+                    rs.close();
+                    statement.close();
+                    // if database version = 0 we need to create the initial db structure
+                    if(currentDatabaseVersion == 0) {
+                        this.executeDDL(this.onCreateQuery);
+                        try(Statement updateVersionStatement = this.connection.createStatement()) {
+                            updateVersionStatement.executeUpdate(
+                                    "pragma user_version = " + this.databaseVersion + ";"
+                            );
+                        }
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            this.close();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }

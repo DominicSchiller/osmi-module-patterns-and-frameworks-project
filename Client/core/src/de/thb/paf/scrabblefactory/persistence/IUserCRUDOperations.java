@@ -1,6 +1,8 @@
 package de.thb.paf.scrabblefactory.persistence;
 
 
+import java.util.List;
+
 import de.thb.paf.scrabblefactory.persistence.entities.User;
 
 /**
@@ -27,4 +29,10 @@ public interface IUserCRUDOperations {
      * @return The found user
      */
     User readUser(String nickname, String password);
+
+    /**
+     * Read all available users from the database.
+     * @return List of found users
+     */
+    List<User> readAllUsers();
 }
