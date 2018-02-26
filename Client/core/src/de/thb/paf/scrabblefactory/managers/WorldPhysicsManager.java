@@ -1,7 +1,9 @@
 package de.thb.paf.scrabblefactory.managers;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 
 /**
  * Manager class responsible for holding and managing the global physical Box2D world's instance.
@@ -26,7 +28,7 @@ public class WorldPhysicsManager implements IGameManager {
     /**
      * The Box2D physical world instance
      */
-    private final World physicalWorld;
+    private World physicalWorld;
 
     /**
      * static initializer: called when the class is loaded by the JVM
@@ -68,6 +70,16 @@ public class WorldPhysicsManager implements IGameManager {
 
     @Override
     public void dispose() {
-        this.physicalWorld.dispose();
+//        Array<Body> bodies = new Array<>();
+//        this.physicalWorld.getBodies(bodies);
+//        for(Body body : bodies) {
+//            this.physicalWorld.destroyBody(body);
+//        }
+
+//        this.physicalWorld.dispose();
+//        this.physicalWorld = null;
+//        this.physicalWorld = new World(DEFAULT_GRAVITY, true);
+//        this.physicalWorld.dispose();
+        this.physicalWorld = new World(DEFAULT_GRAVITY, true);
     }
 }

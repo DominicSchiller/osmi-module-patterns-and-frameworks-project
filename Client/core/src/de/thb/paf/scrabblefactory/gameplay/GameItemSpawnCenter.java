@@ -73,9 +73,7 @@ public class GameItemSpawnCenter implements ICountdownListener {
     }
 
     @Override
-    public void onCountdownStarted(long time) {
-
-    }
+    public void onCountdownStarted(long time) {}
 
     @Override
     public void onCountdownTick(long time) {
@@ -87,8 +85,17 @@ public class GameItemSpawnCenter implements ICountdownListener {
     }
 
     @Override
-    public void onCountdownFinished(long time) {
+    public void onCountdownFinished(long time) {}
 
+    /**
+     * Clear all spawn pools from the spawn center.
+     */
+    public void clear() {
+        for(GameItemSpawnPool spawnPool : this.spawnPools) {
+            spawnPool.clear();
+        }
+
+        this.spawnPools.clear();
     }
 
     /**

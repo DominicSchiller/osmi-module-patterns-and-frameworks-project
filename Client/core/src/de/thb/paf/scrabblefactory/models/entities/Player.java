@@ -95,4 +95,9 @@ public class Player extends GameEntity {
         cheese.setCarrier(null);
         return this.cheeseItems.remove(cheese);
     }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+    }
 }

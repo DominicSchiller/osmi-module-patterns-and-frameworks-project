@@ -77,6 +77,17 @@ public abstract class HUDComponent implements IHUDComponent {
     }
 
     @Override
+    public void update(float deltaTime) {}
+
+    @Override
+    public void dispose() {
+        for(IComponent component : this.components) {
+            component.dispose();
+        }
+        this.components.clear();
+    }
+
+    @Override
     public HUDComponentType getHudComponentType() {
         return this.type;
     }

@@ -104,7 +104,7 @@ public class LoginScreen extends GameScreen implements ICountdownListener {
 
     @Override
     public void dispose() {
-
+        this.stage.dispose();
     }
 
     @Override

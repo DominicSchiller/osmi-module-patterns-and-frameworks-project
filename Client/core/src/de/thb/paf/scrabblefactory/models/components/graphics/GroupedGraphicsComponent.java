@@ -65,6 +65,14 @@ public class GroupedGraphicsComponent extends GameComponent implements IGraphics
         this.groupLayout.draw(batch, 1.0f);
     }
 
+    @Override
+    public void dispose() {
+        super.dispose();
+        for(IGraphicsComponent gfxComponent : this.components) {
+            ((IComponent)gfxComponent).dispose();
+        }
+    }
+
     /**
      * Get the group layout responsible to render all associated graphics components.
      * @return The group layout responsible to render all associated graphics components

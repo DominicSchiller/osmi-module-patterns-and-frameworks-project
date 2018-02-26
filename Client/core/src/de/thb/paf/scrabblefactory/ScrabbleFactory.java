@@ -6,9 +6,6 @@ import com.badlogic.gdx.math.Matrix4;
 
 import de.thb.paf.scrabblefactory.managers.GameScreenManager;
 import de.thb.paf.scrabblefactory.screens.LandingScreen;
-import de.thb.paf.scrabblefactory.screens.MainMenuScreen;
-import de.thb.paf.scrabblefactory.screens.PlayScreen;
-import de.thb.paf.scrabblefactory.screens.RegisterAccountScreen;
 import de.thb.paf.scrabblefactory.settings.Settings;
 import de.thb.paf.scrabblefactory.utils.debug.SettingsDebugger;
 

@@ -50,6 +50,11 @@ public class WorldPhysicsComponent extends AbstractPhysicsComponent {
         this.stepWorld(deltaTime);
     }
 
+    @Override
+    public void dispose() {
+        super.dispose();
+    }
+
     /**
      * Get the physical world's gravity.
      * @return the physical world's gravity vector

@@ -124,7 +124,7 @@ public class RegisterAccountScreen extends GameScreen implements ICountdownListe
 
     @Override
     public void dispose() {
-
+        this.stage.dispose();
     }
 
     @Override

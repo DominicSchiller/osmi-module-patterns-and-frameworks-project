@@ -186,6 +186,6 @@ public final class Settings {
         /**
          * Status if enable the game's overall debug mode
          */
-        public static final boolean isDebugModeEnabled = false;
+        public static final boolean isDebugModeEnabled = true;
     }
 }

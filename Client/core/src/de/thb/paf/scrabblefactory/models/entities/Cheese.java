@@ -187,4 +187,9 @@ public class Cheese extends GameEntity {
             }
         }
     }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+    }
 }

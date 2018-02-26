@@ -47,16 +47,6 @@ public class SearchWordHUD extends HUDComponent {
     }
 
     @Override
-    public void update(float deltaTime) {
-
-    }
-
-    @Override
-    public void dispose() {
-
-    }
-
-    @Override
     public void update(Observable o, Object arg) {
 
     }

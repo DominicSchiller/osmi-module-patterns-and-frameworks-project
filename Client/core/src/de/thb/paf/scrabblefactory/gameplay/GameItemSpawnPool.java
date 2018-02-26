@@ -87,6 +87,14 @@ public class GameItemSpawnPool {
     }
 
     /**
+     * Clear the object pool.
+     */
+    public void clear() {
+        this.spawnableItems.clear();
+        this.spawnedItems.clear();
+    }
+
+    /**
      * Tick down the countdown before spawning the next game item.
      */
      void tickDown() {

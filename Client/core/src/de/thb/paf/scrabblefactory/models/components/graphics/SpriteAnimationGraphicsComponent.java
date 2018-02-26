@@ -254,6 +254,11 @@ public class SpriteAnimationGraphicsComponent extends GameComponent implements I
         batch.end();
     }
 
+    @Override
+    public void dispose() {
+        super.dispose();
+    }
+
     /**
      * Initializes the animation based on current settings
      */

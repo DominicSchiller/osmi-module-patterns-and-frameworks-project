@@ -99,5 +99,7 @@ public class GameObjectManager implements IGameManager {
         for(IGameObject gameObject : this.gameObjects) {
             gameObject.dispose();
         }
+
+        this.gameObjects.clear();
     }
 }

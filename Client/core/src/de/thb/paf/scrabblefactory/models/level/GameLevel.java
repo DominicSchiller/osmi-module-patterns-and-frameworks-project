@@ -71,7 +71,9 @@ abstract class GameLevel implements ILevel {
 
     @Override
     public void dispose() {
-        //TODO implement here...
+        for(IComponent component: this.components) {
+            component.dispose();
+        }
     }
 
     @Override

@@ -81,6 +81,11 @@ public class LayeredTexturesGraphicsComponent extends GameComponent implements I
         batch.end();
     }
 
+    @Override
+    public void dispose() {
+        super.dispose();
+    }
+
     /**
      * Get all associated static layers.
      * @return List of associated static layers.

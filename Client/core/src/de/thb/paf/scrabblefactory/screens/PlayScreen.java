@@ -33,6 +33,7 @@ import de.thb.paf.scrabblefactory.io.TouchInputProcessor;
 import de.thb.paf.scrabblefactory.managers.GameEventManager;
 import de.thb.paf.scrabblefactory.managers.GameObjectManager;
 import de.thb.paf.scrabblefactory.managers.GameScreenManager;
+import de.thb.paf.scrabblefactory.managers.WorldPhysicsManager;
 import de.thb.paf.scrabblefactory.models.IGameObject;
 import de.thb.paf.scrabblefactory.models.components.ComponentType;
 import de.thb.paf.scrabblefactory.models.components.IComponent;
@@ -50,6 +51,7 @@ import de.thb.paf.scrabblefactory.models.level.BasicLevel;
 import de.thb.paf.scrabblefactory.models.level.ILevel;
 import de.thb.paf.scrabblefactory.settings.Settings;
 import de.thb.paf.scrabblefactory.utils.Randomizer;
+import de.thb.paf.scrabblefactory.utils.debug.SettingsDebugger;
 import de.thb.paf.scrabblefactory.utils.debug.VisualGameDebugger;
 import de.thb.paf.scrabblefactory.utils.graphics.widgets.UIWidgetBuilder;
 import de.thb.paf.scrabblefactory.utils.graphics.widgets.UIWidgetType;
@@ -169,6 +171,8 @@ public class PlayScreen extends GameScreen implements ICountdownListener {
             this.challengeWatchdog = new ScrabbleChallengeWatchdog(searchWord);
 
             this.isInitialized = true;
+
+            SettingsDebugger.printSettings();
         }
     }
 
@@ -253,7 +257,19 @@ public class PlayScreen extends GameScreen implements ICountdownListener {
 
     @Override
     public void dispose() {
-        // TODO: Implement here...
+
+        GameObjectManager.getInstance().dispose();
+
+        this.spawnCenter.clear();
+        this.hud.dispose();
+        this.level.dispose();
+
+        this.wonSound.dispose();
+        this.levelmusic.dispose();
+        this.stage.dispose();
+
+        WorldPhysicsManager.getInstance().dispose();
+        System.out.println();
     }
 
     @Override
@@ -266,6 +282,8 @@ public class PlayScreen extends GameScreen implements ICountdownListener {
     public void onCountdownTick(long time) {
         this.triggerRemainingTimeUpdateEvent(time);
         if(this.challengeWatchdog.isChallengeWon()) {
+            this.stage.addActor(this.overlay);
+
             System.out.println("The Game is Won!!!");
             this.timer.stopTimer();
             this.levelmusic.stop();
@@ -288,6 +306,10 @@ public class PlayScreen extends GameScreen implements ICountdownListener {
         Texture pauseBtnPressedTexture = new Texture(Gdx.files.internal("images/" + Settings.Game.RESOLUTION.name + "/buttons/pausePressed.png"));
         pauseBtnTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
         pauseBtnPressedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
+
+        this.overlay = new Image(new Texture(
+                Gdx.files.internal("images/" + Settings.Game.RESOLUTION.name + "/backgrounds/overlay.png")
+        ));
 
         int multiplier = (int)Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER;
         int padding = (1 * multiplier);
@@ -331,9 +353,6 @@ public class PlayScreen extends GameScreen implements ICountdownListener {
         this.isPauseRequested = true;
         this.pause();
 
-        this.overlay = new Image(new Texture(
-                Gdx.files.internal("images/" + Settings.Game.RESOLUTION.name + "/backgrounds/overlay.png")
-        ));
         this.stage.addActor(this.overlay);
 
         Gdx.app.postRunnable(() -> {
@@ -349,15 +368,20 @@ public class PlayScreen extends GameScreen implements ICountdownListener {
     }
 
     private void showChallengeResultDialog() {
-        this.overlay = new Image(new Texture(
-                Gdx.files.internal("images/" + Settings.Game.RESOLUTION.name + "/backgrounds/overlay.png")
-        ));
-        this.stage.addActor(this.overlay);
 
         Gdx.app.postRunnable(() -> {
             render(Gdx.graphics.getDeltaTime());
+        });
+
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        Gdx.app.postRunnable(() -> {
             GameScreenManager gsm = GameScreenManager.getInstance();
-            IGameScreen screen = gsm.getScreen(ScreenState.PAUSE_DIALOG);
+            IGameScreen screen = gsm.getScreen(ScreenState.CHALLENGE_SCORE_DIALOG);
             if(screen != null) {
                 gsm.showScreen(screen);
             } else {

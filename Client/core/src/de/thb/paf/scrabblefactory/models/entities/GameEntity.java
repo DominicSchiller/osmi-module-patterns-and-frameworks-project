@@ -90,7 +90,6 @@ abstract class GameEntity implements IEntity {
 
     @Override
     public void update(float deltaTime) {
-        // TODO implement here
         for(IComponent component : this.components) {
             component.update(deltaTime);
         }
@@ -98,7 +97,9 @@ abstract class GameEntity implements IEntity {
 
     @Override
     public void dispose() {
-        //TODO: implement here...
+        for(IComponent component : this.components) {
+            component.dispose();
+        }
     }
 
     @Override

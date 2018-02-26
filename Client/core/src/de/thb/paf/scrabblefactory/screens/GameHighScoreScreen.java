@@ -115,7 +115,8 @@ public class GameHighScoreScreen extends GameScreen {
 
     @Override
     public void dispose() {
-
+        this.stage.dispose();
+        this.buttonPressedSound.dispose();
     }
 
     /**

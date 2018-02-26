@@ -84,7 +84,7 @@ public class PauseDialogScreen extends GameScreen {
 
     @Override
     public void dispose() {
-        // TODO: Implement here...
+        this.stage.dispose();
     }
 
     /**

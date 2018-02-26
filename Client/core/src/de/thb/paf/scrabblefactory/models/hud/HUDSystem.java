@@ -80,4 +80,15 @@ public class HUDSystem {
 
         return foundComponent;
     }
+
+    /**
+     * Dispose the HUD system.
+     */
+    public void dispose() {
+        for(IHUDComponent hudComponent : this.hudComponents) {
+            hudComponent.dispose();
+        }
+
+        this.hudComponents.clear();
+    }
 }

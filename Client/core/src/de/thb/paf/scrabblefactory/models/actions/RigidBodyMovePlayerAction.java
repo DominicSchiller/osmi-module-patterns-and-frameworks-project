@@ -261,6 +261,11 @@ public class RigidBodyMovePlayerAction extends GameAction {
                     scale, scale
             );
 
+            if(newBody == null) {
+                System.out.println("");
+                return;
+            }
+
             // set fixtures user data
             for(Fixture f : newBody.getFixtureList()) {
                 f.setUserData(this.parent);

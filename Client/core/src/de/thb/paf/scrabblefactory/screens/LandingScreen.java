@@ -86,7 +86,10 @@ public class LandingScreen extends GameScreen {
     }
 
     @Override
-    public void dispose() {}
+    public void dispose() {
+        this.stage.dispose();
+        this.buttonPressedSound.dispose();
+    }
 
     /**
      * Verify if the user can directly login into the game.

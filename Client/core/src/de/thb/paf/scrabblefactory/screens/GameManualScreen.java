@@ -94,7 +94,8 @@ public class GameManualScreen extends GameScreen {
 
     @Override
     public void resume() {
-        // TODO: Implement here...
+        this.stage.dispose();
+        this.buttonPressedSound.dispose();
     }
 
     @Override

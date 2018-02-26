@@ -156,6 +156,12 @@ public class FontGraphicsComponent extends GameComponent implements IGraphicsCom
         );
     }
 
+    @Override
+    public void dispose() {
+        super.dispose();
+        this.font.dispose();
+    }
+
     /**
      * Set font to new one and update the pre-rendered sprite.
      * @param font The new font to (pre-)render

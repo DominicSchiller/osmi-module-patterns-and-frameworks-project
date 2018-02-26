@@ -70,7 +70,7 @@ public class ChallengeScoreDialogScreen extends GameScreen implements ICountdown
      * Default Constructor
      */
     public ChallengeScoreDialogScreen() {
-        super(ScreenState.POINTS_DIALOG);
+        super(ScreenState.CHALLENGE_SCORE_DIALOG);
         this.stage = new Stage();
         Gdx.input.setInputProcessor(this.stage);
     }
@@ -122,7 +122,7 @@ public class ChallengeScoreDialogScreen extends GameScreen implements ICountdown
 
     @Override
     public void dispose() {
-        // TODO: Implement here...
+        this.stage.dispose();
     }
 
     @Override
@@ -170,20 +170,10 @@ public class ChallengeScoreDialogScreen extends GameScreen implements ICountdown
      * Setup all UI widgets required to represent the main menu.
      */
     private void setupWidgets(float scaling) {
-        Texture closeTexture = new Texture(Gdx.files.internal("images/" + Settings.Game.RESOLUTION.name + "/buttons/cancel.png"));
-        Texture closePressedTexture = new Texture(Gdx.files.internal("images/" + Settings.Game.RESOLUTION.name + "/buttons/cancelPressed.png"));
-        closeTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Linear);
-        closePressedTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Linear);
-
         Texture stopTexture = new Texture(Gdx.files.internal("images/" + Settings.Game.RESOLUTION.name + "/buttons/tapStop.png"));
         Texture stopPressedTexture = new Texture(Gdx.files.internal("images/" + Settings.Game.RESOLUTION.name + "/buttons/tapStopPressed.png"));
         stopTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
         stopPressedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
-
-        Texture playTexture = new Texture(Gdx.files.internal("images/" + Settings.Game.RESOLUTION.name + "/buttons/tapPlay.png"));
-        Texture playPressedTexture = new Texture(Gdx.files.internal("images/" + Settings.Game.RESOLUTION.name + "/buttons/tapPlayPressed.png"));
-        playTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
-        playPressedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
 
         int multiplier = (int)Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER;
 
@@ -240,58 +230,14 @@ public class ChallengeScoreDialogScreen extends GameScreen implements ICountdown
                 .create();
         scoreLabel.setAlignment(Align.center);
 
-        ImageButton closeButton = (ImageButton)new UIWidgetBuilder(UIWidgetType.IMAGE_BUTTON)
-                .identifier("cancel")
-                .size((int)(closeTexture.getWidth() * scaling), (int)(closeTexture.getHeight() * scaling))
-                .alignment(Alignment.MIDDLE)
-                .margins(
-                        0, 0,
-                        (int)((this.dialogBackground.getHeight() * scaling)/2) - (5 * multiplier),
-                        (int)((this.dialogBackground.getWidth() * scaling)/2)  - (5 * multiplier)
-                )
-                .imageButtonTextures(closeTexture, closePressedTexture)
-                .actorGestureListener(
-                        new ActorGestureListener() {
-                            @Override
-                            public void tap(InputEvent event, float x, float y, int count, int button) {
-                                super.tap(event, x, y, count, button);
-                                onButtonPressed(event.getListenerActor());
-                            }
-                        }
-                )
-                .create();
-
         ImageButton stopGameBtn = (ImageButton)new UIWidgetBuilder(UIWidgetType.IMAGE_BUTTON)
                 .identifier("stopGame")
                 .alignment(Alignment.MIDDLE)
                 .margins(
                         (int)((this.dialogBackground.getHeight() * scaling)/2)
-                                - (int)closeButton.getHeight(),
-                        (int)((this.dialogBackground.getWidth() * scaling)/2)
-                                - (int)(stopTexture.getWidth()/2) - (50 * multiplier),
-                        0, 0)
+                               - (stopTexture.getHeight() / 2) - (10 * multiplier),
+                        0, 0, 0)
                 .imageButtonTextures(stopTexture, stopPressedTexture)
-                .actorGestureListener(
-                        new ActorGestureListener() {
-                            @Override
-                            public void tap(InputEvent event, float x, float y, int count, int button) {
-                                super.tap(event, x, y, count, button);
-                                onButtonPressed(event.getListenerActor());
-                            }
-                        }
-                )
-                .create();
-
-        ImageButton playGameBtn = (ImageButton)new UIWidgetBuilder(UIWidgetType.IMAGE_BUTTON)
-                .identifier("continueGame")
-                .alignment(Alignment.MIDDLE)
-                .margins(
-                        (int)((this.dialogBackground.getHeight() * scaling)/2)
-                                - (int)closeButton.getHeight(),
-                        0, 0,
-                        (int)((this.dialogBackground.getWidth() * scaling)/2)
-                                - (int)(stopTexture.getWidth()/2) - (50 * multiplier))
-                .imageButtonTextures(playTexture, playPressedTexture)
                 .actorGestureListener(
                         new ActorGestureListener() {
                             @Override
@@ -306,9 +252,7 @@ public class ChallengeScoreDialogScreen extends GameScreen implements ICountdown
         this.stage.addActor(headline);
         this.stage.addActor(description);
         this.stage.addActor(this.scoreLabel);
-        this.stage.addActor(closeButton);
         this.stage.addActor(stopGameBtn);
-        this.stage.addActor(playGameBtn);
     }
 
     /**
@@ -317,12 +261,11 @@ public class ChallengeScoreDialogScreen extends GameScreen implements ICountdown
      */
     private void onButtonPressed(Actor sender) {
         switch(sender.getName()) {
-            case "cancel":
-            case "continueGame":
-                GameScreenManager.getInstance().showLastScreen();
-                break;
             case "stopGame":
-                GameScreenManager.getInstance().showScreen(new MainMenuScreen());
+                GameScreenManager gsm = GameScreenManager.getInstance();
+                gsm.dismissScreen(ScreenState.PLAY);
+                gsm.clearHistory();
+                this.goToScreen(ScreenState.MAIN_MENU);
                 break;
             case "skipCounting":
                 this.timer.stopTimer();
@@ -339,5 +282,23 @@ public class ChallengeScoreDialogScreen extends GameScreen implements ICountdown
         Gdx.app.postRunnable(() -> {
             scoreLabel.setText(points);
         });
+    }
+
+    /**
+     * Navigate to a specific screen.
+     * @param screenState The screen's state to navigate to
+     */
+    private void goToScreen(ScreenState screenState) {
+        GameScreenManager gsm = GameScreenManager.getInstance();
+        IGameScreen screen = gsm.getScreen(screenState);
+
+        if(screen == null) {
+            switch(screenState) {
+                case MAIN_MENU:
+                    screen = new MainMenuScreen();
+                    break;
+            }
+        }
+        gsm.showScreen(screen);
     }
 }

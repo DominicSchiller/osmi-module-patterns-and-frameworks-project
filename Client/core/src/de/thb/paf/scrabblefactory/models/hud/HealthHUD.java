@@ -44,16 +44,6 @@ public class HealthHUD extends HUDComponent {
     }
 
     @Override
-    public void update(float deltaTime) {
-
-    }
-
-    @Override
-    public void dispose() {
-
-    }
-
-    @Override
     public void update(Observable observable, Object arg) {
         IGameEvent event = ((IGameEvent) observable);
 

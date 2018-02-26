@@ -2,6 +2,7 @@ package de.thb.paf.scrabblefactory.models.components.physics;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.World;
 import com.codeandweb.physicseditor.PhysicsShapeCache;
 
 import de.thb.paf.scrabblefactory.models.IGameObject;
@@ -76,6 +77,16 @@ public class RigidBodyPhysicsComponent extends AbstractPhysicsComponent {
         IGameObject parent = this.getParent();
         parent.setRotation(rotation);
         parent.setPosition(this.body.getPosition());
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        this.physicsShapeCache.dispose();
+        World world = this.body.getWorld();
+        if(world.getBodyCount() > 0) {
+            this.body.getWorld().destroyBody(this.body);
+        }
     }
 
     /**

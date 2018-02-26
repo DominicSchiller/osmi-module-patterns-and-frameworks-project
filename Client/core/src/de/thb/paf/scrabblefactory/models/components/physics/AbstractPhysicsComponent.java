@@ -33,4 +33,9 @@ abstract class AbstractPhysicsComponent extends GameComponent implements IPhysic
     public PhysicsType getPhysicsType() {
         return this.physicsType;
     }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+    }
 }

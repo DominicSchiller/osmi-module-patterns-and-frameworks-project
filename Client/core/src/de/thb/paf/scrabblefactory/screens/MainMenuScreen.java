@@ -103,7 +103,9 @@ public class MainMenuScreen extends GameScreen {
 
     @Override
     public void dispose() {
-
+        this.stage.dispose();
+        this.backgroundMusic.dispose();
+        this.buttonPressedSound.dispose();
     }
 
     /**

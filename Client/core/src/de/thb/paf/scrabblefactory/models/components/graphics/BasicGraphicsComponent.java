@@ -94,4 +94,8 @@ public class BasicGraphicsComponent extends GameComponent implements IGraphicsCo
         batch.end();
     }
 
+    @Override
+    public void dispose() {
+        super.dispose();
+    }
 }
