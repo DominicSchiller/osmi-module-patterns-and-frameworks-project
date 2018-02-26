@@ -85,8 +85,7 @@ public class RegisterAccountScreen extends GameScreen implements ICountdownListe
         super(ScreenState.REGISTER_ACCOUNT);
 
         this.stage = new Stage();
-        Gdx.input.setInputProcessor(stage);
-
+        Gdx.input.setInputProcessor(this.stage);
         this.stage.addActor(DEFAULT_BACKGROUND);
         this.setupUIWidgets();
     }
@@ -194,7 +193,7 @@ public class RegisterAccountScreen extends GameScreen implements ICountdownListe
      * Navigate back to the login screen.
      */
     private void navigateToLoginScreen() {
-        GameScreenManager.getInstance().setScreen(new LoginScreen());
+        GameScreenManager.getInstance().showScreen(new LoginScreen());
     }
 
     /**
@@ -257,7 +256,7 @@ public class RegisterAccountScreen extends GameScreen implements ICountdownListe
                 .create();
 
         this.createUserButton = (TextButton)new UIWidgetBuilder(UIWidgetType.TEXT_BUTTON)
-                .title("Login")
+                .title("Create Account")
                 .size(DEFAULT_WIDGET_WIDTH, DEFAULT_INPUT_HEIGHT)
                 .alignment(Alignment.TOP_CENTER)
                 .margins((int)(265*Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER), 0, 0, 0)

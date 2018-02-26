@@ -216,10 +216,10 @@ public class GameManualScreen extends GameScreen {
 
         switch(sender.getName()) {
             case "play":
-                GameScreenManager.getInstance().setScreen(new PlayScreen());
+                GameScreenManager.getInstance().showScreen(new PlayScreen());
                 break;
             case "back":
-                GameScreenManager.getInstance().setScreen(new MainMenuScreen());
+                GameScreenManager.getInstance().showScreen(new MainMenuScreen());
                 break;
         }
     }

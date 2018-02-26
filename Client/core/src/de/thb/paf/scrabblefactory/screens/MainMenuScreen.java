@@ -45,6 +45,9 @@ public class MainMenuScreen extends GameScreen {
     private Music backgroundMusic;
 
 
+    /**
+     * The buttons' on-click sound
+     */
     private Sound buttonPressedSound;
 
     /**
@@ -124,7 +127,7 @@ public class MainMenuScreen extends GameScreen {
         Vector2 backgroundPosition = AlignmentHelper.getRelativePosition(
                 new Vector2(background.getWidth() * backgroundScaling, background.getHeight() * backgroundScaling),
                 new Vector2(Settings.App.DEVICE_SCREEN_WIDTH, Settings.App.DEVICE_SCREEN_HEIGHT),
-                Alignment.MIDDLE,
+                Alignment.TOP_CENTER,
                 new int[] {0, 0, 0 ,0}
         );
 
@@ -149,6 +152,8 @@ public class MainMenuScreen extends GameScreen {
     private void setupUIWidgets() {
         Texture buttonDefaultTexture = new Texture(Gdx.files.internal("images/" + Settings.Game.RESOLUTION.name + "/buttons/tap.png"));
         Texture buttonPressedTexture = new Texture(Gdx.files.internal("images/" + Settings.Game.RESOLUTION.name + "/buttons/tapPressed.png"));
+        buttonDefaultTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
+        buttonPressedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
 
         this.addLabelImageButtonGroup("PLAY", "play",
                 new Color((int)Long.parseLong("e000cbFF", 16)), 75,
@@ -158,6 +163,32 @@ public class MainMenuScreen extends GameScreen {
                 buttonDefaultTexture, buttonPressedTexture);
         this.addLabelImageButtonGroup("MANUAL", "description",
                 new Color((int)Long.parseLong("4B0093FF", 16)), 195, buttonDefaultTexture, buttonPressedTexture);
+
+
+        Texture logoutTexture = new Texture(Gdx.files.internal("images/" + Settings.Game.RESOLUTION.name + "/buttons/logout.png"));
+        Texture logoutPressedTexture = new Texture(Gdx.files.internal("images/" + Settings.Game.RESOLUTION.name + "/buttons/logoutPressed.png"));
+        logoutTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
+        logoutPressedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
+
+        float scaling = Settings.App.DEVICE_SCREEN_WIDTH/(float)Settings.Game.RESOLUTION.maxWidth;
+        int multiplier = (int)Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER;
+        ImageButton logoutBtn = (ImageButton)new UIWidgetBuilder(UIWidgetType.IMAGE_BUTTON)
+                .identifier("logout")
+                .size((int)(logoutTexture.getWidth() * scaling), (int)(logoutTexture.getHeight() * scaling))
+                .alignment(Alignment.BOTTOM_RIGHT)
+                .margins(0, 20 * multiplier, 15 * multiplier, 0)
+                .imageButtonTextures(logoutTexture, logoutPressedTexture)
+                .actorGestureListener(
+                    new ActorGestureListener() {
+                        @Override
+                        public void tap(InputEvent event, float x, float y, int count, int button) {
+                            super.tap(event, x, y, count, button);
+                            onButtonPressed(event.getListenerActor());
+                        }
+                    }
+                )
+                .create();
+        this.stage.addActor(logoutBtn);
     }
 
     /**
@@ -181,7 +212,7 @@ public class MainMenuScreen extends GameScreen {
     private void addLabelImageButtonGroup(String labelTitle, String identifier, Color labelColor, int marginTop, Texture... buttonTextures) {
         int multiplier = (int)Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER;
         int topPosition = (int)(marginTop * multiplier);
-        ImageButton imaegButton = (ImageButton)new UIWidgetBuilder(UIWidgetType.IMAGE_BUTTON)
+        ImageButton imageButton = (ImageButton)new UIWidgetBuilder(UIWidgetType.IMAGE_BUTTON)
                 .identifier(identifier)
                 .alignment(Alignment.TOP_CENTER)
                 .margins(topPosition, 0, 0, 0)
@@ -197,9 +228,9 @@ public class MainMenuScreen extends GameScreen {
                 )
                 .create();
 
-        imaegButton.setPosition(
-                imaegButton.getX() - (25 * multiplier),
-                imaegButton.getY()
+        imageButton.setPosition(
+                imageButton.getX() - (25 * multiplier),
+                imageButton.getY()
         );
 
         Label label = (Label)new UIWidgetBuilder(UIWidgetType.TEXT_LABEL)
@@ -218,11 +249,11 @@ public class MainMenuScreen extends GameScreen {
                 .create();
 
         label.setPosition(
-            imaegButton.getX() + (50 * multiplier),
-            imaegButton.getY() + (5 * multiplier)
+            imageButton.getX() + (50 * multiplier),
+            imageButton.getY() + (5 * multiplier)
         );
 
-        this.stage.addActor(imaegButton);
+        this.stage.addActor(imageButton);
         this.stage.addActor(label);
     }
 
@@ -232,20 +263,49 @@ public class MainMenuScreen extends GameScreen {
      */
     private void onButtonPressed(Actor sender) {
         backgroundMusic.stop();
-        backgroundMusic.dispose();
         buttonPressedSound.play();
-        buttonPressedSound.dispose();
 
         switch(sender.getName()) {
             case "play":
-                GameScreenManager.getInstance().setScreen(new PlayScreen());
+                this.goToScreen(ScreenState.PLAY);
                 break;
             case "highScore":
-                GameScreenManager.getInstance().setScreen(new GameHighScoreScreen());
+                this.goToScreen(ScreenState.HIGH_SCORES);
                 break;
             case "description":
-                GameScreenManager.getInstance().setScreen(new GameManualScreen());
+                this.goToScreen(ScreenState.GAME_MANUAL);
+                break;
+            case "logout":
+                this.goToScreen(ScreenState.LANDING_SCREEN);
+                GameScreenManager.getInstance().clearHistory();
                 break;
         }
+    }
+
+    /**
+     * Navigate to a specific screen.
+     * @param screenState The screen's state to navigate to
+     */
+    private void goToScreen(ScreenState screenState) {
+        GameScreenManager gsm = GameScreenManager.getInstance();
+        IGameScreen screen = gsm.getScreen(screenState);
+
+        if(screen == null) {
+            switch(screenState) {
+                case PLAY:
+                    screen = new PlayScreen();
+                    break;
+                case HIGH_SCORES:
+                    screen = new GameHighScoreScreen();
+                    break;
+                case GAME_MANUAL:
+                    screen = new GameManualScreen();
+                    break;
+                case LANDING_SCREEN:
+                    screen = new LandingScreen();
+                    break;
+            }
+        }
+        gsm.showScreen(screen);
     }
 }
