@@ -110,10 +110,10 @@
       "time": 90,
       "alignment": "top left",
       "margin": [
-        2,
+        8,
         0,
         0,
-        0
+        32
       ],
       "position": {
         "x": 0,
