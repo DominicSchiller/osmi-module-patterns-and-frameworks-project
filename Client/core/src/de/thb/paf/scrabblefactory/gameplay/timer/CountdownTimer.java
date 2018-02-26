@@ -16,7 +16,7 @@ public class CountdownTimer extends Thread {
     /**
      * Default time interval of 1 second used for each countdown tick
      */
-    private static final short SLEEP_INTERVAL = 1000;
+    private final short SLEEP_INTERVAL;
 
     /**
      * The set time to countdown from
@@ -31,12 +31,12 @@ public class CountdownTimer extends Thread {
     /**
      * Status indicating if the timer has been paused or not
      */
-    private boolean isPaused;
+    private volatile boolean isPaused;
 
     /**
      * Status indicating if a restart of the timer was requested or not
      */
-    private boolean isRestartRequested;
+    private volatile boolean isRestartRequested;
 
     /**
      * List of registered listeners which will be notified for certain events
@@ -44,14 +44,28 @@ public class CountdownTimer extends Thread {
     private List<ICountdownListener> countdownListeners;
 
     /**
-     * Constructor
+     * Constructor.
      * @param milliseconds The time interval in milliseconds the timer is count down from
      */
     public CountdownTimer(long milliseconds) {
         this.MILLISECONDS = milliseconds;
+        this.SLEEP_INTERVAL = 1000;
         this.isPaused = false;
         this.isStopped = false;
-        this.countdownListeners = new ArrayList<ICountdownListener>();
+        this.countdownListeners = new ArrayList<>();
+    }
+
+    /**
+     * Constructor.
+     * @param milliseconds The milliseconds to count down
+     * @param countInterval The count down interval in milliseconds
+     */
+    public CountdownTimer(long milliseconds, int countInterval) {
+        this.MILLISECONDS = milliseconds;
+        this.SLEEP_INTERVAL = (short)countInterval;
+        this.isPaused = false;
+        this.isStopped = false;
+        this.countdownListeners = new ArrayList<>();
     }
 
     @Override
@@ -113,7 +127,7 @@ public class CountdownTimer extends Thread {
      * @param listener The new listener to register
      */
     public void addCountdownListener(ICountdownListener listener) {
-        countdownListeners.add(listener);
+        this.countdownListeners.add(listener);
     }
 
     /**
