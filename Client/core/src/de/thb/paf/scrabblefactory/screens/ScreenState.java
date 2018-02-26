@@ -9,10 +9,13 @@ package de.thb.paf.scrabblefactory.screens;
  */
 
 public enum ScreenState {
+    LANDING_SCREEN,
+    REGISTER_ACCOUNT,
+    LOGIN,
     MAIN_MENU,
-    PLAY,
     GAME_MANUAL,
     HIGH_SCORES,
-    LOGIN,
-    REGISTER_ACCOUNT
+    PLAY,
+    PAUSE_DIALOG,
+    POINTS_DIALOG
 }
