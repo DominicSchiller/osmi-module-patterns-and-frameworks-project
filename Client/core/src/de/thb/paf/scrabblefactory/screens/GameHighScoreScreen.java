@@ -62,12 +62,10 @@ public class GameHighScoreScreen extends GameScreen {
     */
     public GameHighScoreScreen() {
         super(ScreenState.HIGH_SCORES);
+        this.stage = new Stage();
 
         this.userScores = new ArrayList<>();
         this.loadHighScoreList();
-
-        this.stage = new Stage();
-        Gdx.input.setInputProcessor(this.stage);
 
         this.initBackgroundScene();
         this.setupSounds();
@@ -82,6 +80,7 @@ public class GameHighScoreScreen extends GameScreen {
 
     @Override
     public void show() {
+        Gdx.input.setInputProcessor(this.stage);
     }
 
 

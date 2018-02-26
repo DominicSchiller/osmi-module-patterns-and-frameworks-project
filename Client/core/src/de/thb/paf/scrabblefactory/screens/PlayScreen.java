@@ -122,7 +122,6 @@ public class PlayScreen extends GameScreen implements ICountdownListener {
 
     @Override
     public void show() {
-
         Gdx.input.setInputProcessor(this.inputHandler);
 
         if(!this.isInitialized) {

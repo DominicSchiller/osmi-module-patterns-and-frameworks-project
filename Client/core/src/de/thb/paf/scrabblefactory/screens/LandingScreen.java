@@ -45,7 +45,6 @@ public class LandingScreen extends GameScreen {
         super(ScreenState.LANDING_SCREEN);
 
         this.stage = new Stage();
-        Gdx.input.setInputProcessor(this.stage);
     }
 
     @Override
@@ -55,6 +54,7 @@ public class LandingScreen extends GameScreen {
 
     @Override
     public void show() {
+        Gdx.input.setInputProcessor(this.stage);
         this.stage.addActor(DEFAULT_BACKGROUND);
         this.setupUIWidgets();
         this.setupSounds();

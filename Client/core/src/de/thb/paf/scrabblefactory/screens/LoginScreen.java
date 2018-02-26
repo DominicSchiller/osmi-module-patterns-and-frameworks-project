@@ -63,7 +63,6 @@ public class LoginScreen extends GameScreen implements ICountdownListener {
     public LoginScreen() {
         super(ScreenState.LOGIN);
         this.stage = new Stage();
-        Gdx.input.setInputProcessor(this.stage);
 
         this.stage.addActor(DEFAULT_BACKGROUND);
         this.setupUIWidgets();
@@ -76,6 +75,7 @@ public class LoginScreen extends GameScreen implements ICountdownListener {
 
     @Override
     public void show() {
+        Gdx.input.setInputProcessor(this.stage);
     }
 
     @Override

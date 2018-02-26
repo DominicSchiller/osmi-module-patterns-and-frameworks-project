@@ -55,9 +55,7 @@ public class MainMenuScreen extends GameScreen {
      */
     public MainMenuScreen() {
         super(ScreenState.MAIN_MENU);
-
         stage = new Stage();
-        Gdx.input.setInputProcessor(stage);
 
         this.initBackgroundScene();
         this.setupUIWidgets();
@@ -71,6 +69,7 @@ public class MainMenuScreen extends GameScreen {
 
     @Override
     public void show() {
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override

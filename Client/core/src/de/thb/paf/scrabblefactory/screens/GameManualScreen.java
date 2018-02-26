@@ -54,9 +54,7 @@ public class GameManualScreen extends GameScreen {
     */
     public GameManualScreen() {
         super(ScreenState.GAME_MANUAL);
-
         this.stage = new Stage();
-        Gdx.input.setInputProcessor(this.stage);
 
         this.loadManualText();
         float scaling = this.initBackgroundScene();
@@ -72,6 +70,7 @@ public class GameManualScreen extends GameScreen {
 
     @Override
     public void show() {
+        Gdx.input.setInputProcessor(this.stage);
     }
 
     @Override

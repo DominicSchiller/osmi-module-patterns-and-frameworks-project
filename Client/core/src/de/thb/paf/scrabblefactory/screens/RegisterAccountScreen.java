@@ -83,9 +83,7 @@ public class RegisterAccountScreen extends GameScreen implements ICountdownListe
      */
     public RegisterAccountScreen() {
         super(ScreenState.REGISTER_ACCOUNT);
-
         this.stage = new Stage();
-        Gdx.input.setInputProcessor(this.stage);
         this.stage.addActor(DEFAULT_BACKGROUND);
         this.setupUIWidgets();
     }
@@ -97,7 +95,7 @@ public class RegisterAccountScreen extends GameScreen implements ICountdownListe
 
     @Override
     public void show() {
-
+        Gdx.input.setInputProcessor(this.stage);
     }
 
     @Override
