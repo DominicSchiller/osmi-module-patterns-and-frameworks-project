@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.input.GestureDetector;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -25,6 +26,7 @@ import de.thb.paf.scrabblefactory.factories.HUDSystemFactory;
 import de.thb.paf.scrabblefactory.factories.LevelFactory;
 import de.thb.paf.scrabblefactory.gameplay.GameItemSpawnCenter;
 import de.thb.paf.scrabblefactory.gameplay.GameItemSpawnPool;
+import de.thb.paf.scrabblefactory.managers.PlayScreenRestoreManager;
 import de.thb.paf.scrabblefactory.gameplay.ScrabbleChallengeWatchdog;
 import de.thb.paf.scrabblefactory.gameplay.ScrabbleScoreCalculator;
 import de.thb.paf.scrabblefactory.gameplay.timer.CountdownTimer;
@@ -40,6 +42,7 @@ import de.thb.paf.scrabblefactory.models.components.ComponentType;
 import de.thb.paf.scrabblefactory.models.components.IComponent;
 import de.thb.paf.scrabblefactory.models.components.graphics.Alignment;
 import de.thb.paf.scrabblefactory.models.components.graphics.IGraphicsComponent;
+import de.thb.paf.scrabblefactory.models.components.physics.RigidBodyPhysicsComponent;
 import de.thb.paf.scrabblefactory.models.entities.EntityType;
 import de.thb.paf.scrabblefactory.models.entities.IEntity;
 import de.thb.paf.scrabblefactory.models.events.RemainingTimeUpdateEvent;
@@ -145,7 +148,7 @@ public class PlayScreen extends GameScreen implements ICountdownListener {
             this.searchWord = searchWords[randomIndex].toUpperCase();
 
             this.spawnCenter = new GameItemSpawnCenter(
-                    searchWord,
+                    this.searchWord,
                     new GameItemSpawnPool(EntityType.CHEESE, 5, 10, searchWord.length())
             );
 
@@ -204,7 +207,7 @@ public class PlayScreen extends GameScreen implements ICountdownListener {
                 ((IGraphicsComponent) component).render(batch);
             }
 
-            List<IGameObject> cheeseItems =  gom.getGameEntity(EntityType.CHEESE);
+            List<IEntity> cheeseItems =  gom.getGameEntity(EntityType.CHEESE);
             for(IGameObject cheese : cheeseItems) {
                 if(((IEntity)cheese).isActive()) {
                     components = cheese.getAllComponents(ComponentType.GFX_COMPONENT);
@@ -301,6 +304,49 @@ public class PlayScreen extends GameScreen implements ICountdownListener {
     @Override
     public void onCountdownFinished(long time) {
         System.out.println("Game over");
+    }
+
+    /**
+     * Reset the overall level for a new round.
+     */
+    public void resetLevel() {
+        if(this.isInitialized) {
+            this.overlay.remove();
+
+            String[] searchWords = ((BasicLevel)this.level).getWordPool();
+            int randomIndex = Randomizer.nextRandomInt(0, searchWords.length - 1);
+            this.searchWord = searchWords[randomIndex].toUpperCase();
+
+            // reset player position
+            PlayScreenRestoreManager restoreManager = PlayScreenRestoreManager.getInstance();
+            for(IEntity player : GameObjectManager.getInstance().getGameEntity(EntityType.PLAYER)) {
+                Vector2 playerPosition = restoreManager.getRestorePosition(player);
+                for(IComponent component : player.getAllComponents(ComponentType.PHYS_COMPONENT)) {
+                    if(component instanceof RigidBodyPhysicsComponent) {
+                        ((RigidBodyPhysicsComponent) component).getBody().setTransform(
+                                playerPosition.x,
+                                playerPosition.y,
+                                0
+                        );
+                    }
+                }
+            }
+
+            //reset spawn center
+            this.spawnCenter.reset(this.searchWord);
+            this.spawnCenter.startSpawning();
+
+            // init search word
+            SearchWordHUD searchWordHUD = (SearchWordHUD) this.hud.getHUDComponent(HUDComponentType.SEARCH_WORD);
+            if(searchWordHUD != null && this.level instanceof BasicLevel) {
+                searchWordHUD.setSearchWord(searchWord);
+            }
+
+            timer = new CountdownTimer(this.level.getCountdown());
+            timer.addCountdownListener(this);
+            timer.addCountdownListener(this.spawnCenter);
+            timer.start();
+        }
     }
 
     /**

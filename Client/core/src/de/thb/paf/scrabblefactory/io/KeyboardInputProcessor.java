@@ -9,6 +9,7 @@ import de.thb.paf.scrabblefactory.managers.GameEventManager;
 import de.thb.paf.scrabblefactory.managers.GameObjectManager;
 import de.thb.paf.scrabblefactory.managers.WorldPhysicsManager;
 import de.thb.paf.scrabblefactory.models.IGameObject;
+import de.thb.paf.scrabblefactory.models.entities.IEntity;
 import de.thb.paf.scrabblefactory.models.entities.Player;
 import de.thb.paf.scrabblefactory.models.events.DiscardEvent;
 import de.thb.paf.scrabblefactory.models.actions.MoveActionType;
@@ -56,7 +57,7 @@ public class KeyboardInputProcessor implements InputProcessor {
                 break;
             case X:
                 //TODO: handle the player entity
-                List<IGameObject> gameObjects = GameObjectManager.getInstance().getGameEntity(PLAYER);
+                List<IEntity> gameObjects = GameObjectManager.getInstance().getGameEntity(PLAYER);
                 Player player = (Player)gameObjects.get(0);
                 if(player.getCheeseItems().size() > 0) {
                     DiscardEvent discardEvent = (DiscardEvent)GameEventManager.getInstance().getGameEvent(DISCARD);

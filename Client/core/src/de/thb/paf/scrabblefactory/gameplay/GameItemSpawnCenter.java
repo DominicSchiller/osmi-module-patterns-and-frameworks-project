@@ -1,11 +1,17 @@
 package de.thb.paf.scrabblefactory.gameplay;
 
+import com.badlogic.gdx.math.Vector2;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import de.thb.paf.scrabblefactory.factories.EntityFactory;
 import de.thb.paf.scrabblefactory.gameplay.timer.ICountdownListener;
+import de.thb.paf.scrabblefactory.managers.*;
+import de.thb.paf.scrabblefactory.models.components.ComponentType;
+import de.thb.paf.scrabblefactory.models.components.IComponent;
+import de.thb.paf.scrabblefactory.models.components.physics.RigidBodyPhysicsComponent;
 import de.thb.paf.scrabblefactory.models.entities.Cheese;
 import de.thb.paf.scrabblefactory.models.entities.EntityType;
 import de.thb.paf.scrabblefactory.models.entities.IEntity;
@@ -58,6 +64,21 @@ public class GameItemSpawnCenter implements ICountdownListener {
         this.initSpawnPools();
     }
 
+
+    /**
+     * Reset all current spawn pools based on updated search word.
+     * @param searchWord The update search word
+     */
+    public void reset(String searchWord) {
+        this.stopSpawning();
+
+        this.searchWord = searchWord;
+        for(GameItemSpawnPool spawnPool : this.spawnPools) {
+            spawnPool.clear();
+        }
+        this.initSpawnPools();
+    }
+
     /**
      * Start spawning associated spawn pools.
      */
@@ -104,15 +125,43 @@ public class GameItemSpawnCenter implements ICountdownListener {
      */
     private void initSpawnPools() {
         EntityFactory entityFactory = new EntityFactory();
+        GameObjectManager gom = GameObjectManager.getInstance();
+        de.thb.paf.scrabblefactory.managers.PlayScreenRestoreManager restoreManager = de.thb.paf.scrabblefactory.managers.PlayScreenRestoreManager.getInstance();
 
         for(GameItemSpawnPool spawnPool : this.spawnPools) {
-            for(int i = 0; i<spawnPool.maxAllowedItemsCount; i++) {
-                IEntity gameItem = entityFactory.getEntity(spawnPool.itemType, 1);
-                gameItem.setActive(false);
+
+            List<IEntity> gameItems = gom.getGameEntity(spawnPool.itemType);
+            int remainingItems = spawnPool.maxAllowedItemsCount - gameItems.size();
+            int minItems = remainingItems < 0 ? spawnPool.maxAllowedItemsCount : gameItems.size();
+            for(int i=0; i<minItems; i++) {
+                IEntity gameItem = gameItems.get(i);
                 if(gameItem.getType() == EntityType.CHEESE) {
                     ((Cheese)gameItem).setLetter(this.searchWord.charAt(i));
+                    Vector2 restorePosition = restoreManager.getRestorePosition(gameItem);
+                    if(restorePosition != null) {
+                        for(IComponent component : gameItem.getAllComponents(ComponentType.PHYS_COMPONENT)) {
+                            if(component instanceof RigidBodyPhysicsComponent) {
+                                ((RigidBodyPhysicsComponent) component).getBody().setTransform(
+                                        restorePosition.x,
+                                        restorePosition.y,
+                                        0
+                                );
+                            }
+                        }
+                    }
                 }
                 spawnPool.addGameItem(gameItem);
+            }
+
+            if(remainingItems > 0) {
+                for(int i = gameItems.size(); i<remainingItems; i++) {
+                    IEntity gameItem = entityFactory.getEntity(spawnPool.itemType, 1);
+                    gameItem.setActive(false);
+                    if(gameItem.getType() == EntityType.CHEESE) {
+                        ((Cheese)gameItem).setLetter(this.searchWord.charAt(i));
+                    }
+                    spawnPool.addGameItem(gameItem);
+                }
             }
         }
     }

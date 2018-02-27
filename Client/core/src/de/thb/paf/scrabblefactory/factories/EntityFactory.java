@@ -9,6 +9,7 @@ import com.google.gson.JsonObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.thb.paf.scrabblefactory.managers.PlayScreenRestoreManager;
 import de.thb.paf.scrabblefactory.io.AssetLoader;
 import de.thb.paf.scrabblefactory.managers.GameObjectManager;
 import de.thb.paf.scrabblefactory.models.assets.AssetTargetType;
@@ -114,6 +115,7 @@ public class EntityFactory {
         entity.setActive(true);
         entity.addComponents(components);
         GameObjectManager.getInstance().addGameObject(entity);
+        PlayScreenRestoreManager.getInstance().addRestorePosition(entity, entity.getPosition());
         return entity;
     }
 }

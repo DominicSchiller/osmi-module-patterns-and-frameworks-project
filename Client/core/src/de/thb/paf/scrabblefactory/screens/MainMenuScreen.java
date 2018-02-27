@@ -357,6 +357,10 @@ public class MainMenuScreen extends GameScreen {
                     break;
             }
         }
+
+        if(screenState == ScreenState.PLAY) {
+            ((PlayScreen)screen).resetLevel();
+        }
         gsm.showScreen(screen);
     }
 }

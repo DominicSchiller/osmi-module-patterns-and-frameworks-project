@@ -279,10 +279,11 @@ public class ChallengeScoreDialogScreen extends GameScreen implements ICountdown
     private void onButtonPressed(Actor sender) {
         switch(sender.getName()) {
             case "stopGame":
-                GameScreenManager gsm = GameScreenManager.getInstance();
-                gsm.dismissScreen(ScreenState.PLAY);
-                gsm.clearHistory();
-                this.goToScreen(ScreenState.MAIN_MENU);
+                Gdx.app.postRunnable(() -> {
+                    GameScreenManager gsm = GameScreenManager.getInstance();
+                    gsm.clearHistory();
+                    this.goToScreen(ScreenState.MAIN_MENU);
+                });
                 break;
             case "skipCounting":
                 this.timer.stopTimer();

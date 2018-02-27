@@ -74,11 +74,11 @@ public class GameObjectManager implements IGameManager {
      * @param entityType The entities' type to look for
      * @return List of found entities
      */
-    public List<IGameObject> getGameEntity(EntityType entityType) {
-        List<IGameObject> foundObjects = new ArrayList<>();
+    public List<IEntity> getGameEntity(EntityType entityType) {
+        List<IEntity> foundObjects = new ArrayList<>();
         for(IGameObject gameObject : this.gameObjects) {
             if(gameObject instanceof IEntity && ((IEntity) gameObject).getType().equals(entityType)) {
-                foundObjects.add(gameObject);
+                foundObjects.add((IEntity) gameObject);
             }
         }
         return foundObjects;
