@@ -10,23 +10,24 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
+import com.badlogic.gdx.utils.Align;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Collections;
 import java.util.List;
 
+import de.thb.paf.scrabblefactory.gameplay.sort.UserScoreComparator;
 import de.thb.paf.scrabblefactory.managers.GameScreenManager;
 import de.thb.paf.scrabblefactory.models.assets.FontAsset;
 import de.thb.paf.scrabblefactory.models.components.graphics.Alignment;
-import de.thb.paf.scrabblefactory.persistence.entities.Score;
-import de.thb.paf.scrabblefactory.persistence.entities.User;
+import de.thb.paf.scrabblefactory.persistence.DataStore;
 import de.thb.paf.scrabblefactory.persistence.entities.UserScore;
 import de.thb.paf.scrabblefactory.settings.Settings;
 import de.thb.paf.scrabblefactory.utils.graphics.AlignmentHelper;
@@ -34,7 +35,7 @@ import de.thb.paf.scrabblefactory.utils.graphics.widgets.UIWidgetBuilder;
 import de.thb.paf.scrabblefactory.utils.graphics.widgets.UIWidgetType;
 
 /**
- * Represents the highscore screen ranking reached highscores from top to bottom.
+ * Represents the high-score screen ranking reached high-scores from top to bottom.
  *
  * @author Dominic Schiller - Technische Hochschule Brandenburg
  * @author Melanie Steiner - Technische Hochschule Brandenburg
@@ -65,12 +66,10 @@ public class GameHighScoreScreen extends GameScreen {
         this.stage = new Stage();
 
         this.userScores = new ArrayList<>();
-        this.loadHighScoreList();
 
         this.initBackgroundScene();
         this.setupSounds();
         this.setUpButtons();
-        this.setupHighScoreTable();
     }
 
     @Override
@@ -81,6 +80,15 @@ public class GameHighScoreScreen extends GameScreen {
     @Override
     public void show() {
         Gdx.input.setInputProcessor(this.stage);
+
+        for(Actor actor : this.stage.getActors()) {
+            actor.remove();
+        }
+
+        this.loadHighScoreList();
+        this.initBackgroundScene();
+        this.setUpButtons();
+        this.setupHighScoreTable();
     }
 
 
@@ -123,44 +131,12 @@ public class GameHighScoreScreen extends GameScreen {
      * Load the high score list from the database.
      */
     private void loadHighScoreList() {
-        Date date = null;
-        try {
-            date = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").parse("22.02.2018 12:53:21");
-        } catch (ParseException e) {
-            e.printStackTrace();
+        this.userScores.clear();
+        List<UserScore> userScores = DataStore.getInstance().readAllUserScores();
+        if(userScores != null) {
+            this.userScores.addAll(userScores);
+            Collections.sort(this.userScores, new UserScoreComparator());
         }
-
-        this.userScores.add(
-                new UserScore(
-                        new User("Schiller", "Dominic", "Dom", null, null),
-                        new Score(1262425725),
-                        date
-                )
-        );
-
-        this.userScores.add(
-                new UserScore(
-                        new User("Steiner", "Melanie", "Melli", null, null),
-                        new Score(1262425725),
-                        date
-                )
-        );
-
-        this.userScores.add(
-                new UserScore(
-                        new User("Atkins", "Scott", "Scotti", null, null),
-                        new Score(1262425725),
-                        date
-                )
-        );
-
-        this.userScores.add(
-                new UserScore(
-                        new User("Kenobi", "Obi Wan", "Obi-Wan", null, null),
-                        new Score(1262425725),
-                        date
-                )
-        );
     }
 
     /**
@@ -171,27 +147,24 @@ public class GameHighScoreScreen extends GameScreen {
         table.setSize(Settings.App.DEVICE_SCREEN_WIDTH, 1000);
 
         SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy HH-mm-ss");
-        int width = (int)(100 * Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER);
+        int width = (int)(80 * Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER);
         int extendedWith = (int)(140 * Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER);
 
-        table.add(this.createLabel(FontAsset.PORKY, "NICKNAME"))
-                .width(width);
-        table.add(this.createLabel(FontAsset.PORKY, "SCORE"))
-                .width(width);
-        table.add(this.createLabel(FontAsset.PORKY, "CREATED AT"))
-                .width(width);
+        this.createTableCell(table, width, "RANK", FontAsset.PORKY, Align.center);
+        this.createTableCell(table, width, "NICKNAME", FontAsset.PORKY, Align.left);
+        this.createTableCell(table, width, "SCORE", FontAsset.PORKY, Align.center);
+        this.createTableCell(table, extendedWith, "CREATED AT", FontAsset.PORKY, Align.left);
         table.row();
         table.row();
 
-        for(UserScore userScore : this.userScores) {
+        for(int i=0; i<this.userScores.size(); i++) {
+            UserScore userScore = this.userScores.get(i);
             String createdAt = dateFormatter.format(userScore.getCreatedAt());
 
-            table.add(this.createLabel(FontAsset.OPEN_SANS, userScore.getUser().getFirstname()))
-                    .width(width);
-            table.add(this.createLabel(FontAsset.OPEN_SANS, new Integer(userScore.getScore().getScore()).toString()))
-                    .width(width);
-            table.add(this.createLabel(FontAsset.OPEN_SANS, createdAt + "Uhr"))
-                    .width(extendedWith);
+            this.createTableCell(table, width, "#" + (i+1), FontAsset.OPEN_SANS, Align.center);
+            this.createTableCell(table, width, userScore.getUser().getNickname(), FontAsset.OPEN_SANS, Align.left);
+            this.createTableCell(table, width, new Integer(userScore.getScore().getScore()).toString(), FontAsset.OPEN_SANS, Align.center);
+            this.createTableCell(table, extendedWith, createdAt + "Uhr", FontAsset.OPEN_SANS, Align.left);
             table.row();
         }
 
@@ -204,6 +177,21 @@ public class GameHighScoreScreen extends GameScreen {
         table.setPosition(tablePosition.x, tablePosition.y);
 
         this.stage.addActor(table);
+    }
+
+    /**
+     * Create a table cell and add it to the specified table.
+     * @param table The table to add the cell to
+     * @param width The cell's width to apply
+     * @param text The cell's text to insert
+     * @param font The cell text's font
+     * @param align The cell's and text's alignment
+     */
+    private void createTableCell(Table table, int width, String text, FontAsset font, int align) {
+        Label label = this.createLabel(font, text);
+        label.setAlignment(align);
+        Cell c = table.add(label).width(width);
+        c.align(align);
     }
 
     /**
@@ -306,29 +294,36 @@ public class GameHighScoreScreen extends GameScreen {
      */
     private void onButtonPressed(Actor sender) {
         buttonPressedSound.play();
-        buttonPressedSound.dispose();
+//        buttonPressedSound.dispose();
 
         switch (sender.getName()) {
             case "play":
-                GameScreenManager.getInstance().showScreen(new PlayScreen());
+                this.goToScreen(ScreenState.PLAY);
                 break;
             case "back":
-                GameScreenManager.getInstance().showScreen(new MainMenuScreen());
+                this.goToScreen(ScreenState.MAIN_MENU);
                 break;
         }
     }
 
-    public void addBackgroundGuide(int columns){
+    /**
+     * Navigate to a specific screen.
+     * @param screenState The screen's state to navigate to
+     */
+    private void goToScreen(ScreenState screenState) {
+        GameScreenManager gsm = GameScreenManager.getInstance();
+        IGameScreen screen = gsm.getScreen(screenState);
 
-//        Texture texture = new Texture(Gdx.files.internal("images/" + Settings.Game.RESOLUTION.name + "/backgrounds/dialog.png"));
-//        texture.setWrap(Texture.TextureWrap.MirroredRepeat, Texture.TextureWrap.MirroredRepeat);
-//
-//        TextureRegion textureRegion = new TextureRegion(texture);
-//        textureRegion.setRegion(0,0,texture.getWidth()*columns,texture.getWidth()*columns);
-//        Image background = new Image(textureRegion);
-//        background.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getWidth());
-//        background.setSize((Gdx.graphics.getWidth()/100)*80,(Gdx.graphics.getWidth()/100)*80);
-//        background.setPosition( 20,20);
-//        stage.addActor(background);
+        if(screen == null) {
+            switch(screenState) {
+                case PLAY:
+                    screen = new PlayScreen();
+                    break;
+                case MAIN_MENU:
+                    screen = new MainMenuScreen();
+                    break;
+            }
+        }
+        gsm.showScreen(screen);
     }
 }

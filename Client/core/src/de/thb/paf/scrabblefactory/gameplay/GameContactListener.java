@@ -62,24 +62,6 @@ public class GameContactListener implements ContactListener {
 
     @Override
     public void endContact(Contact contact) {
-        Fixture fA = contact.getFixtureA();
-        Fixture fB = contact.getFixtureB();
-
-        // if one of the collision objects does not have a fixture we cancel here
-        if(fA == null || fB == null)
-            return;
-
-        // if one of the collision objects does not have any user data attached
-        // to further define the collision object we cancel here also
-        if(fA.getUserData() == null || fB.getUserData() == null)
-            return;
-
-        IGameObject goA = ((IComponent) fA.getUserData()).getParent();
-        IGameObject goB = ((IComponent) fB.getUserData()).getParent();
-
-        boolean isCheeseSensor =
-                (goA instanceof Cheese && fA.isSensor()) || (goB instanceof Cheese && fB.isSensor());
-        System.out.println("is cheese: " + isCheeseSensor);
     }
 
     @Override

@@ -121,15 +121,15 @@ public class PauseDialogScreen extends GameScreen {
         closeTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Linear);
         closePressedTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Linear);
 
-        Texture stopTexture = new Texture(Gdx.files.internal("images/" + Settings.Game.RESOLUTION.name + "/buttons/tapStop.png"));
-        Texture stopPressedTexture = new Texture(Gdx.files.internal("images/" + Settings.Game.RESOLUTION.name + "/buttons/tapStopPressed.png"));
+        Texture stopTexture = new Texture(Gdx.files.internal("images/" + Settings.Game.RESOLUTION.name + "/buttons/finish.png"));
+        Texture stopPressedTexture = new Texture(Gdx.files.internal("images/" + Settings.Game.RESOLUTION.name + "/buttons/finishPressed.png"));
         stopTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
         stopPressedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
 
-        Texture playTexture = new Texture(Gdx.files.internal("images/" + Settings.Game.RESOLUTION.name + "/buttons/tapPlay.png"));
-        Texture playPressedTexture = new Texture(Gdx.files.internal("images/" + Settings.Game.RESOLUTION.name + "/buttons/tapPlayPressed.png"));
-        playTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
-        playPressedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
+        Texture resumeTexture = new Texture(Gdx.files.internal("images/" + Settings.Game.RESOLUTION.name + "/buttons/resume.png"));
+        Texture resumePressedTexture = new Texture(Gdx.files.internal("images/" + Settings.Game.RESOLUTION.name + "/buttons/resumePressed.png"));
+        resumeTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
+        resumePressedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
 
         int multiplier = (int)Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER;
 
@@ -204,7 +204,7 @@ public class PauseDialogScreen extends GameScreen {
                 )
                 .create();
 
-        ImageButton playGameBtn = (ImageButton)new UIWidgetBuilder(UIWidgetType.IMAGE_BUTTON)
+        ImageButton resumeGameBtn = (ImageButton)new UIWidgetBuilder(UIWidgetType.IMAGE_BUTTON)
                 .identifier("continueGame")
                 .alignment(Alignment.MIDDLE)
                 .margins(
@@ -213,7 +213,7 @@ public class PauseDialogScreen extends GameScreen {
                         0, 0,
                         (int)((this.dialogBackground.getWidth() * scaling)/2)
                                 - (int)(stopTexture.getWidth()/2) - (50 * multiplier))
-                .imageButtonTextures(playTexture, playPressedTexture)
+                .imageButtonTextures(resumeTexture, resumePressedTexture)
                 .actorGestureListener(
                         new ActorGestureListener() {
                             @Override
@@ -229,7 +229,7 @@ public class PauseDialogScreen extends GameScreen {
         this.stage.addActor(description);
         this.stage.addActor(closeButton);
         this.stage.addActor(stopGameBtn);
-        this.stage.addActor(playGameBtn);
+        this.stage.addActor(resumeGameBtn);
     }
 
     /**

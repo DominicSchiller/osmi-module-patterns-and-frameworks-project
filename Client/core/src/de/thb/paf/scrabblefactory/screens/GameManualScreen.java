@@ -95,7 +95,7 @@ public class GameManualScreen extends GameScreen {
     @Override
     public void resume() {
         this.stage.dispose();
-        this.buttonPressedSound.dispose();
+//        this.buttonPressedSound.dispose();
     }
 
     @Override
@@ -212,15 +212,36 @@ public class GameManualScreen extends GameScreen {
      */
     private void onButtonPressed(Actor sender) {
         buttonPressedSound.play();
-        buttonPressedSound.dispose();
+//        buttonPressedSound.dispose();
 
         switch(sender.getName()) {
             case "play":
-                GameScreenManager.getInstance().showScreen(new PlayScreen());
+                this.goToScreen(ScreenState.PLAY);
                 break;
             case "back":
-                GameScreenManager.getInstance().showScreen(new MainMenuScreen());
+                this.goToScreen(ScreenState.MAIN_MENU);
                 break;
         }
+    }
+
+    /**
+     * Navigate to a specific screen.
+     * @param screenState The screen's state to navigate to
+     */
+    private void goToScreen(ScreenState screenState) {
+        GameScreenManager gsm = GameScreenManager.getInstance();
+        IGameScreen screen = gsm.getScreen(screenState);
+
+        if(screen == null) {
+            switch(screenState) {
+                case PLAY:
+                    screen = new PlayScreen();
+                    break;
+                case MAIN_MENU:
+                    screen = new MainMenuScreen();
+                    break;
+            }
+        }
+        gsm.showScreen(screen);
     }
 }

@@ -15,11 +15,17 @@ import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 
+import java.util.Date;
+
+import de.thb.paf.scrabblefactory.auth.AuthenticationManager;
 import de.thb.paf.scrabblefactory.gameplay.timer.CountdownTimer;
 import de.thb.paf.scrabblefactory.gameplay.timer.ICountdownListener;
 import de.thb.paf.scrabblefactory.managers.GameScreenManager;
 import de.thb.paf.scrabblefactory.models.assets.FontAsset;
 import de.thb.paf.scrabblefactory.models.components.graphics.Alignment;
+import de.thb.paf.scrabblefactory.persistence.DataStore;
+import de.thb.paf.scrabblefactory.persistence.entities.Score;
+import de.thb.paf.scrabblefactory.persistence.entities.UserScore;
 import de.thb.paf.scrabblefactory.settings.Settings;
 import de.thb.paf.scrabblefactory.utils.graphics.AlignmentHelper;
 import de.thb.paf.scrabblefactory.utils.graphics.widgets.UIWidgetBuilder;
@@ -54,7 +60,7 @@ public class ChallengeScoreDialogScreen extends GameScreen implements ICountdown
     /**
      * The earned score
      */
-    private volatile long score;
+    private volatile int score;
 
     /**
      * The current counted score
@@ -97,12 +103,14 @@ public class ChallengeScoreDialogScreen extends GameScreen implements ICountdown
             float scaling = this.initBackgroundScene();
             this.setupWidgets(scaling);
             this.isInitialized = true;
-
-            this.scoreLabel.setText("" + this.countedScore);
-            this.timer = new CountdownTimer(this.score, 1);
-            this.timer.addCountdownListener(this);
-            this.timer.start();
         }
+
+        this.scoreLabel.setText("" + this.countedScore);
+        this.timer = new CountdownTimer(this.score, 1);
+        this.timer.addCountdownListener(this);
+        this.timer.start();
+
+        this.saveScore();
     }
 
     @Override
@@ -179,8 +187,8 @@ public class ChallengeScoreDialogScreen extends GameScreen implements ICountdown
      * Setup all UI widgets required to represent the main menu.
      */
     private void setupWidgets(float scaling) {
-        Texture stopTexture = new Texture(Gdx.files.internal("images/" + Settings.Game.RESOLUTION.name + "/buttons/tapStop.png"));
-        Texture stopPressedTexture = new Texture(Gdx.files.internal("images/" + Settings.Game.RESOLUTION.name + "/buttons/tapStopPressed.png"));
+        Texture stopTexture = new Texture(Gdx.files.internal("images/" + Settings.Game.RESOLUTION.name + "/buttons/finish.png"));
+        Texture stopPressedTexture = new Texture(Gdx.files.internal("images/" + Settings.Game.RESOLUTION.name + "/buttons/finishPressed.png"));
         stopTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
         stopPressedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
 
@@ -309,5 +317,22 @@ public class ChallengeScoreDialogScreen extends GameScreen implements ICountdown
             }
         }
         gsm.showScreen(screen);
+        gsm.clearHistory();
+        gsm.dismissScreen(ScreenState.CHALLENGE_SCORE_DIALOG);
+    }
+
+    /**
+     * Save the earned score to database.
+     */
+    private void saveScore() {
+        new Thread(() -> {
+            UserScore userScore = new UserScore(
+                    AuthenticationManager.getInstance().getCurrentUser(),
+                    new Score(this.score),
+                    new Date()
+            );
+
+            DataStore.getInstance().createUserScore(userScore);
+        }).start();
     }
 }

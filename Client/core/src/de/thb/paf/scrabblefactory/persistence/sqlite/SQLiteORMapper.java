@@ -47,7 +47,7 @@ public class SQLiteORMapper {
                     }
                 }
             } catch (ClassNotFoundException | IllegalAccessException | SQLException e) {
-                e.printStackTrace();
+//                e.printStackTrace();
             }
         }
     }

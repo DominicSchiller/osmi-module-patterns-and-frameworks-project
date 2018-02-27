@@ -48,6 +48,7 @@ public class UserScore implements IDBEntity {
         this.user = user;
         this.score = score;
         this.createdAt = createdAt;
+        this.isSynchronized = false;
     }
 
     /**
