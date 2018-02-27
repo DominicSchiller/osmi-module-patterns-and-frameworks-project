@@ -4,6 +4,7 @@ package de.thb.paf.scrabblefactory.persistence.sqlite;
 import java.lang.reflect.Field;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -34,7 +35,9 @@ public class SQLiteORMapper {
                 } else if(fieldType.contains("String")) {
                     field.set(instance, sqlQueryResult.getString(fieldName));
                 } else if(fieldType.contains("Date")) {
-                    Date date = new Date(sqlQueryResult.getLong(fieldName));
+                    long time = sqlQueryResult.getLong(fieldName);
+                    Timestamp timestamp = new Timestamp(time);
+                    Date date = new Date(timestamp.getTime());
                     field.set(instance, date);
                 } else {
                     Object customPropertyInstance = createInstanceFromClassType(Class.forName(fieldType));

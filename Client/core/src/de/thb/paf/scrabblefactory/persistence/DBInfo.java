@@ -38,6 +38,7 @@ class DBInfo {
             static final String NAME = "name";
             static final String FIRST_NAME = "firstname";
             static final String NICKNAME = "nickname";
+            static final String PASSWORD = "password";
             static final String DATE_OF_BIRTH = "dateOfBirth";
             static final String GENDER_ID = "genderID";
         }

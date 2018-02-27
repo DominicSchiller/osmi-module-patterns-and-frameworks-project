@@ -44,12 +44,12 @@ public class Score implements IDBEntity {
 
     @Override
     public int getID() {
-        return 0;
+        return this.id;
     }
 
     @Override
     public void setID(int id) {
-
+        this.id = id;
     }
 
 

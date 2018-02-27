@@ -29,6 +29,11 @@ public class UserScore implements IDBEntity {
     private Date createdAt;
 
     /**
+     * Status if the user-score has been already synchronized with the server
+     */
+    private boolean isSynchronized;
+
+    /**
      * Default Constructor.
      */
     public UserScore() {}
@@ -67,6 +72,14 @@ public class UserScore implements IDBEntity {
      */
     public Date getCreatedAt() {
         return createdAt;
+    }
+
+    /**
+     * Get the status if the user-score has been already synchronized with the server
+     * @return The status if the user-score has been already synchronized with the server
+     */
+    public boolean isSynchronized() {
+        return this.isSynchronized;
     }
 
     @Override

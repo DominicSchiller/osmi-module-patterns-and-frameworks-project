@@ -23,7 +23,7 @@ public class GameScreenManager implements IGameManager {
     private static final GameScreenManager instance;
 
     /**
-     * Collection of active screens
+     * Hash map of active screens
      */
     private final HashMap<ScreenState, IGameScreen> screens;
 

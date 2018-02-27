@@ -18,12 +18,20 @@ public interface IUserCRUDOperations {
     /**
      * Create a new user entry on the database.
      * @param user The user to add to the database
+     * @param password The user's password to store
      * @return The added user extended by a unique id retrieved from the database
      */
-    User createUser(User user);
+    User createUser(User user, String password);
 
     /**
-     * Read a user from the database.
+     * Read a specific user entry from the database.
+     * @param userID The user's unique id
+     * @return The found user database entry
+     */
+    User readUser(int userID);
+
+    /**
+     * Read a specific user entry from the database.
      * @param nickname The user's nickname
      * @param password The user's password
      * @return The found user

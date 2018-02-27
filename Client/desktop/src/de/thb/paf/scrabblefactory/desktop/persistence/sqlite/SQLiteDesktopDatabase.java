@@ -141,7 +141,8 @@ public class SQLiteDesktopDatabase implements ISQLiteDatabase {
             if(affectedRows > 0) {
                 try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
                     if (generatedKeys.next()) {
-                        entity.setID(generatedKeys.getInt(1));
+                        int id = generatedKeys.getInt(1);
+                        entity.setID(id);
                     }
                     else {
                         throw new SQLException("Create or updating the entity failed");

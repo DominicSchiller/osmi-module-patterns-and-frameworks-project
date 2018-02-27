@@ -198,7 +198,7 @@ public class SQLSelectQueryBuilder implements ISQLQueryBuilder {
             stringStringBuilder.append(" where ");
             for(int i = 0; i<this.whereConstraints.size(); i++) {
                 if(i>0) {
-                    stringStringBuilder.append(", ");
+                    stringStringBuilder.append(" and ");
                 }
                 stringStringBuilder.append(this.whereConstraints.get(i).create());
             }

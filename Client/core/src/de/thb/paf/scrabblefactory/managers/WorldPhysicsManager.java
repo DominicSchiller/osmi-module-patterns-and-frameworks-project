@@ -70,16 +70,6 @@ public class WorldPhysicsManager implements IGameManager {
 
     @Override
     public void dispose() {
-//        Array<Body> bodies = new Array<>();
-//        this.physicalWorld.getBodies(bodies);
-//        for(Body body : bodies) {
-//            this.physicalWorld.destroyBody(body);
-//        }
-
-//        this.physicalWorld.dispose();
-//        this.physicalWorld = null;
-//        this.physicalWorld = new World(DEFAULT_GRAVITY, true);
-//        this.physicalWorld.dispose();
         this.physicalWorld = new World(DEFAULT_GRAVITY, true);
     }
 }

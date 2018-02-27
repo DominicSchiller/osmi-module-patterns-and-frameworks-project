@@ -34,11 +34,6 @@ public class User implements IDBEntity {
     private String nickname;
 
     /**
-     * The user's set password
-     */
-    private String password;
-
-    /**
      * The user's date of birth
      */
     private Date dateOfBirth;
