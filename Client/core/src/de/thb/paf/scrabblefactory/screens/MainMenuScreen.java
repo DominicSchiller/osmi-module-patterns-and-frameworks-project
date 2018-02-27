@@ -113,18 +113,35 @@ public class MainMenuScreen extends GameScreen {
      * Initialize and setup the screen's background.
      */
     private void initBackgroundScene() {
-        Image background = new Image(new Texture(
+        boolean isMale = AuthenticationManager.getInstance()
+                .getCurrentUser().getGender().getShortcut().equals("m");
+
+        Texture backgroundTexture = new Texture(
                 Gdx.files.internal("images/" + Settings.Game.RESOLUTION.name + "/backgrounds/home-background.png")
-        ));
-
-        Image titleImage = new Image(new Texture(
+        );
+        Texture titleTexture = new Texture(
                 Gdx.files.internal("images/" + Settings.Game.RESOLUTION.name + "/backgrounds/scrabblefactory-title.png")
-        ));
+        );
+        Texture userTexture = new Texture(
+                Gdx.files.internal("images/"
+                        + Settings.Game.RESOLUTION.name + "/icons/"
+                        + (isMale ? "boy" : "girl")
+                        + ".png")
+        );
+        backgroundTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
+        titleTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
+        userTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
 
+        Image background = new Image(backgroundTexture);
+        Image titleImage = new Image(titleTexture);
+        Image userImage = new Image(userTexture);
+
+        int multiplier = (int)Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER;
         float backgroundScaling = (Settings.App.DEVICE_SCREEN_WIDTH / background.getWidth());
         float titleScaling = backgroundScaling * .4f;
         background.setScale(backgroundScaling);
         titleImage.setScale(titleScaling);
+        userImage.setScale(backgroundScaling);
 
         Vector2 backgroundPosition = AlignmentHelper.getRelativePosition(
                 new Vector2(background.getWidth() * backgroundScaling, background.getHeight() * backgroundScaling),
@@ -140,12 +157,43 @@ public class MainMenuScreen extends GameScreen {
                 new int[] {0, 0, 0, 0}
         );
         titleImage.setPosition(
-                titlePosition.x - (int)(15 * Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER),
-                titlePosition.y - (int)(5 * Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER));
+                titlePosition.x - (15 * multiplier),
+                titlePosition.y - (5 * multiplier));
 
+        Vector2 userImagePosition = AlignmentHelper.getRelativePosition(
+                new Vector2(userImage.getWidth() * backgroundScaling, userImage.getHeight() * backgroundScaling),
+                new Vector2(Settings.App.DEVICE_SCREEN_WIDTH, Settings.App.DEVICE_SCREEN_HEIGHT),
+                Alignment.TOP_LEFT,
+                new int[] {0, 0, 0, 0}
+        );
+
+        userImage.setPosition(
+                userImagePosition.x  + (10 * multiplier),
+                userImagePosition.y  - (5 * multiplier)
+        );
         background.setPosition(backgroundPosition.x, backgroundPosition.y);
+
+        Color labelColor = isMale ?
+                new Color((int)Long.parseLong("0092FFFF", 16)) :
+                new Color((int)Long.parseLong("e000cbFF", 16));
+
+        Label userNameLabel = (Label)new UIWidgetBuilder(UIWidgetType.TEXT_LABEL)
+                .title(AuthenticationManager.getInstance().getCurrentUser().getNickname())
+                .size(DEFAULT_WIDGET_WIDTH, DEFAULT_LABEL_HEIGHT)
+                .alignment(Alignment.TOP_LEFT)
+                .margins(
+                        (5* multiplier) + (int)((userImage.getWidth() * backgroundScaling)/2)
+                        - (24 * multiplier)/2,
+                        0, 0,
+                        (int)(userImage.getWidth() * backgroundScaling)
+                                + (20 * multiplier)
+                )
+                .font(FontAsset.PORKY, (28 * multiplier) , Color.WHITE, labelColor)
+                .create();
         this.stage.addActor(background);
         this.stage.addActor(titleImage);
+        this.stage.addActor(userImage);
+        this.stage.addActor(userNameLabel);
     }
 
     /**

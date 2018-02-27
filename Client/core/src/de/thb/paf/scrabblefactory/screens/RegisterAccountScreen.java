@@ -96,6 +96,7 @@ public class RegisterAccountScreen extends GameScreen implements ICountdownListe
     @Override
     public void show() {
         Gdx.input.setInputProcessor(this.stage);
+        this.clearInputs();
     }
 
     @Override
@@ -333,5 +334,15 @@ public class RegisterAccountScreen extends GameScreen implements ICountdownListe
         this.stage.addActor(selectBox);
 
         return selectBox;
+    }
+
+    /**
+     * Clear all input fields.
+     */
+    private void clearInputs() {
+        this.nameTextField.setText("");
+        this.firstNameTextField.setText("");
+        this.nicknameTextField.setText("");
+        this.passwordTextField.setText("");
     }
 }

@@ -77,6 +77,7 @@ public class LoginScreen extends GameScreen implements ICountdownListener {
     @Override
     public void show() {
         Gdx.input.setInputProcessor(this.stage);
+        this.clearInputs();
     }
 
     @Override
@@ -219,5 +220,13 @@ public class LoginScreen extends GameScreen implements ICountdownListener {
         this.stage.addActor(textField);
 
         return textField;
+    }
+
+    /**
+     * Clear all input fields.
+     */
+    private void clearInputs() {
+        this.nicknameInputField.setText("");
+        this.passwordInputField.setText("");
     }
 }
