@@ -23,6 +23,13 @@ public class Randomizer {
     }
 
     /**
+     * Private Constructor
+     */
+    private Randomizer() {
+        // this is a raw static class
+    }
+
+    /**
      * Calculate a random number between a min and max value.
      * @param min The min bound
      * @param max The max bound

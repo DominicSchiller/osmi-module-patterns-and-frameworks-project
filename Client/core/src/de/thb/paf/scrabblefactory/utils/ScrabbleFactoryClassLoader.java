@@ -15,6 +15,12 @@ import java.util.List;
 
 public class ScrabbleFactoryClassLoader {
 
+    /**
+     * Private Constructor
+     */
+    private ScrabbleFactoryClassLoader() {
+        // this is a raw static class
+    }
 
     /**
      * Instantiate a class given by it's class name and required params.

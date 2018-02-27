@@ -54,7 +54,7 @@ public class ChallengeScoreDialogScreen extends GameScreen implements ICountdown
     /**
      * The earned score
      */
-    private volatile long score = 3656;
+    private volatile long score;
 
     /**
      * The current counted score
@@ -73,6 +73,15 @@ public class ChallengeScoreDialogScreen extends GameScreen implements ICountdown
         super(ScreenState.CHALLENGE_SCORE_DIALOG);
         this.stage = new Stage();
         Gdx.input.setInputProcessor(this.stage);
+    }
+
+    /**
+     * Set the score to display and count up
+     * @param score The score to display and count up
+     */
+    public void setScore(int score) {
+        this.score = score;
+        this.countedScore = 0;
     }
 
     @Override

@@ -26,6 +26,7 @@ import de.thb.paf.scrabblefactory.factories.LevelFactory;
 import de.thb.paf.scrabblefactory.gameplay.GameItemSpawnCenter;
 import de.thb.paf.scrabblefactory.gameplay.GameItemSpawnPool;
 import de.thb.paf.scrabblefactory.gameplay.ScrabbleChallengeWatchdog;
+import de.thb.paf.scrabblefactory.gameplay.ScrabbleScoreCalculator;
 import de.thb.paf.scrabblefactory.gameplay.timer.CountdownTimer;
 import de.thb.paf.scrabblefactory.gameplay.timer.ICountdownListener;
 import de.thb.paf.scrabblefactory.io.KeyboardInputProcessor;
@@ -87,6 +88,8 @@ public class PlayScreen extends GameScreen implements ICountdownListener {
     private InputMultiplexer inputHandler;
     private boolean isPauseRequested;
 
+    private String searchWord;
+
     /**
      * Default Constructor
      */
@@ -139,7 +142,7 @@ public class PlayScreen extends GameScreen implements ICountdownListener {
 
             String[] searchWords = ((BasicLevel)this.level).getWordPool();
             int randomIndex = Randomizer.nextRandomInt(0, searchWords.length - 1);
-            String searchWord = searchWords[randomIndex].toUpperCase();
+            this.searchWord = searchWords[randomIndex].toUpperCase();
 
             this.spawnCenter = new GameItemSpawnCenter(
                     searchWord,
@@ -289,7 +292,9 @@ public class PlayScreen extends GameScreen implements ICountdownListener {
             this.levelmusic.stop();
             wonSound.play(1);
 
-            this.showChallengeResultDialog();
+            int score = ScrabbleScoreCalculator.calculateScore(
+                    this.searchWord, time);
+            this.showChallengeResultDialog(score);
         }
     }
 
@@ -367,7 +372,7 @@ public class PlayScreen extends GameScreen implements ICountdownListener {
         });
     }
 
-    private void showChallengeResultDialog() {
+    private void showChallengeResultDialog(int score) {
 
         Gdx.app.postRunnable(() -> {
             render(Gdx.graphics.getDeltaTime());
@@ -383,9 +388,12 @@ public class PlayScreen extends GameScreen implements ICountdownListener {
             GameScreenManager gsm = GameScreenManager.getInstance();
             IGameScreen screen = gsm.getScreen(ScreenState.CHALLENGE_SCORE_DIALOG);
             if(screen != null) {
+                ((ChallengeScoreDialogScreen)screen).setScore(score);
                 gsm.showScreen(screen);
             } else {
-                gsm.showScreen(new ChallengeScoreDialogScreen());
+                screen = new ChallengeScoreDialogScreen();
+                ((ChallengeScoreDialogScreen)screen).setScore(score);
+                gsm.showScreen(screen);
             }
         });
     }

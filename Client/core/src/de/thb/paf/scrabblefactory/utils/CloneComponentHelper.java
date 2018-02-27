@@ -19,7 +19,7 @@ public class CloneComponentHelper {
      * Private Constructor
      */
     private CloneComponentHelper() {
-        // this is a static class
+        // this is a raw static class
     }
 
     /**
