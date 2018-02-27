@@ -35,11 +35,6 @@ import de.thb.paf.scrabblefactory.utils.graphics.widgets.UIWidgetType;
 public class LoginScreen extends GameScreen implements ICountdownListener {
 
     /**
-     * The ui elements canvas holder
-     */
-    private Stage stage;
-
-    /**
      * The login button to trigger the login process
      */
     private TextButton loginBtn;

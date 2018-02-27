@@ -43,11 +43,6 @@ import de.thb.paf.scrabblefactory.utils.graphics.widgets.UIWidgetType;
 public class ChallengeScoreDialogScreen extends GameScreen implements ICountdownListener {
 
     /**
-     * The ui elements canvas holder
-     */
-    private Stage stage;
-
-    /**
      * The dialog's static background image
      */
     private Image dialogBackground;
@@ -78,11 +73,10 @@ public class ChallengeScoreDialogScreen extends GameScreen implements ICountdown
     public ChallengeScoreDialogScreen() {
         super(ScreenState.CHALLENGE_SCORE_DIALOG);
         this.stage = new Stage();
-        Gdx.input.setInputProcessor(this.stage);
     }
 
     /**
-     * Set the score to display and count up
+     * Set the score to display and count up.
      * @param score The score to display and count up
      */
     public void setScore(int score) {
@@ -97,7 +91,7 @@ public class ChallengeScoreDialogScreen extends GameScreen implements ICountdown
 
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(stage);
+        Gdx.input.setInputProcessor(this.stage);
 
         if(!this.isInitialized) {
             float scaling = this.initBackgroundScene();
@@ -110,7 +104,7 @@ public class ChallengeScoreDialogScreen extends GameScreen implements ICountdown
         this.timer.addCountdownListener(this);
         this.timer.start();
 
-        this.saveScore();
+        this.saveScoreAsync();
     }
 
     @Override
@@ -362,9 +356,9 @@ public class ChallengeScoreDialogScreen extends GameScreen implements ICountdown
     }
 
     /**
-     * Save the earned score to database.
+     * Asynchronously save the earned score to database.
      */
-    private void saveScore() {
+    private void saveScoreAsync() {
         new Thread(() -> {
             UserScore userScore = new UserScore(
                     AuthenticationManager.getInstance().getCurrentUser(),

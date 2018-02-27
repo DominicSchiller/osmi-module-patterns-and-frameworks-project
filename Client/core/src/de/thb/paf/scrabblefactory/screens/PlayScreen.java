@@ -55,7 +55,6 @@ import de.thb.paf.scrabblefactory.models.level.BasicLevel;
 import de.thb.paf.scrabblefactory.models.level.ILevel;
 import de.thb.paf.scrabblefactory.settings.Settings;
 import de.thb.paf.scrabblefactory.utils.Randomizer;
-import de.thb.paf.scrabblefactory.utils.debug.SettingsDebugger;
 import de.thb.paf.scrabblefactory.utils.debug.VisualGameDebugger;
 import de.thb.paf.scrabblefactory.utils.graphics.widgets.UIWidgetBuilder;
 import de.thb.paf.scrabblefactory.utils.graphics.widgets.UIWidgetType;
@@ -74,24 +73,75 @@ import static de.thb.paf.scrabblefactory.settings.Settings.Game.VIRTUAL_WIDTH;
  */
 public class PlayScreen extends GameScreen implements ICountdownListener {
 
+    /**
+     * The overlay displayed when a dialog window will pop up
+     */
     private Image overlay;
-    private VisualGameDebugger debugRenderer;
-    private OrthographicCamera camera;
-    private ILevel level;
-    private HUDSystem hud;
-    private IEntity player;
-    private Music levelmusic;
 
+    /**
+     * The debug renderer visualizing Box2D bodies and the game's FPS rate
+     */
+    private VisualGameDebugger debugRenderer;
+
+    /**
+     * The virtual camera
+     */
+    private OrthographicCamera camera;
+
+    /**
+     * The level's challenge search word
+     */
+    private String searchWord;
+
+    /**
+     * The current game level
+     */
+    private ILevel level;
+
+    /**
+     * The single player HUD system
+     */
+    private HUDSystem hud;
+
+    /**
+     * The current player entity
+     */
+    private IEntity player;
+
+    /**
+     * The spawn center required to spawn cheese items
+     */
     private GameItemSpawnCenter spawnCenter;
+
+    /**
+     * The watchdog observing if the challenge is won or not
+     */
     private ScrabbleChallengeWatchdog challengeWatchdog;
+
+    /**
+     * The countdown timer counting down the level's defined time-frame
+     */
     private CountdownTimer timer;
+
+    /**
+     * The screen's multiplexed input handler listening for touch and keyboard inputs
+     */
+    private InputMultiplexer inputHandler;
+
+    /**
+     * The level's background music
+     */
+    private Music backgroundMusic;
+
+    /**
+     * The sound played when the challenge is won
+     */
     private Sound wonSound;
 
-    private Stage stage;
-    private InputMultiplexer inputHandler;
+    /**
+     * Status if the level was paused or not
+     */
     private boolean isPauseRequested;
-
-    private String searchWord;
 
     /**
      * Default Constructor
@@ -166,10 +216,10 @@ public class PlayScreen extends GameScreen implements ICountdownListener {
             /**
              * Level sound and music
              */
-            levelmusic = Gdx.audio.newMusic(Gdx.files.internal("audio/music/alrightlevel.mp3"));
-            levelmusic.setLooping(true);
-            levelmusic.setVolume(0.25f);
-            levelmusic.play();
+            backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("audio/music/alrightlevel.mp3"));
+            backgroundMusic.setLooping(true);
+            backgroundMusic.setVolume(0.25f);
+            backgroundMusic.play();
 
             this.wonSound = Gdx.audio.newSound(Gdx.files.internal("audio/sounds/tada.mp3"));
 
@@ -269,7 +319,7 @@ public class PlayScreen extends GameScreen implements ICountdownListener {
         this.level.dispose();
 
         this.wonSound.dispose();
-        this.levelmusic.dispose();
+        this.backgroundMusic.dispose();
         this.stage.dispose();
 
         WorldPhysicsManager.getInstance().dispose();
@@ -288,7 +338,7 @@ public class PlayScreen extends GameScreen implements ICountdownListener {
             this.stage.addActor(this.overlay);
 
             this.timer.stopTimer();
-            this.levelmusic.stop();
+            this.backgroundMusic.stop();
             wonSound.play(1);
 
             int score = ScrabbleScoreCalculator.calculateScore(

@@ -43,11 +43,6 @@ import de.thb.paf.scrabblefactory.utils.graphics.widgets.UIWidgetType;
 public class RegisterAccountScreen extends GameScreen implements ICountdownListener {
 
     /**
-     * The ui elements canvas holder
-     */
-    private Stage stage;
-
-    /**
      * The text input field where to enter the name
      */
     private TextField nameTextField;
@@ -134,7 +129,7 @@ public class RegisterAccountScreen extends GameScreen implements ICountdownListe
 
     @Override
     public void onCountdownStarted(long time) {
-        this.createUserButton.remove();
+        this.createUserButton.setVisible(false);
         this.stage.addActor(this.errorMessageLabel);
     }
 
@@ -205,7 +200,7 @@ public class RegisterAccountScreen extends GameScreen implements ICountdownListe
     }
 
     /**
-     * Shows an error message
+     * Shows an error message.
      */
     private void showErrorMessage() {
         CountdownTimer displayErrorTimer = new CountdownTimer(3000);

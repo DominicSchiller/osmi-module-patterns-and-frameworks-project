@@ -21,7 +21,7 @@ import de.thb.paf.scrabblefactory.utils.graphics.widgets.UIWidgetBuilder;
 import de.thb.paf.scrabblefactory.utils.graphics.widgets.UIWidgetType;
 
 /**
- * Represents the game dialog screen showing communication of each dialog
+ * Represents the game dialog screen showing communication of each dialog.
  *
  * @author Dominic Schiller - Technische Hochschule Brandenburg
  * @version 1.0
@@ -30,8 +30,9 @@ import de.thb.paf.scrabblefactory.utils.graphics.widgets.UIWidgetType;
 
 public class PauseDialogScreen extends GameScreen {
 
-    private Stage stage;
-
+    /**
+     * The screen's dialog background image
+     */
     private Image dialogBackground;
 
     /**

@@ -4,6 +4,7 @@ package de.thb.paf.scrabblefactory.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 import de.thb.paf.scrabblefactory.models.components.graphics.Alignment;
@@ -45,6 +46,27 @@ public abstract class GameScreen implements IGameScreen {
      */
     static Image DEFAULT_BACKGROUND;
 
+    /**
+     * The screen's state type
+     */
+    private final ScreenState state;
+
+    /**
+     * The screen's stage displaying Scene2D UI widgets
+     */
+    Stage stage;
+
+    /**
+     * State indicating whether the screen is set as active or not
+     */
+    boolean isActive;
+
+    /**
+     * State indicating whether the screen's components have been initialized or not
+     */
+    boolean isInitialized;
+
+    // static inizializer
     static {
         float multiplier = Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER;
         DEFAULT_FONT_SIZE = (int)(12 * multiplier);
@@ -62,20 +84,6 @@ public abstract class GameScreen implements IGameScreen {
                 new int[] {0, 0, 0 ,0});
         DEFAULT_BACKGROUND.setPosition(backgroundPosition.x, backgroundPosition.y);
     }
-    /**
-     * The screen's state type
-     */
-    private final ScreenState state;
-
-    /**
-     * State indicating whether the screen is set as active or not
-     */
-    boolean isActive;
-
-    /**
-     * State indicating whether the screen's components have been initialized or not
-     */
-    boolean isInitialized;
 
     /**
      * Default Constructor

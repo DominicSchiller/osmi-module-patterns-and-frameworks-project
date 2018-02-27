@@ -35,11 +35,6 @@ import de.thb.paf.scrabblefactory.utils.graphics.widgets.UIWidgetType;
 public class GameManualScreen extends GameScreen {
 
     /**
-     * The ui elements canvas holder
-     */
-    private Stage stage;
-
-    /**
      * The button pressed audio resource
      */
     private Sound buttonPressedSound;

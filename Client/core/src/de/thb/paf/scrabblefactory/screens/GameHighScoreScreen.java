@@ -45,9 +45,6 @@ import de.thb.paf.scrabblefactory.utils.graphics.widgets.UIWidgetType;
 
 public class GameHighScoreScreen extends GameScreen {
 
-
-    private Stage stage;
-
     /**
      * The button pressed audio resource
      */

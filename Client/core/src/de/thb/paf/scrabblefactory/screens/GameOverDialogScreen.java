@@ -32,8 +32,9 @@ import de.thb.paf.scrabblefactory.utils.graphics.widgets.UIWidgetType;
 
 public class GameOverDialogScreen extends GameScreen {
 
-    private Stage stage;
-
+    /**
+     * The screen's dialog background image
+     */
     private Image dialogBackground;
 
     /**

@@ -36,15 +36,9 @@ import de.thb.paf.scrabblefactory.utils.graphics.widgets.UIWidgetType;
 public class MainMenuScreen extends GameScreen {
 
     /**
-     * The ui elements canvas holder
-     */
-    private Stage stage;
-
-    /**
      * The screen's background music resource
      */
     private Music backgroundMusic;
-
 
     /**
      * The buttons' on-click sound
