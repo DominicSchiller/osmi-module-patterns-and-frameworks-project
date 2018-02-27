@@ -17,5 +17,6 @@ public enum ScreenState {
     HIGH_SCORES,
     PLAY,
     PAUSE_DIALOG,
-    CHALLENGE_SCORE_DIALOG
+    CHALLENGE_SCORE_DIALOG,
+    GAME_OVER_DIALOG
 }

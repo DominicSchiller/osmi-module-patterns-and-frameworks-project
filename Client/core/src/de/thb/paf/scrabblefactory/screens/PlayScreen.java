@@ -149,7 +149,7 @@ public class PlayScreen extends GameScreen implements ICountdownListener {
 
             this.spawnCenter = new GameItemSpawnCenter(
                     this.searchWord,
-                    new GameItemSpawnPool(EntityType.CHEESE, 5, 10, searchWord.length())
+                    new GameItemSpawnPool(EntityType.CHEESE, 2, 10, searchWord.length())
             );
 
             // init search word
@@ -177,8 +177,6 @@ public class PlayScreen extends GameScreen implements ICountdownListener {
             this.challengeWatchdog = new ScrabbleChallengeWatchdog(searchWord);
 
             this.isInitialized = true;
-
-            SettingsDebugger.printSettings();
         }
     }
 
@@ -280,7 +278,6 @@ public class PlayScreen extends GameScreen implements ICountdownListener {
 
     @Override
     public void onCountdownStarted(long time) {
-        System.out.println("Game started");
         this.triggerRemainingTimeUpdateEvent(time);
     }
 
@@ -290,7 +287,6 @@ public class PlayScreen extends GameScreen implements ICountdownListener {
         if(this.challengeWatchdog.isChallengeWon()) {
             this.stage.addActor(this.overlay);
 
-            System.out.println("The Game is Won!!!");
             this.timer.stopTimer();
             this.levelmusic.stop();
             wonSound.play(1);
@@ -303,7 +299,7 @@ public class PlayScreen extends GameScreen implements ICountdownListener {
 
     @Override
     public void onCountdownFinished(long time) {
-        System.out.println("Game over");
+        this.showGameOverDialog();
     }
 
     /**
@@ -418,8 +414,11 @@ public class PlayScreen extends GameScreen implements ICountdownListener {
         });
     }
 
+    /**
+     * Show the Won Score dialog.
+     * @param score The score to display
+     */
     private void showChallengeResultDialog(int score) {
-
         Gdx.app.postRunnable(() -> {
             render(Gdx.graphics.getDeltaTime());
         });
@@ -440,6 +439,26 @@ public class PlayScreen extends GameScreen implements ICountdownListener {
                 screen = new ChallengeScoreDialogScreen();
                 ((ChallengeScoreDialogScreen)screen).setScore(score);
                 gsm.showScreen(screen);
+            }
+        });
+    }
+
+    /**
+     * Show the game over dialog.
+     */
+    private void showGameOverDialog() {
+        Gdx.app.postRunnable(() -> {
+            render(Gdx.graphics.getDeltaTime());
+        });
+
+        Gdx.app.postRunnable(() -> {
+            render(Gdx.graphics.getDeltaTime());
+            GameScreenManager gsm = GameScreenManager.getInstance();
+            IGameScreen screen = gsm.getScreen(ScreenState.GAME_OVER_DIALOG);
+            if(screen != null) {
+                gsm.showScreen(screen);
+            } else {
+                gsm.showScreen(new GameOverDialogScreen());
             }
         });
     }

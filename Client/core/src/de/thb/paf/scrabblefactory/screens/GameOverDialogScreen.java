@@ -12,82 +12,36 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 
-import java.util.Date;
-
-import de.thb.paf.scrabblefactory.auth.AuthenticationManager;
-import de.thb.paf.scrabblefactory.gameplay.timer.CountdownTimer;
-import de.thb.paf.scrabblefactory.gameplay.timer.ICountdownListener;
 import de.thb.paf.scrabblefactory.managers.GameScreenManager;
 import de.thb.paf.scrabblefactory.models.assets.FontAsset;
 import de.thb.paf.scrabblefactory.models.components.graphics.Alignment;
-import de.thb.paf.scrabblefactory.persistence.DataStore;
-import de.thb.paf.scrabblefactory.persistence.entities.Score;
-import de.thb.paf.scrabblefactory.persistence.entities.UserScore;
 import de.thb.paf.scrabblefactory.settings.Settings;
 import de.thb.paf.scrabblefactory.utils.graphics.AlignmentHelper;
 import de.thb.paf.scrabblefactory.utils.graphics.widgets.UIWidgetBuilder;
 import de.thb.paf.scrabblefactory.utils.graphics.widgets.UIWidgetType;
 
 /**
- * Represents the game dialog screen showing the earned score
- * from a mastered scrabble challenge.
+ * Represents the game over dialog screen.
  *
  * @author Dominic Schiller - Technische Hochschule Brandenburg
  * @version 1.0
  * @since 1.0
  */
 
-public class ChallengeScoreDialogScreen extends GameScreen implements ICountdownListener {
+public class GameOverDialogScreen extends GameScreen {
 
-    /**
-     * The ui elements canvas holder
-     */
     private Stage stage;
 
-    /**
-     * The dialog's static background image
-     */
     private Image dialogBackground;
-
-    /**
-     * The label displaying the earned score
-     */
-    private volatile Label scoreLabel;
-
-    /**
-     * The earned score
-     */
-    private volatile int score;
-
-    /**
-     * The current counted score
-     */
-    private volatile long countedScore = 0;
-
-    /**
-     * The score count timer
-     */
-    private CountdownTimer timer;
 
     /**
      * Default Constructor
      */
-    public ChallengeScoreDialogScreen() {
-        super(ScreenState.CHALLENGE_SCORE_DIALOG);
+    public GameOverDialogScreen() {
+        super(ScreenState.GAME_OVER_DIALOG);
         this.stage = new Stage();
-        Gdx.input.setInputProcessor(this.stage);
-    }
-
-    /**
-     * Set the score to display and count up
-     * @param score The score to display and count up
-     */
-    public void setScore(int score) {
-        this.score = score;
-        this.countedScore = 0;
     }
 
     @Override
@@ -104,13 +58,6 @@ public class ChallengeScoreDialogScreen extends GameScreen implements ICountdown
             this.setupWidgets(scaling);
             this.isInitialized = true;
         }
-
-        this.scoreLabel.setText("" + this.countedScore);
-        this.timer = new CountdownTimer(this.score, 1);
-        this.timer.addCountdownListener(this);
-        this.timer.start();
-
-        this.saveScore();
     }
 
     @Override
@@ -140,22 +87,6 @@ public class ChallengeScoreDialogScreen extends GameScreen implements ICountdown
     @Override
     public void dispose() {
         this.stage.dispose();
-    }
-
-    @Override
-    public void onCountdownStarted(long time) {
-
-    }
-
-    @Override
-    public void onCountdownTick(long time) {
-        this.countedScore++;
-        this.updatePoints("" + countedScore);
-    }
-
-    @Override
-    public void onCountdownFinished(long time) {
-        updatePoints("" + score);
     }
 
     /**
@@ -200,7 +131,7 @@ public class ChallengeScoreDialogScreen extends GameScreen implements ICountdown
         int multiplier = (int)Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER;
 
         Label headline = (Label)new UIWidgetBuilder(UIWidgetType.TEXT_LABEL)
-                .title("You won!")
+                .title("GAME OVER")
                 .alignment(Alignment.MIDDLE)
                 .margins(
                         0, 0,
@@ -209,10 +140,9 @@ public class ChallengeScoreDialogScreen extends GameScreen implements ICountdown
                 )
                 .font(FontAsset.PORKY, 28 * multiplier, Color.BLACK)
                 .create();
-        headline.setAlignment(Align.center);
 
         Label description = (Label)new UIWidgetBuilder(UIWidgetType.TEXT_LABEL)
-                .title("You have earned the following score:")
+                .title("Your time is up.\nDo you want to try the challenge again?")
                 .alignment(Alignment.MIDDLE)
                 .size(
                         (int)(this.dialogBackground.getWidth() * scaling) - (20 * multiplier),
@@ -221,36 +151,13 @@ public class ChallengeScoreDialogScreen extends GameScreen implements ICountdown
                 .margins(
                         0, 0,
                         (int)((this.dialogBackground.getHeight() * scaling)/2)
-                                - (15 * multiplier) - (int)headline.getHeight(),
-                        0
+                                - (28 * multiplier) - (int)headline.getHeight(),
+                        10 * multiplier
                 )
+                .font(FontAsset.OPEN_SANS, 12 * multiplier, Color.BLACK)
                 .create();
-        description.setAlignment(Align.center);
 
-        this.scoreLabel = (Label)new UIWidgetBuilder(UIWidgetType.TEXT_LABEL)
-                .identifier("skipCounting")
-                .title("2350")
-                .alignment(Alignment.MIDDLE)
-                .size(
-                        (int)(this.dialogBackground.getWidth() * scaling) - (20 * multiplier),
-                        50 * multiplier
-                )
-                .margins(
-                        0, 0,
-                        (int)((this.dialogBackground.getHeight() * scaling)/2)
-                                - (20 * multiplier) - (int)headline.getHeight(),
-                        0
-                )
-                .font(FontAsset.PORKY, 32 * multiplier, Color.WHITE, Color.BLACK)
-                .clickListener(new ClickListener() {
-                    @Override
-                    public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                        super.touchUp(event, x, y, pointer, button);
-                        onButtonPressed(event.getListenerActor());
-                    }
-                })
-                .create();
-        scoreLabel.setAlignment(Align.center);
+        description.setAlignment(Align.center);
 
         ImageButton stopGameBtn = (ImageButton)new UIWidgetBuilder(UIWidgetType.IMAGE_BUTTON)
                 .identifier("stopGame")
@@ -278,10 +185,10 @@ public class ChallengeScoreDialogScreen extends GameScreen implements ICountdown
                 .alignment(Alignment.MIDDLE)
                 .margins(
                         (int)((this.dialogBackground.getHeight() * scaling)/2)
-                                - (int)stopTexture.getHeight() - (10 * multiplier),
+                                - retryTexture.getHeight() - (10 * multiplier),
                         0, 0,
                         (int)((this.dialogBackground.getWidth() * scaling)/2)
-                                - (int)(stopTexture.getWidth()/2) - (50 * multiplier))
+                                - (stopTexture.getWidth()/2) - (50 * multiplier))
                 .imageButtonTextures(retryTexture, retryPressedTexture)
                 .actorGestureListener(
                         new ActorGestureListener() {
@@ -296,7 +203,6 @@ public class ChallengeScoreDialogScreen extends GameScreen implements ICountdown
 
         this.stage.addActor(headline);
         this.stage.addActor(description);
-        this.stage.addActor(this.scoreLabel);
         this.stage.addActor(stopGameBtn);
         this.stage.addActor(retryGameBtn);
     }
@@ -307,13 +213,6 @@ public class ChallengeScoreDialogScreen extends GameScreen implements ICountdown
      */
     private void onButtonPressed(Actor sender) {
         switch(sender.getName()) {
-            case "stopGame":
-                Gdx.app.postRunnable(() -> {
-                    GameScreenManager gsm = GameScreenManager.getInstance();
-                    gsm.clearHistory();
-                    this.goToScreen(ScreenState.MAIN_MENU);
-                });
-                break;
             case "retryGame":
                 Gdx.app.postRunnable(() -> {
                     GameScreenManager gsm = GameScreenManager.getInstance();
@@ -324,21 +223,14 @@ public class ChallengeScoreDialogScreen extends GameScreen implements ICountdown
                     }
                 });
                 break;
-            case "skipCounting":
-                this.timer.stopTimer();
+            case "stopGame":
+                Gdx.app.postRunnable(() -> {
+                    this.goToScreen(ScreenState.MAIN_MENU);
+                    GameScreenManager gsm = GameScreenManager.getInstance();
+                    gsm.clearHistory();
+                });
                 break;
         }
-    }
-
-    /**
-     * Update the score label
-     * @param points the updated score to display
-     */
-    private void updatePoints(String points) {
-        // update only on rendering thread
-        Gdx.app.postRunnable(() -> {
-            scoreLabel.setText(points);
-        });
     }
 
     /**
@@ -357,22 +249,5 @@ public class ChallengeScoreDialogScreen extends GameScreen implements ICountdown
             }
         }
         gsm.showScreen(screen);
-        gsm.clearHistory();
-        gsm.dismissScreen(ScreenState.CHALLENGE_SCORE_DIALOG);
-    }
-
-    /**
-     * Save the earned score to database.
-     */
-    private void saveScore() {
-        new Thread(() -> {
-            UserScore userScore = new UserScore(
-                    AuthenticationManager.getInstance().getCurrentUser(),
-                    new Score(this.score),
-                    new Date()
-            );
-
-            DataStore.getInstance().createUserScore(userScore);
-        }).start();
     }
 }
