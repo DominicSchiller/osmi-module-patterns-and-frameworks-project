@@ -240,13 +240,17 @@ public class PauseDialogScreen extends GameScreen {
         switch(sender.getName()) {
             case "cancel":
             case "continueGame":
-                GameScreenManager.getInstance().showLastScreen();
+                Gdx.app.postRunnable(() -> {
+                    GameScreenManager.getInstance().showLastScreen();
+                });
                 break;
             case "stopGame":
-                this.goToScreen(ScreenState.MAIN_MENU);
-                GameScreenManager gsm = GameScreenManager.getInstance();
-                gsm.dismissScreen(ScreenState.PLAY);
-                gsm.clearHistory();
+                Gdx.app.postRunnable(() -> {
+                    this.goToScreen(ScreenState.MAIN_MENU);
+                    GameScreenManager gsm = GameScreenManager.getInstance();
+//                    gsm.dismissScreen(ScreenState.PLAY);
+                    gsm.clearHistory();
+                });
                 break;
         }
     }

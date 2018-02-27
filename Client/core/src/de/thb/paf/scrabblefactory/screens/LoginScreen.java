@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+import de.thb.paf.scrabblefactory.auth.AuthenticationManager;
 import de.thb.paf.scrabblefactory.gameplay.timer.CountdownTimer;
 import de.thb.paf.scrabblefactory.gameplay.timer.ICountdownListener;
 import de.thb.paf.scrabblefactory.managers.GameScreenManager;
@@ -129,13 +130,10 @@ public class LoginScreen extends GameScreen implements ICountdownListener {
      * @return The login success status
      */
     private boolean login() {
-        DataStore dataStore = DataStore.getInstance();
-        User user = dataStore.readUser(
-                this.nicknameInputField.getText(),
-                this.passwordInputField.getMessageText()
+        return AuthenticationManager.getInstance().login(
+            this.nicknameInputField.getText(),
+            this.passwordInputField.getText()
         );
-
-        return user != null;
     }
 
     /**

@@ -177,7 +177,7 @@ public class RegisterAccountScreen extends GameScreen implements ICountdownListe
         );
 
         DataStore dataStore = DataStore.getInstance();
-        user = dataStore.createUser(user);
+        user = dataStore.createUser(user, this.passwordTextField.getText());
 
         if(user.getID() > -1) {
             System.out.println("User (" + user.getNickname() + ") has been successfully created");

@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+import de.thb.paf.scrabblefactory.auth.AuthenticationManager;
 import de.thb.paf.scrabblefactory.managers.GameScreenManager;
 import de.thb.paf.scrabblefactory.models.assets.FontAsset;
 import de.thb.paf.scrabblefactory.models.components.graphics.Alignment;
@@ -277,6 +278,7 @@ public class MainMenuScreen extends GameScreen {
                 this.goToScreen(ScreenState.GAME_MANUAL);
                 break;
             case "logout":
+                AuthenticationManager.getInstance().logout();
                 this.goToScreen(ScreenState.LANDING_SCREEN);
                 GameScreenManager.getInstance().clearHistory();
                 break;
