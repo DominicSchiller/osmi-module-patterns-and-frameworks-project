@@ -105,7 +105,7 @@ public class GameItemSpawnPool {
 
             }
         } else {
-            System.out.println("Next item will be spawned in ... " + this.spawnCountdownValue + " seconds");
+//            System.out.println("Next item will be spawned in ... " + this.spawnCountdownValue + " seconds");
         }
     }
 

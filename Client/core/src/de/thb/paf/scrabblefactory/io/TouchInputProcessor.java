@@ -8,6 +8,7 @@ import java.util.List;
 
 import de.thb.paf.scrabblefactory.managers.GameEventManager;
 import de.thb.paf.scrabblefactory.managers.GameObjectManager;
+import de.thb.paf.scrabblefactory.managers.WorldPhysicsManager;
 import de.thb.paf.scrabblefactory.models.IGameObject;
 import de.thb.paf.scrabblefactory.models.actions.MoveActionType;
 import de.thb.paf.scrabblefactory.models.entities.Player;
@@ -48,7 +49,9 @@ public class TouchInputProcessor implements GestureDetector.GestureListener {
 
     @Override
     public boolean longPress(float x, float y) {
-        return false;
+        WorldPhysicsManager.getInstance()
+                .getContactListener().tryToCarryUpCheeseItem();
+        return true;
     }
 
     @Override
@@ -69,6 +72,7 @@ public class TouchInputProcessor implements GestureDetector.GestureListener {
 
     @Override
     public boolean pan(float x, float y, float deltaX, float deltaY) {
+        System.out.println();
         return false;
     }
 

@@ -52,7 +52,9 @@ public class ScrabbleChallengeWatchdog {
 
         StringBuilder searchWordBuilder = new StringBuilder();
         for(Cheese cheese : cheeseItems) {
-            searchWordBuilder.append(cheese.getLetter());
+            // just verify a cheese item if it is not caught by the player
+            if(cheese.getCarrier() == null)
+                searchWordBuilder.append(cheese.getLetter());
         }
 
         return searchWordBuilder.toString().equals(this.searchWord);

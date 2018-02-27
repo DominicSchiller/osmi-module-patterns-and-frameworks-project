@@ -81,6 +81,7 @@ public class Player extends GameEntity {
      */
     public void addCheeseItem(Cheese cheese) {
         if(!this.cheeseItems.contains(cheese)) {
+            cheese.setCaught(true);
             cheese.setCarrier(this);
             this.cheeseItems.add(cheese);
         }

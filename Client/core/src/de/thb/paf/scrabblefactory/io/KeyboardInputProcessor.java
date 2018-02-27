@@ -7,6 +7,7 @@ import java.util.List;
 
 import de.thb.paf.scrabblefactory.managers.GameEventManager;
 import de.thb.paf.scrabblefactory.managers.GameObjectManager;
+import de.thb.paf.scrabblefactory.managers.WorldPhysicsManager;
 import de.thb.paf.scrabblefactory.models.IGameObject;
 import de.thb.paf.scrabblefactory.models.entities.Player;
 import de.thb.paf.scrabblefactory.models.events.DiscardEvent;
@@ -40,6 +41,7 @@ public class KeyboardInputProcessor implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
+        System.out.println("");
         switch(keycode) {
             case LEFT:
             case RIGHT:
@@ -61,6 +63,10 @@ public class KeyboardInputProcessor implements InputProcessor {
                     discardEvent.setDiscardTarget(player);
                     GameEventManager.getInstance().triggerEvent(DISCARD);
                 }
+                break;
+            case C:
+                WorldPhysicsManager.getInstance()
+                        .getContactListener().tryToCarryUpCheeseItem();
                 break;
         }
 

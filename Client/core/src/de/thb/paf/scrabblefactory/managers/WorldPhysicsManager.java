@@ -1,9 +1,9 @@
 package de.thb.paf.scrabblefactory.managers;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.Array;
+
+import de.thb.paf.scrabblefactory.gameplay.GameContactListener;
 
 /**
  * Manager class responsible for holding and managing the global physical Box2D world's instance.
@@ -29,6 +29,11 @@ public class WorldPhysicsManager implements IGameManager {
      * The Box2D physical world instance
      */
     private World physicalWorld;
+
+    /**
+     * The physical world's current contact listener
+     */
+    private GameContactListener contactListener;
 
     /**
      * static initializer: called when the class is loaded by the JVM
@@ -66,6 +71,22 @@ public class WorldPhysicsManager implements IGameManager {
      */
     public void setWorldGravity(Vector2 gravity) {
         this.physicalWorld.setGravity(gravity);
+    }
+
+    /**
+     * Get the physical world's current contact listener.
+     * @return The physical world's current game contact listener
+     */
+    public GameContactListener getContactListener() {
+        return this.contactListener;
+    }
+
+    /**
+     * Set the physical world's current contact listener
+     * @param contactListener The physical world's current contact listener.
+     */
+    public void setContactListener(GameContactListener contactListener) {
+        this.contactListener = contactListener;
     }
 
     @Override

@@ -6,8 +6,10 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
+import com.badlogic.gdx.physics.box2d.World;
 
 import de.thb.paf.scrabblefactory.managers.GameEventManager;
+import de.thb.paf.scrabblefactory.managers.WorldPhysicsManager;
 import de.thb.paf.scrabblefactory.models.IGameObject;
 import de.thb.paf.scrabblefactory.models.components.IComponent;
 import de.thb.paf.scrabblefactory.models.entities.Cheese;
@@ -29,6 +31,7 @@ import static de.thb.paf.scrabblefactory.models.events.GameEventType.ITEM_CONTAC
  */
 
 public class GameContactListener implements ContactListener {
+
     @Override
     public void beginContact(Contact contact) {
         Fixture fA = contact.getFixtureA();
@@ -59,7 +62,24 @@ public class GameContactListener implements ContactListener {
 
     @Override
     public void endContact(Contact contact) {
+        Fixture fA = contact.getFixtureA();
+        Fixture fB = contact.getFixtureB();
 
+        // if one of the collision objects does not have a fixture we cancel here
+        if(fA == null || fB == null)
+            return;
+
+        // if one of the collision objects does not have any user data attached
+        // to further define the collision object we cancel here also
+        if(fA.getUserData() == null || fB.getUserData() == null)
+            return;
+
+        IGameObject goA = ((IComponent) fA.getUserData()).getParent();
+        IGameObject goB = ((IComponent) fB.getUserData()).getParent();
+
+        boolean isCheeseSensor =
+                (goA instanceof Cheese && fA.isSensor()) || (goB instanceof Cheese && fB.isSensor());
+        System.out.println("is cheese: " + isCheeseSensor);
     }
 
     @Override
@@ -69,6 +89,41 @@ public class GameContactListener implements ContactListener {
     @Override
     public void postSolve(Contact contact, ContactImpulse impulse) {
 
+    }
+
+    /**
+     * Try to carry up caught and dismissed cheese item
+     */
+    public void tryToCarryUpCheeseItem() {
+        World w = WorldPhysicsManager.getInstance().getPhysicalWorld();
+        for(Contact contact : w.getContactList()) {
+            Fixture fA = contact.getFixtureA();
+            Fixture fB = contact.getFixtureB();
+
+            // if one of the collision objects does not have a fixture we cancel here
+            if(fA == null || fB == null)
+                continue;
+
+            // if one of the collision objects does not have any user data attached
+            // to further define the collision object we cancel here also
+            if(fA.getUserData() == null || fB.getUserData() == null)
+                continue;
+
+            IGameObject goA = ((IComponent) fA.getUserData()).getParent();
+            IGameObject goB = ((IComponent) fB.getUserData()).getParent();
+
+            boolean isPlayerAndCheese = (fA.isSensor() || fB.isSensor())
+                    && (goA instanceof Player || goA instanceof Cheese)
+                    && (goB instanceof Player || goB instanceof Cheese);
+
+            if(isPlayerAndCheese) {
+                Cheese cheese = goA instanceof Cheese ? (Cheese)goA : (Cheese)goB;
+                Player player = goA instanceof Player ? (Player)goA : (Player)goB;
+
+                this.triggerItemContactEventAsync(player, cheese);
+                break;
+            }
+        }
     }
 
     /**
@@ -92,8 +147,12 @@ public class GameContactListener implements ContactListener {
          boolean isItemContact = false;
 
         if(goA instanceof Player) {
-            if(goB instanceof Cheese && !((Cheese)goB).isCaught()) {
-                isItemContact = true;
+            if(goB instanceof Cheese) {
+                 if(!((Cheese)goB).isCaught()) {
+                     isItemContact = true;
+                 } else {
+
+                 }
             }
         }
 

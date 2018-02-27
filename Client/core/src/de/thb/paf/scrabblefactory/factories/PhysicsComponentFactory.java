@@ -102,9 +102,11 @@ public class PhysicsComponentFactory {
      */
     private void initWorldPhysicsComponent(WorldPhysicsComponent physicsComponent) {
         WorldPhysicsManager worldPhysicsManager = WorldPhysicsManager.getInstance();
+        GameContactListener gameContactListener = new GameContactListener();
+        worldPhysicsManager.setContactListener(gameContactListener);
 
         World world = worldPhysicsManager.getPhysicalWorld();
-        world.setContactListener(new GameContactListener());
+        world.setContactListener(gameContactListener);
 
         physicsComponent.setWorld(world);
         physicsComponent.setSPS(Settings.App.FPS);
