@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -145,14 +146,16 @@ public class RegisterAccountScreen extends GameScreen implements ICountdownListe
     @Override
     public void onCountdownFinished(long time) {
         this.errorMessageLabel.remove();
-        this.stage.addActor(this.createUserButton);
+        this.createUserButton.setVisible(true);
+//        this.stage.addActor(this.createUserButton);
     }
 
     /**
      * Register new user account based on the current user inputs.
      */
     private void registerUser() {
-        this.createUserButton.remove();
+//        this.createUserButton.remove();
+        this.createUserButton.setVisible(false);
 
         Date date = null;
         try {
@@ -232,6 +235,7 @@ public class RegisterAccountScreen extends GameScreen implements ICountdownListe
         String errorMsg = stringBuilder.toString();
         if(errorMsg.contains("- ")) {
             this.errorMessageLabel.setText(errorMsg);
+            this.errorMessageLabel.setAlignment(Align.center);
             this.stage.addActor(this.errorMessageLabel);
             return false;
         }
@@ -288,8 +292,8 @@ public class RegisterAccountScreen extends GameScreen implements ICountdownListe
         table.add(this.createUserButton)
                 .height(DEFAULT_INPUT_HEIGHT)
                 .width(DEFAULT_WIDGET_WIDTH)
-                .padTop(15 * Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER)
-                .padBottom(15 * Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER);
+                .padTop(20 * Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER)
+                .padBottom(100 * Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER);
 
         Skin skin = new Skin(Gdx.files.internal("ui/glassy-ui.json"));
         ScrollPane scrollPane = new ScrollPane(table, skin);

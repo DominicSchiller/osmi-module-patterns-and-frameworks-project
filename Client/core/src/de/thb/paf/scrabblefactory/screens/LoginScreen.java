@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 
 import de.thb.paf.scrabblefactory.auth.AuthenticationManager;
 import de.thb.paf.scrabblefactory.gameplay.timer.CountdownTimer;
@@ -192,6 +193,7 @@ public class LoginScreen extends GameScreen implements ICountdownListener {
                 .margins((int)(135* Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER), 0, 0, 0)
                 .font(FontAsset.OPEN_SANS, DEFAULT_FONT_SIZE, Color.RED)
                 .create();
+        this.loginErrorLabel.setAlignment(Align.center);
 
         this.stage.addActor(this.loginBtn);
     }
