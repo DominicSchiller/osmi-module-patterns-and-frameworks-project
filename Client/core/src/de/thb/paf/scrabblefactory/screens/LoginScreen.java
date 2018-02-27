@@ -150,7 +150,10 @@ public class LoginScreen extends GameScreen implements ICountdownListener {
      * Navigate to the game's home screen.
      */
     private void gotoHomeScreen() {
-        GameScreenManager.getInstance().showScreen(new MainMenuScreen());
+        GameScreenManager gsm = GameScreenManager.getInstance();
+        gsm.showScreen(new MainMenuScreen());
+        gsm.clearHistory();
+        gsm.dismissScreen(ScreenState.LOGIN);
     }
 
     /**

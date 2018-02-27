@@ -192,7 +192,10 @@ public class RegisterAccountScreen extends GameScreen implements ICountdownListe
      * Navigate back to the login screen.
      */
     private void navigateToLoginScreen() {
-        GameScreenManager.getInstance().showScreen(new LoginScreen());
+        GameScreenManager gsm = GameScreenManager.getInstance();
+        gsm.showScreen(new LoginScreen());
+        gsm.clearHistory();
+        gsm.dismissScreen(ScreenState.REGISTER_ACCOUNT);
     }
 
     /**
