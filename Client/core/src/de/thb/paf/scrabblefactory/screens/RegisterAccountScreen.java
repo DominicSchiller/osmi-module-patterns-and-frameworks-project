@@ -7,7 +7,10 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -241,22 +244,28 @@ public class RegisterAccountScreen extends GameScreen implements ICountdownListe
      */
     private void setupUIWidgets() {
 
-        this.nameTextField = this.addLabelInputGroup("Name", 20);
-        this.firstNameTextField = this.addLabelInputGroup("First Name", 70);
-        this.nicknameTextField = this.addLabelInputGroup("Nickname", 120);
-        this.passwordTextField = this.addLabelInputGroup("Password", 170);
+        Table table = new Table();
+        table.setSize(Settings.App.DEVICE_SCREEN_WIDTH * 0.6f, Settings.App.DEVICE_SCREEN_HEIGHT * 0.75f);
+
+        this.firstNameTextField = this.addLabelInputGroup(table,"First Name", 70);
+        table.row();
+        this.nameTextField = this.addLabelInputGroup(table, "Name", 20);
+        table.row();
+        this.nicknameTextField = this.addLabelInputGroup(table,"Nickname", 120);
+        table.row();
+        this.passwordTextField = this.addLabelInputGroup(table,"Password", 170);
         this.passwordTextField.setPasswordMode(true);
         this.passwordTextField.setPasswordCharacter('*');
-
-        this.genderSelectBox = this.addLabelSelectBoxGroup("Gender", 220, "Male", "Female");
-
+        table.row();
+        this.genderSelectBox = this.addLabelSelectBoxGroup(table,"Gender", 220, "Male", "Female");
+        table.row();
         this.errorMessageLabel = (Label)new UIWidgetBuilder(UIWidgetType.TEXT_LABEL)
                 .size(DEFAULT_WIDGET_WIDTH, DEFAULT_LABEL_HEIGHT)
                 .alignment(Alignment.TOP_CENTER)
                 .margins((int)(265*Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER), 0, 0, 0)
                 .font(FontAsset.OPEN_SANS, DEFAULT_FONT_SIZE, Color.RED)
                 .create();
-
+        table.row();
         this.createUserButton = (TextButton)new UIWidgetBuilder(UIWidgetType.TEXT_BUTTON)
                 .title("Create Account")
                 .size(DEFAULT_WIDGET_WIDTH, DEFAULT_INPUT_HEIGHT)
@@ -276,7 +285,18 @@ public class RegisterAccountScreen extends GameScreen implements ICountdownListe
                         }
                 )
                 .create();
-        this.stage.addActor(this.createUserButton);
+        table.add(this.createUserButton)
+                .height(DEFAULT_INPUT_HEIGHT)
+                .width(DEFAULT_WIDGET_WIDTH)
+                .padTop(15 * Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER)
+                .padBottom(15 * Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER);
+
+        Skin skin = new Skin(Gdx.files.internal("ui/glassy-ui.json"));
+        ScrollPane scrollPane = new ScrollPane(table, skin);
+        scrollPane.setOverscroll(true, true);
+        scrollPane.setBounds(0, 0, Settings.App.DEVICE_SCREEN_WIDTH, Settings.App.DEVICE_SCREEN_HEIGHT);
+        table.setFillParent(true);
+        this.stage.addActor(scrollPane);
     }
 
     /**
@@ -285,7 +305,7 @@ public class RegisterAccountScreen extends GameScreen implements ICountdownListe
      * @param yPos The y-on-screen position of the widget group
      * @return The created input field instance
      */
-    private TextField addLabelInputGroup(String labelName, int yPos) {
+    private TextField addLabelInputGroup(Table table, String labelName, int yPos) {
         int topPosition = (int)(yPos*Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER);
         Label label = (Label)new UIWidgetBuilder(UIWidgetType.TEXT_LABEL)
                 .title(labelName)
@@ -302,8 +322,17 @@ public class RegisterAccountScreen extends GameScreen implements ICountdownListe
                 .font(FontAsset.OPEN_SANS, DEFAULT_FONT_SIZE, Color.BLACK)
                 .create();
 
-        this.stage.addActor(label);
-        this.stage.addActor(textField);
+        table.add(label)
+                .height(DEFAULT_LABEL_HEIGHT)
+                .width(DEFAULT_WIDGET_WIDTH)
+                .padTop(5 * Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER)
+                .padBottom(5 * Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER);
+        table.row();
+        table.add(textField)
+                .height(DEFAULT_INPUT_HEIGHT)
+                .width(DEFAULT_WIDGET_WIDTH);
+//        this.stage.addActor(label);
+//        this.stage.addActor(textField);
 
         return textField;
     }
@@ -315,7 +344,7 @@ public class RegisterAccountScreen extends GameScreen implements ICountdownListe
      * @param items List of options the select box will offer
      * @return The created select box instance
      */
-    private SelectBox addLabelSelectBoxGroup(String labelName, int yPos, Object... items) {
+    private SelectBox addLabelSelectBoxGroup(Table table, String labelName, int yPos, Object... items) {
         int topPosition = (int)(yPos*Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER);
         Label label = (Label)new UIWidgetBuilder(UIWidgetType.TEXT_LABEL)
                 .title(labelName)
@@ -333,8 +362,17 @@ public class RegisterAccountScreen extends GameScreen implements ICountdownListe
                 .font(FontAsset.OPEN_SANS, DEFAULT_FONT_SIZE, Color.BLACK)
                 .create();
 
-        this.stage.addActor(label);
-        this.stage.addActor(selectBox);
+        table.add(label)
+                .height(DEFAULT_LABEL_HEIGHT)
+                .width(DEFAULT_WIDGET_WIDTH)
+                .padTop(5 * Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER)
+                .padBottom(5 * Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER);
+        table.row();
+        table.add(selectBox)
+                .height(DEFAULT_INPUT_HEIGHT)
+                .width(DEFAULT_WIDGET_WIDTH);
+//        this.stage.addActor(label);
+//        this.stage.addActor(selectBox);
 
         return selectBox;
     }
