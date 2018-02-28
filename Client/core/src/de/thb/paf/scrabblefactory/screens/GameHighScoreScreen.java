@@ -14,6 +14,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.utils.Align;
@@ -141,7 +143,7 @@ public class GameHighScoreScreen extends GameScreen {
      */
     private void setupHighScoreTable() {
         Table table = new Table();
-        table.setSize(Settings.App.DEVICE_SCREEN_WIDTH, 1000);
+        table.setSize(Settings.App.DEVICE_SCREEN_WIDTH * 0.9f, Settings.App.DEVICE_SCREEN_HEIGHT * 0.75f);
 
         SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy HH-mm-ss");
         int width = (int)(80 * Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER);
@@ -173,7 +175,13 @@ public class GameHighScoreScreen extends GameScreen {
         );
         table.setPosition(tablePosition.x, tablePosition.y);
 
-        this.stage.addActor(table);
+        Skin skin = new Skin(Gdx.files.internal("ui/glassy-ui.json"));
+        ScrollPane scrollPane = new ScrollPane(table, skin);
+        scrollPane.setOverscroll(true, true);
+        scrollPane.setBounds(0, 100 * (int)Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER, Settings.App.DEVICE_SCREEN_WIDTH, Settings.App.DEVICE_SCREEN_HEIGHT * 0.9f);
+        table.setFillParent(true);
+
+        this.stage.addActor(scrollPane);
     }
 
     /**
@@ -291,7 +299,6 @@ public class GameHighScoreScreen extends GameScreen {
      */
     private void onButtonPressed(Actor sender) {
         buttonPressedSound.play();
-//        buttonPressedSound.dispose();
 
         switch (sender.getName()) {
             case "play":

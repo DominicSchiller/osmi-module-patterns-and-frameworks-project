@@ -114,7 +114,7 @@ public class LandingScreen extends GameScreen {
                     .title("Login")
                     .size(DEFAULT_WIDGET_WIDTH, DEFAULT_INPUT_HEIGHT * 2)
                     .alignment(Alignment.TOP_CENTER)
-                    .margins((int)(100* Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER), 0, 0, 0)
+                    .margins((int)(75* Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER), 0, 0, 0)
                     .clickListener(
                             new ClickListener() {
                                 @Override
@@ -159,7 +159,8 @@ public class LandingScreen extends GameScreen {
 
         Alignment alignment = isDirectLogin ? Alignment.TOP_CENTER : Alignment.MIDDLE;
         int padding = isDirectLogin ?
-                (int)(145* Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER) + DEFAULT_INPUT_HEIGHT : 0;
+                (int)(120* Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER) + DEFAULT_INPUT_HEIGHT
+                : (int)(-25* Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER);
         Button createAccountButton = (TextButton)new UIWidgetBuilder(UIWidgetType.TEXT_BUTTON)
                 .identifier("register")
                 .title("Create New Account")

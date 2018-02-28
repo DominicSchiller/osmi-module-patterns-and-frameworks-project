@@ -78,7 +78,7 @@ public class VisualGameDebugger {
 
         batch.begin();
         float x = 7;
-        float y = (VIRTUAL_HEIGHT * PPM) - 35;
+        float y = (VIRTUAL_HEIGHT * PPM) - 50;
 
         fpsDisplay.draw(batch, "fps: " + Gdx.graphics.getFramesPerSecond(), x, y);
         batch.end();

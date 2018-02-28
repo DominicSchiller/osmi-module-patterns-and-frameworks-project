@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 
 import net.spookygames.gdx.nativefilechooser.NativeFileChooser;
 import net.spookygames.gdx.nativefilechooser.NativeFileChooserCallback;
@@ -144,7 +145,16 @@ public class SaveGameHandler {
      */
     private SaveGame jsonToSaveGame(String saveGameJSON) {
         Gson gson = new Gson();
-        return gson.fromJson(saveGameJSON, SaveGame.class);
+        SaveGame saveGame;
+        try {
+            saveGame = gson.fromJson(saveGameJSON, SaveGame.class);
+        }
+        catch(JsonSyntaxException e) {
+//            e.printStackTrace();
+            System.out.println("The loaded save-game file is malformed. Going to skip the import process...");
+            saveGame = null;
+        }
+        return saveGame;
     }
 
     /**

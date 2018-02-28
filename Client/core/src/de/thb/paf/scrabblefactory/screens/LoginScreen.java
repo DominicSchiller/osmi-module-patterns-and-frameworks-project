@@ -4,11 +4,15 @@ package de.thb.paf.scrabblefactory.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 
@@ -157,12 +161,16 @@ public class LoginScreen extends GameScreen implements ICountdownListener {
      * Setup all UI widgets required to represent a login form.
      */
     private void setupUIWidgets() {
+        float scaling = Settings.App.DEVICE_SCREEN_WIDTH/(float)Settings.Game.RESOLUTION.maxWidth;
+        int multiplier = (int)Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER;
+
         this.nicknameInputField = this.addLabelInputGroup("Nickname", 40);
         this.passwordInputField = this.addLabelInputGroup("Password", 90);
         this.passwordInputField.setPasswordMode(true);
         this.passwordInputField.setPasswordCharacter('*');
 
         this.loginBtn = (TextButton)new UIWidgetBuilder(UIWidgetType.TEXT_BUTTON)
+                .identifier("login")
                 .title("Login")
                 .size(DEFAULT_WIDGET_WIDTH, DEFAULT_INPUT_HEIGHT)
                 .alignment(Alignment.TOP_CENTER)
@@ -172,11 +180,7 @@ public class LoginScreen extends GameScreen implements ICountdownListener {
                             @Override
                             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                                 super.touchUp(event, x, y, pointer, button);
-                                if(login()) {
-                                    gotoHomeScreen();
-                                } else {
-                                    showLoginError();
-                                }
+                                onButtonPressed(event.getListenerActor());
                             }
                         }
                 )
@@ -192,6 +196,31 @@ public class LoginScreen extends GameScreen implements ICountdownListener {
         this.loginErrorLabel.setAlignment(Align.center);
 
         this.stage.addActor(this.loginBtn);
+
+        // setup the back Button
+        Texture backTexture = new Texture(Gdx.files.internal("images/" + Settings.Game.RESOLUTION.name + "/buttons/back.png"));
+        Texture backPressedTexture = new Texture(Gdx.files.internal("images/" + Settings.Game.RESOLUTION.name + "/buttons/backPressed.png"));
+        backTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
+        backPressedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
+
+        ImageButton backBtn = (ImageButton)new UIWidgetBuilder(UIWidgetType.IMAGE_BUTTON)
+                .identifier("back")
+                .size((int)(backTexture.getWidth() * scaling), (int)(backTexture.getHeight() * scaling))
+                .alignment(Alignment.TOP_LEFT)
+                .margins((15 * multiplier), 0, 0, (20 * multiplier)
+                )
+                .imageButtonTextures(backTexture, backPressedTexture)
+                .actorGestureListener(
+                        new ActorGestureListener() {
+                            @Override
+                            public void tap(InputEvent event, float x, float y, int count, int button) {
+                                super.tap(event, x, y, count, button);
+                                onButtonPressed(event.getListenerActor());
+                            }
+                        }
+                )
+                .create();
+        this.stage.addActor(backBtn);
     }
 
     /**
@@ -229,5 +258,27 @@ public class LoginScreen extends GameScreen implements ICountdownListener {
     private void clearInputs() {
         this.nicknameInputField.setText("");
         this.passwordInputField.setText("");
+    }
+
+    /**
+     * Handle a button pressed event.
+     * @param sender The triggered button
+     */
+    private void onButtonPressed(Actor sender) {
+        switch(sender.getName()) {
+            case "login":
+                if(login()) {
+                    gotoHomeScreen();
+                } else {
+                    showLoginError();
+                }
+                break;
+            case "back":
+                GameScreenManager gsm = GameScreenManager.getInstance();
+                gsm.showScreen(new LandingScreen());
+                gsm.clearHistory();
+                gsm.dismissScreen(ScreenState.LOGIN);
+                break;
+        }
     }
 }
