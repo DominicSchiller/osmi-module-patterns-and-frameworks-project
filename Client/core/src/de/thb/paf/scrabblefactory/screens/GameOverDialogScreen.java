@@ -41,7 +41,7 @@ public class GameOverDialogScreen extends GameScreen {
      * Default Constructor
      */
     public GameOverDialogScreen() {
-        super(ScreenState.GAME_OVER_DIALOG);
+        super(ScreenState.GAME_OVER);
         this.stage = new Stage();
     }
 

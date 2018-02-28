@@ -37,7 +37,7 @@ public class LandingScreen extends GameScreen {
      * Default Constructor
      */
     public LandingScreen() {
-        super(ScreenState.LANDING_SCREEN);
+        super(ScreenState.LANDING);
 
         this.stage = new Stage();
     }

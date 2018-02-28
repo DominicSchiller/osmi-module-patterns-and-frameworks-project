@@ -1,7 +1,8 @@
 package de.thb.paf.scrabblefactory.screens;
 
 /**
- * Enumeration of available 'screens states' to navigate to.
+ * Enumeration of available 'screens states' to navigate to and hence set the game into a
+ * specific state.
  *
  * @author Dominic Schiller, Melanie Steiner - Technische Hochschule Brandenburg
  * @version 1.0
@@ -9,14 +10,14 @@ package de.thb.paf.scrabblefactory.screens;
  */
 
 public enum ScreenState {
-    LANDING_SCREEN,
+    LANDING,
     REGISTER_ACCOUNT,
     LOGIN,
     MAIN_MENU,
     GAME_MANUAL,
     HIGH_SCORES,
     PLAY,
-    PAUSE_DIALOG,
-    CHALLENGE_SCORE_DIALOG,
-    GAME_OVER_DIALOG
+    PAUSE,
+    CHALLENGE_WON,
+    GAME_OVER
 }

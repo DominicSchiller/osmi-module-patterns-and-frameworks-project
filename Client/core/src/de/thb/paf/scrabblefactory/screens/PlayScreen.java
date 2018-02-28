@@ -455,7 +455,7 @@ public class PlayScreen extends GameScreen implements ICountdownListener {
         Gdx.app.postRunnable(() -> {
             render(Gdx.graphics.getDeltaTime());
             GameScreenManager gsm = GameScreenManager.getInstance();
-            IGameScreen screen = gsm.getScreen(ScreenState.PAUSE_DIALOG);
+            IGameScreen screen = gsm.getScreen(ScreenState.PAUSE);
             if(screen != null) {
                 gsm.showScreen(screen);
             } else {
@@ -481,7 +481,7 @@ public class PlayScreen extends GameScreen implements ICountdownListener {
 
         Gdx.app.postRunnable(() -> {
             GameScreenManager gsm = GameScreenManager.getInstance();
-            IGameScreen screen = gsm.getScreen(ScreenState.CHALLENGE_SCORE_DIALOG);
+            IGameScreen screen = gsm.getScreen(ScreenState.CHALLENGE_WON);
             if(screen != null) {
                 ((ChallengeScoreDialogScreen)screen).setScore(score);
                 gsm.showScreen(screen);
@@ -504,7 +504,7 @@ public class PlayScreen extends GameScreen implements ICountdownListener {
         Gdx.app.postRunnable(() -> {
             render(Gdx.graphics.getDeltaTime());
             GameScreenManager gsm = GameScreenManager.getInstance();
-            IGameScreen screen = gsm.getScreen(ScreenState.GAME_OVER_DIALOG);
+            IGameScreen screen = gsm.getScreen(ScreenState.GAME_OVER);
             if(screen != null) {
                 gsm.showScreen(screen);
             } else {

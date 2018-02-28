@@ -321,7 +321,7 @@ public class MainMenuScreen extends GameScreen {
                 break;
             case "logout":
                 AuthenticationManager.getInstance().logout();
-                this.goToScreen(ScreenState.LANDING_SCREEN);
+                this.goToScreen(ScreenState.LANDING);
                 GameScreenManager.getInstance().clearHistory();
                 break;
         }
@@ -346,7 +346,7 @@ public class MainMenuScreen extends GameScreen {
                 case GAME_MANUAL:
                     screen = new GameManualScreen();
                     break;
-                case LANDING_SCREEN:
+                case LANDING:
                     screen = new LandingScreen();
                     break;
             }

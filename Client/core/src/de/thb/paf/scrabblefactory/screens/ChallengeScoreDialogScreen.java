@@ -71,7 +71,7 @@ public class ChallengeScoreDialogScreen extends GameScreen implements ICountdown
      * Default Constructor
      */
     public ChallengeScoreDialogScreen() {
-        super(ScreenState.CHALLENGE_SCORE_DIALOG);
+        super(ScreenState.CHALLENGE_WON);
         this.stage = new Stage();
     }
 
@@ -352,7 +352,7 @@ public class ChallengeScoreDialogScreen extends GameScreen implements ICountdown
         }
         gsm.showScreen(screen);
         gsm.clearHistory();
-        gsm.dismissScreen(ScreenState.CHALLENGE_SCORE_DIALOG);
+        gsm.dismissScreen(ScreenState.CHALLENGE_WON);
     }
 
     /**

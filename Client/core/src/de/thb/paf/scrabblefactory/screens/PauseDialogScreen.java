@@ -39,7 +39,7 @@ public class PauseDialogScreen extends GameScreen {
      * Default Constructor
      */
     public PauseDialogScreen() {
-        super(ScreenState.PAUSE_DIALOG);
+        super(ScreenState.PAUSE);
         this.stage = new Stage();
     }
 
