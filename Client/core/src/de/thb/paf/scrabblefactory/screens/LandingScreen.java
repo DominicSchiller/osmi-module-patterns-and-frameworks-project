@@ -3,6 +3,7 @@ package de.thb.paf.scrabblefactory.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -11,9 +12,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+import java.util.List;
+
+import de.thb.paf.scrabblefactory.io.SaveGameHandler;
 import de.thb.paf.scrabblefactory.managers.GameScreenManager;
 import de.thb.paf.scrabblefactory.models.components.graphics.Alignment;
 import de.thb.paf.scrabblefactory.persistence.DataStore;
+import de.thb.paf.scrabblefactory.persistence.entities.SaveGame;
+import de.thb.paf.scrabblefactory.persistence.entities.Score;
+import de.thb.paf.scrabblefactory.persistence.entities.User;
+import de.thb.paf.scrabblefactory.persistence.entities.UserScore;
 import de.thb.paf.scrabblefactory.settings.Settings;
 import de.thb.paf.scrabblefactory.utils.graphics.widgets.UIWidgetBuilder;
 import de.thb.paf.scrabblefactory.utils.graphics.widgets.UIWidgetType;
@@ -38,7 +46,6 @@ public class LandingScreen extends GameScreen {
      */
     public LandingScreen() {
         super(ScreenState.LANDING);
-
         this.stage = new Stage();
     }
 

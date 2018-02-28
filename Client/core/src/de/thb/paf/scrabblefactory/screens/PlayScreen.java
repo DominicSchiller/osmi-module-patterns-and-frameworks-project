@@ -143,11 +143,14 @@ public class PlayScreen extends GameScreen implements ICountdownListener {
      */
     private boolean isPauseRequested;
 
+    private boolean isChallengeWon;
+
     /**
      * Default Constructor
      */
     public PlayScreen() {
         super(ScreenState.PLAY);
+        this.isChallengeWon = false;
         this.isPauseRequested = false;
 
         this.camera = new OrthographicCamera();
@@ -334,7 +337,8 @@ public class PlayScreen extends GameScreen implements ICountdownListener {
     @Override
     public void onCountdownTick(long time) {
         this.triggerRemainingTimeUpdateEvent(time);
-        if(this.challengeWatchdog.isChallengeWon()) {
+        this.isChallengeWon = this.challengeWatchdog.isChallengeWon();
+        if(this.isChallengeWon) {
             this.stage.addActor(this.overlay);
 
             this.timer.stopTimer();
@@ -349,7 +353,9 @@ public class PlayScreen extends GameScreen implements ICountdownListener {
 
     @Override
     public void onCountdownFinished(long time) {
-        this.showGameOverDialog();
+        if(!this.isChallengeWon) {
+            this.showGameOverDialog();
+        }
     }
 
     /**
@@ -358,6 +364,7 @@ public class PlayScreen extends GameScreen implements ICountdownListener {
     public void resetLevel() {
         if(this.isInitialized) {
             this.overlay.remove();
+            this.isChallengeWon = false;
 
             String[] searchWords = ((BasicLevel)this.level).getWordPool();
             int randomIndex = Randomizer.nextRandomInt(0, searchWords.length - 1);

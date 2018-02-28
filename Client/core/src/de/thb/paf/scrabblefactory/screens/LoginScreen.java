@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 
 import de.thb.paf.scrabblefactory.auth.AuthenticationManager;
+import de.thb.paf.scrabblefactory.auth.PasswordHashGenerator;
 import de.thb.paf.scrabblefactory.gameplay.timer.CountdownTimer;
 import de.thb.paf.scrabblefactory.gameplay.timer.ICountdownListener;
 import de.thb.paf.scrabblefactory.managers.GameScreenManager;
@@ -129,7 +130,7 @@ public class LoginScreen extends GameScreen implements ICountdownListener {
     private boolean login() {
         return AuthenticationManager.getInstance().login(
             this.nicknameInputField.getText(),
-            this.passwordInputField.getText()
+            PasswordHashGenerator.md5(this.passwordInputField.getText())
         );
     }
 

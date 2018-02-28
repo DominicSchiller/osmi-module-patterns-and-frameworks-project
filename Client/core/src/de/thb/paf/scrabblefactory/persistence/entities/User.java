@@ -34,6 +34,11 @@ public class User implements IDBEntity {
     private String nickname;
 
     /**
+     * The user's password;
+     */
+    private String password;
+
+    /**
      * The user's date of birth
      */
     private Date dateOfBirth;
@@ -51,6 +56,7 @@ public class User implements IDBEntity {
         this.name = "";
         this.firstname = "";
         this.nickname = "";
+        this.password = "";
         this.dateOfBirth = null;
         this.gender = null;
     }
@@ -60,14 +66,16 @@ public class User implements IDBEntity {
      * @param name The user's name
      * @param firstname The user's first name
      * @param nickname The user's nickname
+     * @param password The user's password
      * @param dateOfBirth The user's date of birth
      * @param gender The user's gender
      */
-    public User(String name, String firstname, String nickname, Date dateOfBirth, Gender gender) {
+    public User(String name, String firstname, String nickname, String password, Date dateOfBirth, Gender gender) {
         this.userID = -1;
         this.name = name;
         this.firstname = firstname;
         this.nickname = nickname;
+        this.password = password;
         this.dateOfBirth = dateOfBirth;
         this.gender = gender;
     }
@@ -94,6 +102,14 @@ public class User implements IDBEntity {
      */
     public String getNickname() {
         return nickname;
+    }
+
+    /**
+     * Get the user's password hash.
+     * @return The user's password hash.
+     */
+    public String getPassword() {
+        return this.password;
     }
 
     /**

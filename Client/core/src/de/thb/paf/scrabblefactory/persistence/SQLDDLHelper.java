@@ -82,4 +82,13 @@ public class SQLDDLHelper {
                 insertMaleGender + insertFemaleGender;
         return query;
     }
+
+    public static String getAlterTablesForRestoreQuery() {
+        String query = "";
+        query += "ALTER TABLE " + DBInfo.UserScores.TABLE_NAME + ";";
+        query += "ALTER TABLE " + DBInfo.Scores.TABLE_NAME + ";";
+        query += "ALTER TABLE " + DBInfo.Users.TABLE_NAME + ";";
+
+        return query;
+    }
 }

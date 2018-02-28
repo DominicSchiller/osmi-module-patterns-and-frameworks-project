@@ -20,6 +20,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import de.thb.paf.scrabblefactory.auth.PasswordHashGenerator;
 import de.thb.paf.scrabblefactory.gameplay.timer.CountdownTimer;
 import de.thb.paf.scrabblefactory.gameplay.timer.ICountdownListener;
 import de.thb.paf.scrabblefactory.managers.GameScreenManager;
@@ -149,7 +150,6 @@ public class RegisterAccountScreen extends GameScreen implements ICountdownListe
      * Register new user account based on the current user inputs.
      */
     private void registerUser() {
-//        this.createUserButton.remove();
         this.createUserButton.setVisible(false);
 
         Date date = null;
@@ -174,12 +174,13 @@ public class RegisterAccountScreen extends GameScreen implements ICountdownListe
                 this.nameTextField.getText(),
                 this.firstNameTextField.getText(),
                 this.nicknameTextField.getText(),
+                PasswordHashGenerator.md5(this.passwordTextField.getText()),
                 date,
                 gender
         );
 
         DataStore dataStore = DataStore.getInstance();
-        user = dataStore.createUser(user, this.passwordTextField.getText());
+        user = dataStore.createUser(user);
 
         if(user.getID() > -1) {
             System.out.println("User (" + user.getNickname() + ") has been successfully created");

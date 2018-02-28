@@ -32,6 +32,7 @@ allprojects {
         mavenCentral()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
+        maven { url "http://dl.bintray.com/spookygames/oss" }
     }
 }
 
@@ -45,7 +46,7 @@ project(":desktop") {
         compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
         compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
-        
+        compile "net.spookygames.gdx:gdx-nativefilechooser-desktop:1.0.0"
     }
 }
 
@@ -75,7 +76,7 @@ project(":android") {
         natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-arm64-v8a"
         natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-x86"
         natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-x86_64"
-        
+        compile "net.spookygames.gdx:gdx-nativefilechooser-android:1.0.0"
     }
 }
 
@@ -93,6 +94,8 @@ project(":core") {
         compile "com.squareup.retrofit2:retrofit:2.3.0"
         compile "com.squareup.retrofit2:converter-gson:2.3.0"
         compile "com.codeandweb.physicseditor:gdx-pe-loader:1.1.0"
+
+        compile "net.spookygames.gdx:gdx-nativefilechooser:1.0.0"
 
         testCompile "junit:junit:4.12"
         testCompile "org.mockito:mockito-core:2.11.0"

@@ -5,6 +5,7 @@ import java.util.List;
 
 import de.thb.paf.scrabblefactory.persistence.entities.Gender;
 import de.thb.paf.scrabblefactory.persistence.entities.IDBEntity;
+import de.thb.paf.scrabblefactory.persistence.entities.SaveGame;
 import de.thb.paf.scrabblefactory.persistence.entities.Score;
 import de.thb.paf.scrabblefactory.persistence.entities.User;
 import de.thb.paf.scrabblefactory.persistence.entities.UserScore;
@@ -61,15 +62,38 @@ public class DataStore implements IUserCRUDOperations,
         return instance;
     }
 
+    /**
+     * Restore the current database content from a save game
+     * @param saveGame The save game to restore the database from
+     */
+    public void restoreDatabaseFromSaveGame(SaveGame saveGame) {
+        if(saveGame != null) {
+            String alterQuery = SQLDDLHelper.getAlterTablesForRestoreQuery();
+            this.database.executeDDL(alterQuery);
+
+            for(User user : saveGame.getUsers()) {
+                this.createUser(user);
+            }
+
+            for(Score score : saveGame.getScores()) {
+                this.createScore(score);
+            }
+
+            for(UserScore userScore : saveGame.getUserScores()) {
+                this.createUserScore(userScore);
+            }
+        }
+    }
+
     @Override
-    public User createUser(User user, String password) {
+    public User createUser(User user) {
         Gender gender = this.readGender(user.getGender().getShortcut());
 
         String insertQuery = SQLQuery.insertInto(DBInfo.Users.TABLE_NAME)
                 .insertValue(DBInfo.Users.Columns.NAME, user.getName())
                 .insertValue(DBInfo.Users.Columns.FIRST_NAME, user.getFirstname())
                 .insertValue(DBInfo.Users.Columns.NICKNAME, user.getNickname())
-                .insertValue(DBInfo.Users.Columns.PASSWORD, password)
+                .insertValue(DBInfo.Users.Columns.PASSWORD, user.getPassword())
                 .insertValue(DBInfo.Users.Columns.DATE_OF_BIRTH, "" + (user.getDateOfBirth().getTime()))
                 .insertValue(DBInfo.Users.Columns.GENDER_ID, "" + gender.getID())
                 .create();
