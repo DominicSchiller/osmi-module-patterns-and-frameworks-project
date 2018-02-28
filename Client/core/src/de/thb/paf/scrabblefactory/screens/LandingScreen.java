@@ -3,25 +3,22 @@ package de.thb.paf.scrabblefactory.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-
-import java.util.List;
 
 import de.thb.paf.scrabblefactory.io.SaveGameHandler;
 import de.thb.paf.scrabblefactory.managers.GameScreenManager;
 import de.thb.paf.scrabblefactory.models.components.graphics.Alignment;
 import de.thb.paf.scrabblefactory.persistence.DataStore;
 import de.thb.paf.scrabblefactory.persistence.entities.SaveGame;
-import de.thb.paf.scrabblefactory.persistence.entities.Score;
-import de.thb.paf.scrabblefactory.persistence.entities.User;
-import de.thb.paf.scrabblefactory.persistence.entities.UserScore;
 import de.thb.paf.scrabblefactory.settings.Settings;
 import de.thb.paf.scrabblefactory.utils.graphics.widgets.UIWidgetBuilder;
 import de.thb.paf.scrabblefactory.utils.graphics.widgets.UIWidgetType;
@@ -107,8 +104,10 @@ public class LandingScreen extends GameScreen {
      * Setup all UI widgets required to represent a login form.
      */
     private void setupUIWidgets() {
-
         boolean isDirectLogin = this.isDirectLogin();
+        float scaling = Settings.App.DEVICE_SCREEN_WIDTH/(float)Settings.Game.RESOLUTION.maxWidth;
+        int multiplier = (int)Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER;
+
         if(isDirectLogin) {
             Button loginButton = (TextButton)new UIWidgetBuilder(UIWidgetType.TEXT_BUTTON)
                     .identifier("login")
@@ -128,6 +127,34 @@ public class LandingScreen extends GameScreen {
                     .create();
 
             this.stage.addActor(loginButton);
+
+            Texture exportTexture = new Texture(Gdx.files.internal("images/" + Settings.Game.RESOLUTION.name + "/buttons/export.png"));
+            Texture exportPressedTexture = new Texture(Gdx.files.internal("images/" + Settings.Game.RESOLUTION.name + "/buttons/exportPressed.png"));
+            exportTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
+            exportPressedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
+
+            ImageButton exportBtn = (ImageButton)new UIWidgetBuilder(UIWidgetType.IMAGE_BUTTON)
+                    .identifier("export")
+                    .size((int)(exportTexture.getWidth() * scaling), (int)(exportTexture.getHeight() * scaling))
+                    .alignment(Alignment.BOTTOM_RIGHT)
+                    .margins(
+                            0,
+                            (30 * multiplier) + (int)(exportTexture.getWidth() * scaling),
+                            (15 * multiplier),
+                            0
+                    )
+                    .imageButtonTextures(exportTexture, exportPressedTexture)
+                    .actorGestureListener(
+                            new ActorGestureListener() {
+                                @Override
+                                public void tap(InputEvent event, float x, float y, int count, int button) {
+                                    super.tap(event, x, y, count, button);
+                                    onButtonPressed(event.getListenerActor());
+                                }
+                            }
+                    )
+                    .create();
+            this.stage.addActor(exportBtn);
         }
 
         Alignment alignment = isDirectLogin ? Alignment.TOP_CENTER : Alignment.MIDDLE;
@@ -149,8 +176,36 @@ public class LandingScreen extends GameScreen {
                         }
                 )
                 .create();
-
         this.stage.addActor(createAccountButton);
+
+        Texture importTexture = new Texture(Gdx.files.internal("images/" + Settings.Game.RESOLUTION.name + "/buttons/import.png"));
+        Texture importPressedTexture = new Texture(Gdx.files.internal("images/" + Settings.Game.RESOLUTION.name + "/buttons/importPressed.png"));
+        importTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
+        importPressedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
+
+        ImageButton importBtn = (ImageButton)new UIWidgetBuilder(UIWidgetType.IMAGE_BUTTON)
+                .identifier("import")
+                .size((int)(importTexture.getWidth() * scaling), (int)(importTexture.getHeight() * scaling))
+                .alignment(Alignment.BOTTOM_RIGHT)
+                .margins(
+                        0,
+                        (20 * multiplier),
+                        (15 * multiplier),
+                        0
+                )
+                .imageButtonTextures(importTexture, importPressedTexture)
+                .actorGestureListener(
+                        new ActorGestureListener() {
+                            @Override
+                            public void tap(InputEvent event, float x, float y, int count, int button) {
+                                super.tap(event, x, y, count, button);
+                                onButtonPressed(event.getListenerActor());
+                            }
+                        }
+                )
+                .create();
+
+        this.stage.addActor(importBtn);
     }
 
     /**
@@ -177,6 +232,12 @@ public class LandingScreen extends GameScreen {
             case "register":
                 this.goToScreen(ScreenState.REGISTER_ACCOUNT);
                 break;
+            case "import":
+                this.triggerImport();
+                break;
+            case "export":
+                this.triggerExport();
+                break;
         }
     }
 
@@ -200,5 +261,35 @@ public class LandingScreen extends GameScreen {
         }
 
         gsm.showScreen(screen);
+    }
+
+    /**
+     * Trigger the import save-game dialog.
+     */
+    private void triggerImport() {
+        SaveGame saveGame = new SaveGameHandler().load();
+        if(saveGame != null) {
+            DataStore dataStore = DataStore.getInstance();
+            dataStore.restoreDatabaseFromSaveGame(saveGame);
+
+            // reset the UI widget stage before reloading
+            for(Actor actor : this.stage.getActors()) {
+                actor.remove();
+            }
+            this.show();
+        }
+    }
+
+    /**
+     * Try to export a save-game.
+     */
+    private void triggerExport() {
+        DataStore dataStore = DataStore.getInstance();
+        SaveGame saveGame = new SaveGame(
+                dataStore.readAllUsers(),
+                dataStore.readAllScores(),
+                dataStore.readAllUserScores()
+        );
+        new SaveGameHandler().save(saveGame, true);
     }
 }
