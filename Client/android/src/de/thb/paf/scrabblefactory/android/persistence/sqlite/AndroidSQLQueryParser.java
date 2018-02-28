@@ -46,27 +46,29 @@ class AndroidSQLQueryParser {
         List<String> values = new ArrayList<>();
         List<String> whereConstraintKeys = new ArrayList<>();
 
-        int whereBeginIndex = sql.indexOf(" where ") + 7;
-        String rawWhereConstraints = sql.substring(sql.indexOf(" where ") + 7);
-        String[] whereConstraints = rawWhereConstraints.split(", ");
+        if(sql.contains("where")) {
+            int whereBeginIndex = sql.indexOf(" where ") + 7;
+            String rawWhereConstraints = sql.substring(sql.indexOf(" where ") + 7);
+            String[] whereConstraints = rawWhereConstraints.split(" and ");
 
-        sql = sql.substring(0, whereBeginIndex);
+            sql = sql.substring(0, whereBeginIndex);
 
-        for(String whereConstraint : whereConstraints) {
-            String constraint = whereConstraint.replace(" = ", "=");
-            String[] constraintParts = constraint.split("=");
-            values.add(constraintParts[1].replace("'", ""));
-            whereConstraintKeys.add(constraintParts[0]+"=?");
-        }
-
-        for(int i=0; i<whereConstraintKeys.size(); i++) {
-            if(i != 0) {
-                sql += ", ";
+            for(String whereConstraint : whereConstraints) {
+                String constraint = whereConstraint.replace(" = ", "=");
+                String[] constraintParts = constraint.split("=");
+                values.add(constraintParts[1].replace("'", ""));
+                whereConstraintKeys.add(constraintParts[0]+"=?");
             }
 
-            sql += whereConstraintKeys.get(i);
+            for(int i=0; i<whereConstraintKeys.size(); i++) {
+                if(i != 0) {
+                    sql += " and ";
+                }
+
+                sql += whereConstraintKeys.get(i);
+            }
+            sql = sql.replace(" = ", "=");
         }
-        sql = sql.replace(" = ", "=");
         return new AndroidSQLSelectStatement(sql, values);
     }
 }

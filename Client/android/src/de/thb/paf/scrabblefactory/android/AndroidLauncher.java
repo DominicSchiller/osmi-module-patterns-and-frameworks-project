@@ -1,9 +1,12 @@
 package de.thb.paf.scrabblefactory.android;
 
 import android.os.Bundle;
+import android.os.StrictMode;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
+
+import net.spookygames.gdx.nativefilechooser.android.AndroidFileChooser;
 
 import de.thb.paf.scrabblefactory.ScrabbleFactory;
 
@@ -35,8 +38,14 @@ public class AndroidLauncher extends AndroidApplication {
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder(); StrictMode.setVmPolicy(builder.build());
+
 		AndroidLauncher.instance = this;
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
+
+		AndroidFileChooser fileChooser = new AndroidFileChooser(this);
+		ScrabbleFactory.fileChooser = fileChooser;
 		initialize(ScrabbleFactory.getInstance(), config);
 	}
 }

@@ -4,6 +4,10 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 
+import net.spookygames.gdx.nativefilechooser.NativeFileChooser;
+
+import java.lang.annotation.Native;
+
 import de.thb.paf.scrabblefactory.managers.GameScreenManager;
 import de.thb.paf.scrabblefactory.screens.LandingScreen;
 import de.thb.paf.scrabblefactory.settings.Settings;
@@ -29,6 +33,8 @@ public class ScrabbleFactory extends Game {
 	public SpriteBatch textBatch;
 
 	public static Matrix4 DEFAULT_PROJECTION_MATRIX;
+
+	public static NativeFileChooser fileChooser;
 
 	/**
 	 * The singleton instance of ScrabbleFactory

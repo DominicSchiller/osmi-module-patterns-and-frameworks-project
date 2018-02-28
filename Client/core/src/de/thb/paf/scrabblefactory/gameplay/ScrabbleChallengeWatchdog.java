@@ -1,6 +1,8 @@
 package de.thb.paf.scrabblefactory.gameplay;
 
 
+import com.badlogic.gdx.physics.box2d.BodyDef;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -8,6 +10,9 @@ import java.util.List;
 import de.thb.paf.scrabblefactory.gameplay.sort.CheeseComparator;
 import de.thb.paf.scrabblefactory.managers.GameObjectManager;
 import de.thb.paf.scrabblefactory.models.IGameObject;
+import de.thb.paf.scrabblefactory.models.components.ComponentType;
+import de.thb.paf.scrabblefactory.models.components.IComponent;
+import de.thb.paf.scrabblefactory.models.components.physics.RigidBodyPhysicsComponent;
 import de.thb.paf.scrabblefactory.models.entities.Cheese;
 import de.thb.paf.scrabblefactory.models.entities.EntityType;
 
@@ -52,8 +57,14 @@ public class ScrabbleChallengeWatchdog {
 
         StringBuilder searchWordBuilder = new StringBuilder();
         for(Cheese cheese : cheeseItems) {
+            BodyDef.BodyType bodyType = BodyDef.BodyType.StaticBody;
+            for(IComponent component : cheese.getAllComponents(ComponentType.PHYS_COMPONENT)) {
+                if(component instanceof RigidBodyPhysicsComponent) {
+                    bodyType = ((RigidBodyPhysicsComponent) component).getBody().getType();
+                }
+            }
             // just verify a cheese item if it is not caught by the player
-            if(cheese.getCarrier() == null)
+            if(cheese.getCarrier() == null && bodyType == BodyDef.BodyType.KinematicBody)
                 searchWordBuilder.append(cheese.getLetter());
         }
 

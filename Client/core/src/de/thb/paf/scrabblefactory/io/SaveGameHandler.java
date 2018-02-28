@@ -16,7 +16,10 @@ import java.io.FilenameFilter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import de.thb.paf.scrabblefactory.ScrabbleFactory;
 import de.thb.paf.scrabblefactory.persistence.entities.SaveGame;
+
+import static com.badlogic.gdx.Application.ApplicationType.Desktop;
 
 /**
  * The save game handler allows to save and load save-game files.
@@ -85,9 +88,8 @@ public class SaveGameHandler {
         SimpleDateFormat dateFormatter = new SimpleDateFormat("ddMMyyyy_HHmmss");
         String createdAt = dateFormatter.format(new Date());
 
-        FileHandle file = Gdx.files.local(
-                DEFAULT_SAVE_GAME_FILENAME + "_" + createdAt + SAVE_GAME_FILE_ENDING
-        );
+        String fileName = DEFAULT_SAVE_GAME_FILENAME + "_" + createdAt + SAVE_GAME_FILE_ENDING;
+        FileHandle file = Gdx.app.getType() == Desktop ? Gdx.files.local(fileName) : Gdx.files.local("data/" + fileName);
         file.writeString(this.saveGameToJson(saveGame, isPrettyPrinting), false);
 
         System.out.println("");
@@ -171,9 +173,7 @@ public class SaveGameHandler {
                                     .newInstance();
                     break;
                 case Android:
-                    fileChooser = (NativeFileChooser)
-                            Class.forName(ANDROID_PACKAGE_NAME + ANDROID_CLASS_NAME)
-                                    .newInstance();
+                    fileChooser = ScrabbleFactory.fileChooser;
                     break;
             }
         } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
@@ -193,8 +193,7 @@ public class SaveGameHandler {
         } else {
             String path = System.getProperty("user.home");
             NativeFileChooserConfiguration config = new NativeFileChooserConfiguration();
-//            config.directory = Gdx.files.absolute(System.getProperty("user.home"));
-            config.directory = Gdx.files.local("");
+            config.directory = Gdx.app.getType() == Desktop ? Gdx.files.local("") : Gdx.files.local("data");
             config.mimeFilter = "";
             config.nameFilter = new FilenameFilter() {
                 @Override
