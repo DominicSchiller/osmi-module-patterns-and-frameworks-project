@@ -1,0 +1,88 @@
+{
+  "id": 1,
+  "position": {
+    "x": 0,
+    "y": 10
+  },
+  "size": {
+    "x": 50,
+    "y": 67
+  },
+  "assetTargetType": "character",
+  "type": "player",
+  "scale": {
+    "x": 1,
+    "y": 1
+  },
+  "rotation": 0,
+  "isTerminated": false,
+
+  "componentList": [
+    {
+      "name": "SpriteAnimationGraphicsComponent",
+      "javaPackage": "de.thb.paf.scrabblefactory.models.components.graphics",
+      "atlasNames": [
+        "idle",
+        "idle_carrying",
+        "walking",
+        "walking_carrying",
+        "jumping",
+        "jumping_carrying"
+      ],
+      "selectedAtlasName": "idle",
+      "isInfiniteLoop": true,
+      "fps": "30",
+      "actions": [
+        {
+          "name": "SpriteAnimationMovePlayerAction",
+          "javaPackage": "de.thb.paf.scrabblefactory.models.actions",
+          "eventsToHandle": [
+            "move",
+            "move-to",
+            "ground-contact",
+            "discard"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "RigidBodyPhysicsComponent",
+      "javaPackage": "de.thb.paf.scrabblefactory.models.components.physics",
+      "velocity": {
+        "x": 0.75,
+        "y": 0.75
+      },
+      "activeBodyName": "idle",
+      "bodyKeys": [
+        "idle",
+        "idle_flipped",
+        "jumping"
+      ],
+      "actions": [
+        {
+          "name": "RigidBodyMovePlayerAction",
+          "javaPackage": "de.thb.paf.scrabblefactory.models.actions",
+          "eventsToHandle": [
+            "move",
+            "move-to",
+            "ground-contact"
+          ]
+        },
+        {
+          "name": "CatchItemPlayerAction",
+          "javaPackage": "de.thb.paf.scrabblefactory.models.actions",
+          "eventsToHandle": [
+            "item-contact"
+          ]
+        },
+        {
+          "name": "DiscardCheeseItemPlayerAction",
+          "javaPackage": "de.thb.paf.scrabblefactory.models.actions",
+          "eventsToHandle": [
+            "discard"
+          ]
+        }
+      ]
+    }
+  ]
+}

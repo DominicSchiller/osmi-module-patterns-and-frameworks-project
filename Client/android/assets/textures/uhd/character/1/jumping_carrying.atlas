@@ -1,0 +1,89 @@
+jumping_carrying.png
+size: 2082, 851
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+jumping_carrying/jumping_carrying_000
+  rotate: false
+  xy: 1766, 421
+  size: 299, 407
+  orig: 299, 407
+  offset: 0, 0
+  index: -1
+jumping_carrying/jumping_carrying_001
+  rotate: false
+  xy: 345, 1
+  size: 324, 427
+  orig: 326, 437
+  offset: 0, 6
+  index: -1
+jumping_carrying/jumping_carrying_002
+  rotate: false
+  xy: 1, 1
+  size: 342, 429
+  orig: 347, 446
+  offset: 0, 8
+  index: -1
+jumping_carrying/jumping_carrying_003
+  rotate: false
+  xy: 354, 430
+  size: 351, 419
+  orig: 357, 435
+  offset: 0, 5
+  index: -1
+jumping_carrying/jumping_carrying_004
+  rotate: false
+  xy: 1, 432
+  size: 351, 418
+  orig: 358, 435
+  offset: 0, 6
+  index: -1
+jumping_carrying/jumping_carrying_005
+  rotate: false
+  xy: 671, 1
+  size: 351, 418
+  orig: 358, 435
+  offset: 0, 6
+  index: -1
+jumping_carrying/jumping_carrying_006
+  rotate: false
+  xy: 707, 421
+  size: 351, 418
+  orig: 358, 435
+  offset: 0, 6
+  index: -1
+jumping_carrying/jumping_carrying_007
+  rotate: false
+  xy: 1024, 1
+  size: 351, 418
+  orig: 358, 435
+  offset: 0, 6
+  index: -1
+jumping_carrying/jumping_carrying_008
+  rotate: false
+  xy: 1060, 421
+  size: 351, 418
+  orig: 358, 435
+  offset: 0, 6
+  index: -1
+jumping_carrying/jumping_carrying_009
+  rotate: false
+  xy: 1377, 1
+  size: 351, 418
+  orig: 358, 435
+  offset: 0, 6
+  index: -1
+jumping_carrying/jumping_carrying_010
+  rotate: false
+  xy: 1730, 1
+  size: 351, 418
+  orig: 358, 435
+  offset: 0, 6
+  index: -1
+jumping_carrying/jumping_carrying_011
+  rotate: false
+  xy: 1413, 421
+  size: 351, 418
+  orig: 358, 435
+  offset: 0, 6
+  index: -1

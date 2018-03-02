@@ -1,0 +1,83 @@
+{
+  "id" : 1,
+  "position": {
+    "x": 0,
+    "y": 0
+  },
+  "size": {
+    "x": 480,
+    "y": 320
+  },
+  "assetTargetType": "level",
+  "title" : "Level 1",
+  "countdown" : 180000,
+
+  "wordPool" : [
+    "Auto",
+    "Haus",
+    "Maus",
+    "Katze",
+    "Hund",
+    "Papa",
+    "Mama"
+  ],
+
+  "componentList": [
+    {
+      "name": "LayeredTexturesGraphicsComponent",
+      "javaPackage": "de.thb.paf.scrabblefactory.models.components.graphics",
+      "staticLayers": [
+        {
+          "textureName": "background",
+          "alignment": "top left",
+          "margin" : [0, 0, 0, 0],
+          "isMovable": false,
+          "zIndex": 1
+        },
+        {
+          "textureName": "ground",
+          "alignment": "bottom left",
+          "margin" : [4, 0, 0, 0],
+          "isMovable": false,
+          "zIndex": 2
+        }
+      ],
+      "movableLayers": [
+        {
+          "textureName": "haze",
+          "alignment": "top left",
+          "margin" : [5, 0, 0, 0],
+          "isInfiniteLoop": true,
+          "direction": "left",
+          "speed": 0.35,
+          "zIndex": 2
+        },
+        {
+          "textureName": "clouds",
+          "alignment": "top left",
+          "margin" : [5, 0, 0, 0],
+          "isInfiniteLoop": true,
+          "direction": "left",
+          "speed": 0.6,
+          "zIndex": 2
+        }
+      ]
+    },
+    {
+      "name": "WorldPhysicsComponent",
+      "javaPackage": "de.thb.paf.scrabblefactory.models.components.physics",
+      "gravity": {
+        "x": 0,
+        "y": -5.8
+      }
+    },
+    {
+      "name": "RigidBodyPhysicsComponent",
+      "javaPackage": "de.thb.paf.scrabblefactory.models.components.physics",
+      "activeBodyName": "ground",
+      "bodyKeys": [
+        "ground"
+      ]
+    }
+  ]
+}

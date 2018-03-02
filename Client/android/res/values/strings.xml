@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">scrabble-factory</string>
+    <string name="app_name">ScrabFactory</string>
+    <string name="game_description">GAME DESCRIPTION, lorem ipsum</string>
 
 </resources>

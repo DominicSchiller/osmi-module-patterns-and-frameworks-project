@@ -1,0 +1,89 @@
+jumping.png
+size: 1059, 1689
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+jumping/jumping_000
+  rotate: false
+  xy: 680, 1272
+  size: 299, 407
+  orig: 299, 407
+  offset: 0, 0
+  index: -1
+jumping/jumping_001
+  rotate: false
+  xy: 354, 1261
+  size: 324, 427
+  orig: 326, 437
+  offset: 0, 6
+  index: -1
+jumping/jumping_002
+  rotate: false
+  xy: 707, 841
+  size: 342, 429
+  orig: 347, 446
+  offset: 0, 8
+  index: -1
+jumping/jumping_003
+  rotate: false
+  xy: 1, 1
+  size: 351, 419
+  orig: 357, 435
+  offset: 0, 5
+  index: -1
+jumping/jumping_004
+  rotate: false
+  xy: 354, 1
+  size: 351, 418
+  orig: 358, 435
+  offset: 0, 6
+  index: -1
+jumping/jumping_005
+  rotate: false
+  xy: 707, 1
+  size: 351, 418
+  orig: 358, 435
+  offset: 0, 6
+  index: -1
+jumping/jumping_006
+  rotate: false
+  xy: 354, 421
+  size: 351, 418
+  orig: 358, 435
+  offset: 0, 6
+  index: -1
+jumping/jumping_007
+  rotate: false
+  xy: 1, 422
+  size: 351, 418
+  orig: 358, 435
+  offset: 0, 6
+  index: -1
+jumping/jumping_008
+  rotate: false
+  xy: 707, 421
+  size: 351, 418
+  orig: 358, 435
+  offset: 0, 6
+  index: -1
+jumping/jumping_009
+  rotate: false
+  xy: 354, 841
+  size: 351, 418
+  orig: 358, 435
+  offset: 0, 6
+  index: -1
+jumping/jumping_010
+  rotate: false
+  xy: 1, 842
+  size: 351, 418
+  orig: 358, 435
+  offset: 0, 6
+  index: -1
+jumping/jumping_011
+  rotate: false
+  xy: 1, 1262
+  size: 351, 418
+  orig: 358, 435
+  offset: 0, 6
+  index: -1

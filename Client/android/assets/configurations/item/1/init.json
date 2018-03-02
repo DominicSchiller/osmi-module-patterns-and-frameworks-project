@@ -1,0 +1,84 @@
+{
+  "id": 1,
+  "position": {
+    "x": 50,
+    "y": 400
+  },
+  "size": {
+    "x": 28,
+    "y": 28
+  },
+  "assetTargetType": "item",
+  "type": "cheese",
+  "scale": {
+    "x": 1,
+    "y": 1
+  },
+  "rotation": 0,
+  "isTerminated": false,
+
+  "componentList": [
+    {
+      "name": "RigidBodyPhysicsComponent",
+      "javaPackage": "de.thb.paf.scrabblefactory.models.components.physics",
+      "velocity": {
+        "x": 0.75,
+        "y": 0.75
+      },
+      "activeBodyName": "cheese",
+      "bodyKeys": [
+        "cheese"
+      ],
+      "actions": [
+        {
+          "name": "RigidBodyDeactivateAction",
+          "javaPackage": "de.thb.paf.scrabblefactory.models.actions",
+          "eventsToHandle": [
+            "item-contact"
+          ]
+        },
+        {
+          "name": "DiscardCheeseAction",
+          "javaPackage": "de.thb.paf.scrabblefactory.models.actions",
+          "eventsToHandle": [
+            "discard"
+          ]
+        },
+        {
+          "name": "GroundContactCheeseAction",
+          "javaPackage": "de.thb.paf.scrabblefactory.models.actions",
+          "eventsToHandle": [
+            "ground-contact"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "GroupedGraphicsComponent",
+      "javaPackage": "de.thb.paf.scrabblefactory.models.components.graphics",
+      "componentList": [
+        {
+          "name": "BasicGraphicsComponent",
+          "javaPackage": "de.thb.paf.scrabblefactory.models.components.graphics",
+          "textureName": "cheese",
+          "isRelativeToParent": true,
+          "alignment": "bottom left",
+          "margin": [0, 0, 0, 0]
+        },
+        {
+          "name": "FontGraphicsComponent",
+          "javaPackage": "de.thb.paf.scrabblefactory.models.components.graphics",
+          "fontAsset": "porkys",
+          "fontSize": 23,
+          "borderWidth": 0,
+          "fillColor": "random",
+          "borderColor": "000000",
+          "isRelativeToParent": true,
+          "alignment": "center center",
+          "margin": [0, 0, 0, 0],
+          "text": "A"
+        }
+      ]
+    }
+  ]
+}
