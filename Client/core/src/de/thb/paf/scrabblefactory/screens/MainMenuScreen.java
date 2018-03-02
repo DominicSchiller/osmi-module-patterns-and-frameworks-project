@@ -73,6 +73,9 @@ public class MainMenuScreen extends GameScreen {
     public void show() {
         this.applyProjectionMatrix();
         Gdx.input.setInputProcessor(stage);
+        if(!this.backgroundMusic.isPlaying()) {
+            this.backgroundMusic.play();
+        }
     }
 
     @Override

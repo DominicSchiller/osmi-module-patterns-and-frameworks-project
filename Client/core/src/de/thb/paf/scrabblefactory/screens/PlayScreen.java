@@ -228,6 +228,9 @@ public class PlayScreen extends GameScreen implements ICountdownListener {
 
             this.isInitialized = true;
         } else {
+            if(!this.backgroundMusic.isPlaying()) {
+                this.backgroundMusic.play();
+            }
             this.overlay.remove();
         }
     }
@@ -463,6 +466,9 @@ public class PlayScreen extends GameScreen implements ICountdownListener {
         this.stage.addActor(this.overlay);
 
         Gdx.app.postRunnable(() -> {
+            if(this.backgroundMusic.isPlaying()) {
+                this.backgroundMusic.stop();
+            }
             render(Gdx.graphics.getDeltaTime());
             GameScreenManager gsm = GameScreenManager.getInstance();
             IGameScreen screen = gsm.getScreen(ScreenState.PAUSE);
@@ -479,9 +485,13 @@ public class PlayScreen extends GameScreen implements ICountdownListener {
      * @param score The score to display
      */
     private void showChallengeResultDialog(int score) {
+        this.backgroundMusic.stop();
         this.stage.addActor(this.overlay);
 
         Gdx.app.postRunnable(() -> {
+            if(this.backgroundMusic.isPlaying()) {
+                this.backgroundMusic.stop();
+            }
             render(Gdx.graphics.getDeltaTime());
         });
 
@@ -509,6 +519,7 @@ public class PlayScreen extends GameScreen implements ICountdownListener {
      * Show the game over dialog.
      */
     private void showGameOverDialog() {
+        this.backgroundMusic.stop();
         this.stage.addActor(this.overlay);
 
         Gdx.app.postRunnable(() -> {

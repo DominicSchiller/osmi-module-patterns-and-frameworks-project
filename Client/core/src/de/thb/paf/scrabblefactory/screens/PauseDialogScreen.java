@@ -2,6 +2,7 @@ package de.thb.paf.scrabblefactory.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -70,8 +71,12 @@ public class PauseDialogScreen extends GameScreen {
 
     @Override
     public void render(float delta) {
-        stage.act(delta);
-        stage.draw();
+
+        if(isInitialized) {
+            stage.act(delta);
+            stage.draw();
+        }
+
     }
 
     @Override

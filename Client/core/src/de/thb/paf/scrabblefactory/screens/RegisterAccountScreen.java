@@ -308,7 +308,7 @@ public class RegisterAccountScreen extends GameScreen implements ICountdownListe
         scrollPane.setOverscroll(true, true);
         scrollPane.setBounds(0, 0,
                 Settings.App.DEVICE_SCREEN_WIDTH, Settings.App.DEVICE_SCREEN_HEIGHT);
-        table.padTop(-(int)(25*Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER));
+//        table.padTop(-(int)(25*Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER));
         table.setFillParent(true);
         this.stage.addActor(scrollPane);
 
