@@ -1,6 +1,9 @@
 package de.thb.paf.scrabblefactory.gameplay;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Fixture;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -137,11 +140,19 @@ public class GameItemSpawnCenter implements ICountdownListener {
                 IEntity gameItem = gameItems.get(i);
                 if(gameItem.getType() == EntityType.CHEESE) {
                     ((Cheese)gameItem).setLetter(this.searchWord.charAt(i));
+                    ((Cheese)gameItem).setCarrier(null);
+                    ((Cheese)gameItem).setCaught(false);
+                    gameItem.setActive(false);
                     Vector2 restorePosition = restoreManager.getRestorePosition(gameItem);
                     if(restorePosition != null) {
                         for(IComponent component : gameItem.getAllComponents(ComponentType.PHYS_COMPONENT)) {
                             if(component instanceof RigidBodyPhysicsComponent) {
-                                ((RigidBodyPhysicsComponent) component).getBody().setTransform(
+                                Body body = ((RigidBodyPhysicsComponent) component).getBody();
+                                body.setType(BodyDef.BodyType.DynamicBody);
+                                for(Fixture fixture : body.getFixtureList()) {
+                                    fixture.setSensor(false);
+                                }
+                                body.setTransform(
                                         restorePosition.x,
                                         restorePosition.y,
                                         0

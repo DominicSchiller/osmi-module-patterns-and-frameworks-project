@@ -332,7 +332,6 @@ public class PlayScreen extends GameScreen implements ICountdownListener {
         this.stage.dispose();
 
         WorldPhysicsManager.getInstance().dispose();
-        System.out.println();
     }
 
     @Override
@@ -376,6 +375,9 @@ public class PlayScreen extends GameScreen implements ICountdownListener {
             int randomIndex = Randomizer.nextRandomInt(0, searchWords.length - 1);
             this.searchWord = searchWords[randomIndex].toUpperCase();
 
+            this.isChallengeWon = false;
+            this.challengeWatchdog = new ScrabbleChallengeWatchdog(this.searchWord);
+
             // reset player position
             PlayScreenRestoreManager restoreManager = PlayScreenRestoreManager.getInstance();
             for(IEntity player : GameObjectManager.getInstance().getGameEntity(EntityType.PLAYER)) {
@@ -393,7 +395,6 @@ public class PlayScreen extends GameScreen implements ICountdownListener {
 
             //reset spawn center
             this.spawnCenter.reset(this.searchWord);
-            this.spawnCenter.startSpawning();
 
             // init search word
             SearchWordHUD searchWordHUD = (SearchWordHUD) this.hud.getHUDComponent(HUDComponentType.SEARCH_WORD);
@@ -404,6 +405,7 @@ public class PlayScreen extends GameScreen implements ICountdownListener {
             timer = new CountdownTimer(this.level.getCountdown());
             timer.addCountdownListener(this);
             timer.addCountdownListener(this.spawnCenter);
+            this.spawnCenter.startSpawning();
             timer.start();
         }
     }

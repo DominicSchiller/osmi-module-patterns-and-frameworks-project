@@ -91,8 +91,6 @@ public class SaveGameHandler {
         String fileName = DEFAULT_SAVE_GAME_FILENAME + "_" + createdAt + SAVE_GAME_FILE_ENDING;
         FileHandle file = Gdx.app.getType() == Desktop ? Gdx.files.local(fileName) : Gdx.files.local("data/" + fileName);
         file.writeString(this.saveGameToJson(saveGame, isPrettyPrinting), false);
-
-        System.out.println("");
     }
 
     /**

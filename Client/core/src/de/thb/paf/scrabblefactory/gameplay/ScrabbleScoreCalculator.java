@@ -44,6 +44,9 @@ public class ScrabbleScoreCalculator {
         put('X', 1);
         put('Y', 1);
         put('Z', 1);
+        put('Ä', 10);
+        put('Ö', 10);
+        put('Ü', 10);
     }};
 
     /**

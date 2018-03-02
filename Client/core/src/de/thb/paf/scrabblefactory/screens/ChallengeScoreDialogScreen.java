@@ -64,7 +64,7 @@ public class ChallengeScoreDialogScreen extends GameScreen implements ICountdown
     /**
      * The current counted score
      */
-    private volatile long countedScore = 0;
+    private volatile int countedScore;
 
     /**
      * The score count timer
@@ -88,7 +88,6 @@ public class ChallengeScoreDialogScreen extends GameScreen implements ICountdown
      */
     public void setScore(int score) {
         this.score = score;
-        this.countedScore = 0;
     }
 
     @Override
@@ -101,18 +100,17 @@ public class ChallengeScoreDialogScreen extends GameScreen implements ICountdown
         this.applyProjectionMatrix();
         Gdx.input.setInputProcessor(this.stage);
 
+        this.saveScoreAsync();
+
         if(!this.isInitialized) {
             float scaling = this.initBackgroundScene();
             this.setupWidgets(scaling);
             this.isInitialized = true;
         }
 
-        this.scoreLabel.setText("" + this.countedScore);
-        this.timer = new CountdownTimer(this.score, 1);
+        this.timer = new CountdownTimer(this.score, 10);
         this.timer.addCountdownListener(this);
         this.timer.start();
-
-        this.saveScoreAsync();
     }
 
     @Override
@@ -146,18 +144,19 @@ public class ChallengeScoreDialogScreen extends GameScreen implements ICountdown
 
     @Override
     public void onCountdownStarted(long time) {
-
+        this.countedScore = 0;
     }
 
     @Override
     public void onCountdownTick(long time) {
         this.countedScore++;
-        this.updatePoints("" + countedScore);
+        this.scoreLabel.setText(this.countedScore + "");
+        //System.out.println(this.countedScore);
     }
 
     @Override
     public void onCountdownFinished(long time) {
-        updatePoints("" + score);
+        this.scoreLabel.setText(this.score + "");
     }
 
     /**
@@ -231,7 +230,7 @@ public class ChallengeScoreDialogScreen extends GameScreen implements ICountdown
 
         this.scoreLabel = (Label)new UIWidgetBuilder(UIWidgetType.TEXT_LABEL)
                 .identifier("skipCounting")
-                .title("2350")
+                .title("50264")
                 .alignment(Alignment.MIDDLE)
                 .size(
                         (int)(this.dialogBackground.getWidth() * scaling) - (20 * multiplier),

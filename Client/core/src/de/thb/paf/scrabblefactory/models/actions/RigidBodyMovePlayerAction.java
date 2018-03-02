@@ -262,7 +262,6 @@ public class RigidBodyMovePlayerAction extends GameAction {
             );
 
             if(newBody == null) {
-                System.out.println("");
                 return;
             }
 
