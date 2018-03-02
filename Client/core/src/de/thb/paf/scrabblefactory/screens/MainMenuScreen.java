@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
 import de.thb.paf.scrabblefactory.auth.AuthenticationManager;
 import de.thb.paf.scrabblefactory.managers.GameScreenManager;
@@ -24,6 +25,9 @@ import de.thb.paf.scrabblefactory.settings.Settings;
 import de.thb.paf.scrabblefactory.utils.graphics.AlignmentHelper;
 import de.thb.paf.scrabblefactory.utils.graphics.widgets.UIWidgetBuilder;
 import de.thb.paf.scrabblefactory.utils.graphics.widgets.UIWidgetType;
+
+import static de.thb.paf.scrabblefactory.settings.Settings.App.DEVICE_SCREEN_HEIGHT;
+import static de.thb.paf.scrabblefactory.settings.Settings.App.DEVICE_SCREEN_WIDTH;
 
 /**
  * Represents the home screen where all screen navigation options for player will be presented.
@@ -50,7 +54,10 @@ public class MainMenuScreen extends GameScreen {
      */
     public MainMenuScreen() {
         super(ScreenState.MAIN_MENU);
-        stage = new Stage();
+        this.stage = new Stage(
+                new ExtendViewport(DEVICE_SCREEN_WIDTH, DEVICE_SCREEN_HEIGHT, this.camera),
+                this.batch
+        );
 
         this.initBackgroundScene();
         this.setupUIWidgets();
@@ -64,6 +71,7 @@ public class MainMenuScreen extends GameScreen {
 
     @Override
     public void show() {
+        this.applyProjectionMatrix();
         Gdx.input.setInputProcessor(stage);
     }
 

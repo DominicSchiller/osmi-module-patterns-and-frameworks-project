@@ -98,9 +98,9 @@ public class FontGraphicsComponent extends GameComponent implements IGraphicsCom
 
     @Override
     public void render(Batch batch) {
-
         if(this.text.length() > 1) {
-            Batch textBatch = ScrabbleFactory.getInstance().textBatch;
+            Batch textBatch = ScrabbleFactory.getInstance().batch;
+            textBatch.setProjectionMatrix(ScrabbleFactory.getInstance().textRenderMatrix);
             textBatch.begin();
             this.font.draw(
                     textBatch,
@@ -109,6 +109,7 @@ public class FontGraphicsComponent extends GameComponent implements IGraphicsCom
                     (this.position.y * PPM) + this.font.getCapHeight()
             );
             textBatch.end();
+            textBatch.setProjectionMatrix(ScrabbleFactory.getInstance().renderMatrix);
         } else {
             batch.begin();
             this.fontSprite.draw(batch);

@@ -1,6 +1,8 @@
 package de.thb.paf.scrabblefactory;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 
@@ -10,6 +12,7 @@ import java.lang.annotation.Native;
 
 import de.thb.paf.scrabblefactory.managers.GameScreenManager;
 import de.thb.paf.scrabblefactory.screens.LandingScreen;
+import de.thb.paf.scrabblefactory.screens.PlayScreen;
 import de.thb.paf.scrabblefactory.settings.Settings;
 import de.thb.paf.scrabblefactory.utils.debug.SettingsDebugger;
 
@@ -27,14 +30,11 @@ public class ScrabbleFactory extends Game {
 	 */
 	public SpriteBatch batch;
 
-	/**
-	 * The global sprite batch to render font typefaces with
-	 */
-	public SpriteBatch textBatch;
-
-	public static Matrix4 DEFAULT_PROJECTION_MATRIX;
-
 	public static NativeFileChooser fileChooser;
+
+	public Matrix4 textRenderMatrix;
+
+	public Matrix4 renderMatrix;
 
 	/**
 	 * The singleton instance of ScrabbleFactory
@@ -66,9 +66,6 @@ public class ScrabbleFactory extends Game {
 	@Override
 	public void create () {
 		this.batch = new SpriteBatch();
-		this.textBatch = new SpriteBatch();
-		DEFAULT_PROJECTION_MATRIX = this.batch.getProjectionMatrix();
-
 		GameScreenManager.getInstance().showScreen(new LandingScreen());
 	}
 

@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
 import de.thb.paf.scrabblefactory.io.SaveGameHandler;
 import de.thb.paf.scrabblefactory.managers.GameScreenManager;
@@ -22,6 +23,11 @@ import de.thb.paf.scrabblefactory.persistence.entities.SaveGame;
 import de.thb.paf.scrabblefactory.settings.Settings;
 import de.thb.paf.scrabblefactory.utils.graphics.widgets.UIWidgetBuilder;
 import de.thb.paf.scrabblefactory.utils.graphics.widgets.UIWidgetType;
+
+import static de.thb.paf.scrabblefactory.settings.Settings.App.DEVICE_SCREEN_HEIGHT;
+import static de.thb.paf.scrabblefactory.settings.Settings.App.DEVICE_SCREEN_WIDTH;
+import static de.thb.paf.scrabblefactory.settings.Settings.Game.VIRTUAL_HEIGHT;
+import static de.thb.paf.scrabblefactory.settings.Settings.Game.VIRTUAL_WIDTH;
 
 /**
  * Represents the game's landing screen where to choose between login or creating a new account.
@@ -43,21 +49,24 @@ public class LandingScreen extends GameScreen {
      */
     public LandingScreen() {
         super(ScreenState.LANDING);
-        this.stage = new Stage();
+        this.stage = new Stage(
+                new ExtendViewport(DEVICE_SCREEN_WIDTH, DEVICE_SCREEN_HEIGHT, this.camera),
+                this.batch
+        );
     }
 
     @Override
     public void update(float deltaTime) {
-
     }
 
     @Override
     public void show() {
+        this.applyProjectionMatrix();
         Gdx.input.setInputProcessor(this.stage);
+        this.isInitialized = true;
         this.stage.addActor(DEFAULT_BACKGROUND);
         this.setupUIWidgets();
         this.setupSounds();
-        this.isInitialized = true;
     }
 
     @Override
@@ -105,7 +114,7 @@ public class LandingScreen extends GameScreen {
      */
     private void setupUIWidgets() {
         boolean isDirectLogin = this.isDirectLogin();
-        float scaling = Settings.App.DEVICE_SCREEN_WIDTH/(float)Settings.Game.RESOLUTION.maxWidth;
+        float scaling = DEVICE_SCREEN_WIDTH/(float)Settings.Game.RESOLUTION.maxWidth;
         int multiplier = (int)Settings.Game.VIRTUAL_PIXEL_DENSITY_MULTIPLIER;
 
         if(isDirectLogin) {

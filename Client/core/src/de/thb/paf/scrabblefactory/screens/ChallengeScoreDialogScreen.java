@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
 import java.util.Date;
 
@@ -30,6 +31,9 @@ import de.thb.paf.scrabblefactory.settings.Settings;
 import de.thb.paf.scrabblefactory.utils.graphics.AlignmentHelper;
 import de.thb.paf.scrabblefactory.utils.graphics.widgets.UIWidgetBuilder;
 import de.thb.paf.scrabblefactory.utils.graphics.widgets.UIWidgetType;
+
+import static de.thb.paf.scrabblefactory.settings.Settings.App.DEVICE_SCREEN_HEIGHT;
+import static de.thb.paf.scrabblefactory.settings.Settings.App.DEVICE_SCREEN_WIDTH;
 
 /**
  * Represents the game dialog screen showing the earned score
@@ -72,7 +76,10 @@ public class ChallengeScoreDialogScreen extends GameScreen implements ICountdown
      */
     public ChallengeScoreDialogScreen() {
         super(ScreenState.CHALLENGE_WON);
-        this.stage = new Stage();
+        this.stage = new Stage(
+                new ExtendViewport(DEVICE_SCREEN_WIDTH, DEVICE_SCREEN_HEIGHT, this.camera),
+                this.batch
+        );
     }
 
     /**
@@ -91,6 +98,7 @@ public class ChallengeScoreDialogScreen extends GameScreen implements ICountdown
 
     @Override
     public void show() {
+        this.applyProjectionMatrix();
         Gdx.input.setInputProcessor(this.stage);
 
         if(!this.isInitialized) {

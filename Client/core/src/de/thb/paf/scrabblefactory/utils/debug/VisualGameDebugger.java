@@ -74,13 +74,13 @@ public class VisualGameDebugger {
      * @param batch The game's global render batch
      */
     public void render(Batch batch) {
-        Matrix4 projectionMatrix = batch.getProjectionMatrix();
-
         batch.begin();
+//        batch.setProjectionMatrix(test);
         float x = 7;
         float y = (VIRTUAL_HEIGHT * PPM) - 50;
 
         fpsDisplay.draw(batch, "fps: " + Gdx.graphics.getFramesPerSecond(), x, y);
+//        batch.setProjectionMatrix(previousProjectionMatrix);
         batch.end();
 
 //        Gdx.gl.glLineWidth(0.5f * GameInfo.VIRTUAL_SCREEN_MULTIPLYER);

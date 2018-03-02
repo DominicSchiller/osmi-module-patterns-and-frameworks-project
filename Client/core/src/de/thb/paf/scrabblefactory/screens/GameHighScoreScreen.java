@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -35,6 +36,9 @@ import de.thb.paf.scrabblefactory.settings.Settings;
 import de.thb.paf.scrabblefactory.utils.graphics.AlignmentHelper;
 import de.thb.paf.scrabblefactory.utils.graphics.widgets.UIWidgetBuilder;
 import de.thb.paf.scrabblefactory.utils.graphics.widgets.UIWidgetType;
+
+import static de.thb.paf.scrabblefactory.settings.Settings.App.DEVICE_SCREEN_HEIGHT;
+import static de.thb.paf.scrabblefactory.settings.Settings.App.DEVICE_SCREEN_WIDTH;
 
 /**
  * Represents the high-score screen ranking reached high-scores from top to bottom.
@@ -62,7 +66,10 @@ public class GameHighScoreScreen extends GameScreen {
     */
     public GameHighScoreScreen() {
         super(ScreenState.HIGH_SCORES);
-        this.stage = new Stage();
+        this.stage = new Stage(
+                new ExtendViewport(DEVICE_SCREEN_WIDTH, DEVICE_SCREEN_HEIGHT, this.camera),
+                this.batch
+        );
 
         this.userScores = new ArrayList<>();
 
@@ -78,6 +85,7 @@ public class GameHighScoreScreen extends GameScreen {
 
     @Override
     public void show() {
+        this.applyProjectionMatrix();
         Gdx.input.setInputProcessor(this.stage);
 
         for(Actor actor : this.stage.getActors()) {

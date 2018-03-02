@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
 import de.thb.paf.scrabblefactory.auth.AuthenticationManager;
 import de.thb.paf.scrabblefactory.auth.PasswordHashGenerator;
@@ -28,6 +29,9 @@ import de.thb.paf.scrabblefactory.persistence.entities.User;
 import de.thb.paf.scrabblefactory.settings.Settings;
 import de.thb.paf.scrabblefactory.utils.graphics.widgets.UIWidgetBuilder;
 import de.thb.paf.scrabblefactory.utils.graphics.widgets.UIWidgetType;
+
+import static de.thb.paf.scrabblefactory.settings.Settings.App.DEVICE_SCREEN_HEIGHT;
+import static de.thb.paf.scrabblefactory.settings.Settings.App.DEVICE_SCREEN_WIDTH;
 
 /**
  * Represents the login screen where a player login and retrieve his data.
@@ -64,7 +68,10 @@ public class LoginScreen extends GameScreen implements ICountdownListener {
      */
     public LoginScreen() {
         super(ScreenState.LOGIN);
-        this.stage = new Stage();
+        this.stage = new Stage(
+                new ExtendViewport(DEVICE_SCREEN_WIDTH, DEVICE_SCREEN_HEIGHT, this.camera),
+                this.batch
+        );
 
         this.stage.addActor(DEFAULT_BACKGROUND);
         this.setupUIWidgets();
@@ -77,6 +84,7 @@ public class LoginScreen extends GameScreen implements ICountdownListener {
 
     @Override
     public void show() {
+        this.applyProjectionMatrix();
         Gdx.input.setInputProcessor(this.stage);
         this.clearInputs();
     }

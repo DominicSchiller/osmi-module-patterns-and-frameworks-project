@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -84,11 +85,6 @@ public class PlayScreen extends GameScreen implements ICountdownListener {
     private VisualGameDebugger debugRenderer;
 
     /**
-     * The virtual camera
-     */
-    private OrthographicCamera camera;
-
-    /**
      * The level's challenge search word
      */
     private String searchWord;
@@ -153,23 +149,23 @@ public class PlayScreen extends GameScreen implements ICountdownListener {
         this.isChallengeWon = false;
         this.isPauseRequested = false;
 
-        this.camera = new OrthographicCamera();
-        this.camera.setToOrtho(false, VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
+        this.applyProjectionMatrix();
 
-        ScrabbleFactory.getInstance().batch.setProjectionMatrix(
-            this.camera.combined
+        this.stage = new Stage(
+                new ExtendViewport(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, this.camera),
+                this.batch
         );
-
-        ScrabbleFactory.getInstance().textBatch.setProjectionMatrix(
-            this.camera.combined.cpy().scl(1/PPM)
-        );
-
-        this.stage = new Stage(new ExtendViewport(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, this.camera));
         // setup input processors
         this.inputHandler = new InputMultiplexer();
         this.inputHandler.addProcessor(new KeyboardInputProcessor());
         this.inputHandler.addProcessor(new GestureDetector(new TouchInputProcessor()));
         this.inputHandler.addProcessor(this.stage);
+    }
+
+    @Override
+    void applyProjectionMatrix() {
+        this.camera.setToOrtho(false, VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
+        this.batch.setProjectionMatrix(this.camera.combined);
     }
 
     @Override
@@ -183,6 +179,7 @@ public class PlayScreen extends GameScreen implements ICountdownListener {
 
     @Override
     public void show() {
+        this.applyProjectionMatrix();
         Gdx.input.setInputProcessor(this.inputHandler);
 
         if(!this.isInitialized) {
@@ -230,6 +227,8 @@ public class PlayScreen extends GameScreen implements ICountdownListener {
             this.challengeWatchdog = new ScrabbleChallengeWatchdog(searchWord);
 
             this.isInitialized = true;
+        } else {
+            this.overlay.remove();
         }
     }
 
@@ -243,8 +242,8 @@ public class PlayScreen extends GameScreen implements ICountdownListener {
             Gdx.gl.glClearColor(1/255f, 8/255f, 15/255f, 1);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-            Batch batch = ScrabbleFactory.getInstance().batch;
-            Batch textBatch = ScrabbleFactory.getInstance().textBatch;
+            ScrabbleFactory.getInstance().renderMatrix = this.camera.combined;
+            ScrabbleFactory.getInstance().textRenderMatrix = this.camera.combined.cpy().scl(1/PPM);
 
             //TODO Implement more elegant method to render components
             List<IComponent> components = this.level.getAllComponents(ComponentType.GFX_COMPONENT);
@@ -278,8 +277,12 @@ public class PlayScreen extends GameScreen implements ICountdownListener {
             }
 
             if(Settings.Debug.isDebugModeEnabled) {
-                this.debugRenderer.render(textBatch);
+                this.batch.setProjectionMatrix(this.camera.combined.cpy().scl(1/PPM));
+                this.debugRenderer.render(batch);
+                this.batch.setProjectionMatrix(this.camera.combined);
             }
+
+            this.camera.setToOrtho(false, VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
 
             stage.act(delta);
             stage.draw();
@@ -476,6 +479,8 @@ public class PlayScreen extends GameScreen implements ICountdownListener {
      * @param score The score to display
      */
     private void showChallengeResultDialog(int score) {
+        this.stage.addActor(this.overlay);
+
         Gdx.app.postRunnable(() -> {
             render(Gdx.graphics.getDeltaTime());
         });
@@ -504,6 +509,8 @@ public class PlayScreen extends GameScreen implements ICountdownListener {
      * Show the game over dialog.
      */
     private void showGameOverDialog() {
+        this.stage.addActor(this.overlay);
+
         Gdx.app.postRunnable(() -> {
             render(Gdx.graphics.getDeltaTime());
         });
